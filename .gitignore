@@ -1,0 +1,14 @@
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+error_log
+
+# Env vars
+.env
+
+# IDE / éditeurs
+.vscode/
+.idea/
