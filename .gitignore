@@ -12,3 +12,5 @@ error_log
 # IDE / éditeurs
 .vscode/
 .idea/
+
+config.admin.php
