@@ -10,8 +10,8 @@ $username = $_POST["username"];
 $passwd = $_POST["password"];
 
 if ($username === $config['username'] && password_verify($passwd, $config['passwd'])){
-    echo "Connexion réussi";
+    header("Location: ./../admin/adminInfos.php");
 }
 else {
-    echo "Connexion échoué";
+header("Location: ./../formConnexAdmin.php?connex=echec");
 }

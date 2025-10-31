@@ -142,7 +142,7 @@ button:focus-visible {
   display: flex;
   margin-left: 23%;
   width: 957px;
-  height: 506px;
+  height: 526px;
   flex-direction: column;
   align-items: center;
   gap: 65px;
@@ -218,4 +218,10 @@ button:focus-visible {
   font-size: 32.2px;
   line-height: normal;
   white-space: nowrap;
+}
+
+.erreurAdmin {
+    font-family: 'Roboto Condensed', Helvetica, sans-serif;
+    color: red;
+    margin-bottom: -50px;
 }
