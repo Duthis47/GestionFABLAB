@@ -5,8 +5,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHP.php to edit this template
  */
 
-$dsn = "";
-$username="";
-$passwd = "";
+$mdp = $_GET["mdp"];
 
-$laConnexion = new PDO($dsn, $username, $passwd);
+$hash = password_hash($mdp, PASSWORD_BCRYPT);
+
+echo $hash;
