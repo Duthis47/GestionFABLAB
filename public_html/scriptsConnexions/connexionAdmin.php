@@ -5,13 +5,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHP.php to edit this template
  */
 
-$config = require "./../../config.admin.php";
+$config = require "/GestionFABLAB/config.admin.php";
 $username = $_POST["username"];
 $passwd = $_POST["password"];
 
 if ($username === $config['username'] && password_verify($passwd, $config['passwd'])){
-    header("Location: ./../admin/adminInfos.php");
+    header("Location: /GestionFABLAB/public_html/admin/adminInfos.php");
 }
 else {
-header("Location: ./../formConnexAdmin.php?connex=echec");
+header("Location: /GestionFABLAB/public_html/formConnexAdmin.php?connex=echec");
 }

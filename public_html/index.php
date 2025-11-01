@@ -6,7 +6,7 @@
   <title>Accueil - FABLAB</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="./CSS/style.css"/>
+  <link rel="stylesheet" href="/GestionFABLAB/public_html/CSS/style.css"/>
   <link href="https://fonts.googleapis.com/css2?family=Anonymous+Pro:wght@400&family=Roboto+Condensed:wght@400;500;600&family=Inter:wght@500&display=swap" rel="stylesheet">
 </head>
 
@@ -17,7 +17,7 @@
         <img 
           class="logo-image" 
           alt="Logo fablab" 
-          src="./image/logo-fablab.png"
+          src="/GestionFABLAB/public_html/image/logo-fablab.png"
         />
         <div class="logo-subtitle">Milieux Aquatiques</div>
       </div>
