@@ -11,27 +11,15 @@
 </head>
 <body>
     <?php 
+        if (isset($_SESSION["isAdmin"])){
+            header("Location: /GestionFABLAB/public_html/admin/adminInfos.php");
+        }
         $echec = isset($_GET["connex"]) && $_GET["connex"] == "echec";
     ?>
   <div class="container">
-    <header class="header">
-      <div class="logo-container">
-        <img 
-          class="logo-image" 
-          alt="Logo fablab" 
-          src="/GestionFABLAB/public_html/image/logo-fablab.png"
-        />
-        <div class="logo-subtitle">Milieux Aquatiques</div>
-      </div>
-        
-        <nav class="nav-link"><a href ="/GestionFABLAB/public_html/index.php" >Accueil</a></nav>
-
-      <div class="btn-reservation">
-        <span>Réservation</span>
-      </div>
-
-      <a href="/GestionFABLAB/public_html/formConnexAdmin.php" class="admin-link">Administrateur</a>
-    </header>
+    <?php
+        require_once './commun/header.php';
+    ?>
 
     <main class="main-content">
       <h1 class="title">Portail Administrateur</h1>

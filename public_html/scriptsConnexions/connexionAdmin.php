@@ -5,11 +5,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHP.php to edit this template
  */
 
-$config = require "/GestionFABLAB/config.admin.php";
+$config = require "./../../config.admin.php";
 $username = $_POST["username"];
 $passwd = $_POST["password"];
 
 if ($username === $config['username'] && password_verify($passwd, $config['passwd'])){
+    session_start();
+    $_SESSION["isAdmin"] = true;
     header("Location: /GestionFABLAB/public_html/admin/adminInfos.php");
 }
 else {
