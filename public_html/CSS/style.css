@@ -264,31 +264,53 @@ button:focus-visible {
   margin-bottom: 25px; /* Espace avant la barre de navigation du calendrier */
 }
 
-/* * Styles pour les faux "select" (dropdowns)
-*/
-.selec-salle,
-.selec-date {
-  height: auto;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 12px 20px;
+
+.custom-select-wrapper {
   position: relative;
+}
+
+
+.custom-select-wrapper select, .input-date input[type="date"] {
+  width: 100%;
+  padding: 12px 20px;
   background-color: #ffffff;
   border-radius: 9px;
   border: 1px solid #0000007d;
   cursor: pointer;
   font-family: "Roboto Condensed", Helvetica, sans-serif;
+  font-size: 17px;
+  height: 48px; /* Ajustez au besoin */
+  box-sizing: border-box;
+}
+
+.input-date input[type="date"] {
+    appearance: auto; /* Garde l'icône calendrier du navigateur */
+    line-height: 1.2; /* Ajuste l'alignement vertical du texte si besoin */
+}
+
+/* Pour Internet Explorer */
+.custom-select-wrapper select::-ms-expand {
+  display: none;
+}
+
+.custom-select-wrapper .chevron-down {
+  position: absolute;
+  right: 15px; 
+  top: 50%;
+  transform: translateY(-50%);
+  width: 18px; 
+  height: auto;
+  pointer-events: none; 
 }
 
 .selec-salle {
-  flex: 1; /* Prend l'espace restant */
+  flex: 1; 
   max-width: 45%;
 }
 
-.selec-date {
-  flex: 0 0 auto;
-  width: 20%;
+.input-date {
+    flex: 1;
+    max-width: 30%;
 }
 
 /* * Texte à l'intérieur des filtres
@@ -306,17 +328,6 @@ button:focus-visible {
   white-space: nowrap;
 }
 
-/* * Icônes de flèches (chevron)
- * (Conversion de 1.2vw en 18px)
-*/
-.chevron-down {
-  position: relative;
-  width: 18px;
-  height: auto;
-  aspect-ratio: 1.72;
-  object-fit: cover;
-  flex-shrink: 0;
-}
 
 /* * Bouton "Filtrer"
  * Utilise le bleu de la capture d'écran.

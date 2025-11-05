@@ -22,31 +22,42 @@
             <h1 class="text-wrapper-4">Réserver un créneau</h1>
 
             <div class="zone-de-filtre">
-                <div class="selec-salle">
-                    <select class="text-wrapper-5" name="selecType">
-                    <img class="chevron-down" src="https://c.animaapp.com/mbPf7It7/img/chevron-down-1@2x.png" />
+                <div class="custom-select-wrapper selec-salle">
+                    <img class="chevron-down" src="/GestionFABLAB/public_html/image/chevron-down"/>
+                    <select name="selec-salle">
+                        <option value="1">Test1</option>
+                        <option value="2">Test2</option>
                     </select>
                 </div>
-                <div class="selec-date">
-                    <div class="text-wrapper-5">Date</div>
-                    <img class="chevron-down" src="https://c.animaapp.com/mbPf7It7/img/chevron-down-1@2x.png" />
-                </div>
-                <div class="bouton-filtrer">
-                    <div class="text-wrapper-5">Filtrer</div>
-                </div>
-            </div>
 
+                <div class="input-date">
+                    <input type="date" name="dateFiltre"/>
+                </div>
+
+                <button class="bouton-filtrer" id="filtrer">
+                    <span class="text-wrapper-5">Filtrer</span>
+                </button>
+            </div>               
             <div class="date-nav-bar">
                 <div class="date-nav-today">Aujourd'hui</div>
                 <div class="date-nav-controls">
-                    <button class="nav-arrow" aria-label="Mois précédent">&lt;</button>
+                    <button class="nav-arrow" id="suivant" aria-label="Mois précédent">&lt;</button>
                     <span class="nav-month-year">Oct. – Nov. 2025</span>
-                    <button class="nav-arrow" aria-label="Mois suivant">&gt;</button>
+                    <button class="nav-arrow" id="precedent" aria-label="Mois suivant">&gt;</button>
                 </div>
             </div>
             
         </div>
         
         </div> 
+<script>
+    var buttonFiltre = document.getElementById("filtrer");
+    var buttonMoisSuivant = document.getElementById("suivant");
+    var buttonMoisPrecedent = document.getElementById("precedent");
+
+    buttonFiltre.onclick = function(){
+        buttonFiltre.innerHTML = "Ca fonctionne";
+    };
+</script>
 </body>
 </html>
