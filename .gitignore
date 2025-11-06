@@ -14,4 +14,4 @@ error_log
 .vscode/
 .idea/
 
-config.admin.php
+.nb_project/
