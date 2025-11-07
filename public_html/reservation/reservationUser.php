@@ -51,13 +51,14 @@
         
         </div> 
 <script>
-    var buttonFiltre = document.getElementById("filtrer");
-    var buttonMoisSuivant = document.getElementById("suivant");
-    var buttonMoisPrecedent = document.getElementById("precedent");
+    const buttonFiltre = document.getElementById("filtrer");
+    const buttonMoisSuivant = document.getElementById("suivant");
+    const buttonMoisPrecedent = document.getElementById("precedent");
 
     buttonFiltre.onclick = function(){
         buttonFiltre.innerHTML = "Ca fonctionne";
     };
+    
 </script>
 </body>
 </html>

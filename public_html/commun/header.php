@@ -36,7 +36,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHPWebPage.php to 
             ?>
                         <a href="#" class="admin-link">Infos</a>
                         <a href="#" class="admin-link">Validation</a>
-                        <a href="./../admin/adminGestion.php" class="admin-link">Gestion</a>
+                        <a href="/GestionFABLAB/public_html/admin/adminGestion.php" class="admin-link">Gestion</a>
             <?php 
                     }
                 }
