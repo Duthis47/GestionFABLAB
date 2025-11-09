@@ -11,6 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Anonymous+Pro:wght@400&family=Roboto+Condensed:wght@400;500;600&family=Inter:wght@500&display=swap" rel="stylesheet">
 </head>
 <body>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.19/index.global.min.js"></script>
     <div class="container">
         
         <?php 
@@ -23,7 +24,6 @@
 
             <div class="zone-de-filtre">
                 <div class="custom-select-wrapper selec-salle">
-                    <img class="chevron-down" src="/GestionFABLAB/public_html/image/chevron-down"/>
                     <select name="selec-salle">
                         <option value="1">Test1</option>
                         <option value="2">Test2</option>
@@ -46,11 +46,33 @@
                     <button class="nav-arrow" id="precedent" aria-label="Mois suivant">&gt;</button>
                 </div>
             </div>
-            
+            <div id='calendar'></div>
         </div>
         
         </div> 
-<script>
+    <script id="calendrier">
+        // 3. S'assurer que la page est chargée avant d'exécuter le script
+        document.addEventListener('DOMContentLoaded', function() {
+            const calendarEl = document.getElementById('calendar');
+            
+            // Il est plus sûr et plus propre d'utiliser le préfixe FullCalendar
+            const calendar = new FullCalendar.Calendar(calendarEl, {
+                plugins: [
+                    FullCalendar.interactionPlugin,
+                    FullCalendar.dayGridPlugin,
+                    FullCalendar.timeGridPlugin  // <<< 4. LE PLUGIN MANQUANT
+                ],
+                initialView: 'timeGridWeek',     // <-- Cette vue nécessite timeGridPlugin
+                editable: true,
+                events: [
+                    { title: 'Meeting', start: new Date() }
+                ]
+            });
+            
+            calendar.render();
+        });
+    </script>
+<script id="filtrage">
     var buttonFiltre = document.getElementById("filtrer");
     var buttonMoisSuivant = document.getElementById("suivant");
     var buttonMoisPrecedent = document.getElementById("precedent");

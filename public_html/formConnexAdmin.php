@@ -16,10 +16,11 @@
         }
         $echec = isset($_GET["connex"]) && $_GET["connex"] == "echec";
     ?>
-  <div class="container">
-    <?php
+        <?php
         require_once './commun/header.php';
     ?>
+  <div class="container">
+
 
     <main class="main-content">
       <h1 class="title">Portail Administrateur</h1>

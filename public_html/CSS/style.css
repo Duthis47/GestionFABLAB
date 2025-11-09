@@ -49,11 +49,10 @@ button:focus-visible {
 /* Container */
 .container {
   background: white;
-  width: 100%;
-  min-width: 1512px;
-  min-height: 1252px;
+  width: 90%;
   display: flex;
   flex-direction: column;
+  align-items:center;
   gap: 30px;
 }
 
@@ -61,7 +60,7 @@ button:focus-visible {
 .header {
   display: flex;
   width: 100%;
-  height: 10%;
+  height: 13%;
   align-items: center;
   justify-content: space-between;
   padding: 17px 50px;
@@ -393,4 +392,9 @@ button:focus-visible {
   font-size: 1.2rem;
   font-weight: 500;
   color: #000;
+}
+
+#calendrier{
+    margin-left:auto;
+    margin-right:auto;
 }
