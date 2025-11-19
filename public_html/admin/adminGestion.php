@@ -15,7 +15,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHPWebPage.php to 
     <body>
         <?php
             if (isset($_SESSION["isAdmin"])){
-            
+
             require_once './../commun/header.php';
             
         ?>

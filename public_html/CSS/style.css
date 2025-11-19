@@ -398,3 +398,7 @@ button:focus-visible {
     margin-left:auto;
     margin-right:auto;
 }
+
+.nav-scroller{
+    position: absolute !important; 
+}
