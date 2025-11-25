@@ -24,9 +24,11 @@
             <br/><br/>
             <div id="calendrier"></div>
             <script>
-                var left = "next";
-                let DateDebutSemaine = new Date(Date.now);
-                if (DateDebutSemaine )
+                debutsem=new Date();
+                debutsem=debutsem.setUTCDate(debutsem.getUTCDate()-debutsem.getUTCDay()+1);
+                let x = new Date(debutsem)
+                alert(x.getDate());
+                if (debutsem )
                 document.addEventListener('DOMContentLoaded', function () {
                     let calendarEl = document.getElementById('calendrier');
 
@@ -38,6 +40,11 @@
                         selectable: true,
                         slotMinTime : '08:00:00',
                         slotMaxTime : '20:00:00',
+                        expandRows : true,
+                        dateClick: function(info) {
+                            //Script a effectuer lorsque je clic sur une date (info est relatif au jour du clic)
+                            info.dayEl.style.backgroundColor = 'red';
+                        },
                         headerToolbar: {
                             left: 'prev,next',
                             center: 'title',
@@ -49,7 +56,7 @@
                         second: '2-digit',
                         meridiem: false
                       },
-                        editable: true,
+                        editable: true
                     });
                     calendar.setOption('locale', 'fr');
                     calendar.render();
@@ -58,11 +65,7 @@
             </script>
         </div>
         <script id="filtrage">
-            var buttonFiltre = document.getElementById("filtrer");
-
-            buttonFiltre.onclick = function () {
-                buttonFiltre.innerHTML = "Ca fonctionne";
-            };
+            
         </script>
     </body>
 </html>

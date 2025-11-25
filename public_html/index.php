@@ -13,10 +13,7 @@
 
     </head>
 
-    <body>
-        <!-- Fichiers JS à insérer avant </body> -->
-
-
+    <body  data-bs-theme="light">
         <?php
         require_once './commun/header.php';
         ?>
