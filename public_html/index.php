@@ -13,7 +13,7 @@
 
     </head>
 
-    <body  data-bs-theme="light">
+    <body>
         <?php
         require_once './commun/header.php';
         ?>

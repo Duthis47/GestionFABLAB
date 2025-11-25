@@ -7,16 +7,34 @@
         <link href="/GestionFABLAB/public_html/bootstrap/navbar/navbar-static.css" rel="stylesheet" />
         <link href="/GestionFABLAB/public_html/CSS/style.css" rel="stylesheet"/>
     </head>
-    <body>
-        <!-- SUPPRESSION des scripts JS ici (déplacés en bas) -->
-        
+    
+    <body> 
+    <script id="verifThemeNavigateur">
+        // Vérifie si le cookie 'user_theme' n'existe pas
+        if (document.cookie.indexOf('user_theme=') === -1) {
+            // Détecte si l'utilisateur préfère le mode sombre
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const theme = prefersDark ? 'dark' : 'light';
+            
+            // Crée le cookie (valable 30 jours)
+            document.cookie = "user_theme=" + theme + "; max-age=" + (30*24*60*60) + "; path=/";
+            alert(document.cookie);
+            // Recharge la page pour que PHP puisse lire le cookie immédiatement
+            location.reload();
+        }
+    </script>
         <?php 
+        //Ici, j'utilise le cookie générer par le script JS pour changer la couleur du header
+        $theme = isset($_COOKIE['user_theme']) ? $_COOKIE['user_theme'] : 'light';
+        if ($theme == 'light'){
+            $navbarColor = 'bg-gray';
+        }else {
+            $navbarColor = 'bg-secondary';
+        }
         session_start();
-            $sizeCol='4';
-            $sizeFont = '4';
         ?>
         
-        <nav class="navbar navbar-expand-md navbar-white bg-gray mb-5 "> 
+        <nav class="navbar navbar-expand-md navbar-white <?php echo $navbarColor; ?> mb-5 "> 
             <div class="container-fluid"> 
                 <a class="navbar-brand" href="#"> 
                     <img alt="Logo fablab" src="/GestionFABLAB/public_html/image/logo-fablab.png" class="img-fluid-logo"/>
@@ -28,13 +46,13 @@
                 <div class="collapse navbar-collapse" id="navbarCollapse"> <!-- Ajout de la div collapse pour le menu mobile -->
                     <div class ="container">
                         <div class="row align-items-center justify-content-center">
-                            <div class="col-<?php echo $sizeCol;?> text-center fs-<?php echo $sizeFont;?>">
+                            <div class="col-md-4 col-sm-12 text-center fs-4 font-weight-bold">
                                 <a class="nav-link" aria-current="page" href="/GestionFABLAB/public_html/index.php">Accueil</a> 
                             </div>
-                            <div class="col-<?php echo $sizeCol;?> text-center fs-<?php echo $sizeFont;?>">
+                            <div class="col-md-4 col-sm-12 mt-xs-3 mt-sm-3 text-center fs-4 font-weight-bold">
                                 <a href="/GestionFABLAB/public_html/reservation/reservationUser.php" class="btn btn-warning btn-lg active" role="button" aria-pressed="true">Reservation</a>  
                             </div>
-                            <div class="col-<?php echo $sizeCol;?> text-center fs-<?php echo $sizeFont;?>">
+                            <div class="col-md-4 col-sm-12 mt-xs-3 mt-sm-3 text-center fs-4 font-weight-bold">
                             <?php 
                             if (!isset($_SESSION['isAdmin'])){
                             ?>
@@ -43,9 +61,7 @@
                             <?php 
                             } else {
                             ?>
-                                <!-- DEBUT DU DROPDOWN CORRIGÉ -->
                                 <div class="dropdown show">
-                                    <!-- Correction: data-bs-toggle au lieu de data-toggle -->
                                     <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
                                         Admin Menu
                                     </a>
@@ -56,7 +72,6 @@
                                         <li><a class="dropdown-item" href="#">Something else here</a></li>
                                     </ul>
                                 </div>
-                                <!-- FIN DU DROPDOWN CORRIGÉ -->
                             <?php
                             } 
                             ?>
