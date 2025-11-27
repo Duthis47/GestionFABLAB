@@ -26,6 +26,9 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHPWebPage.php to 
         </div>
         <?php 
             }
+            else {
+                header("Location: /GestionFABLAB/public_html/index.php");
+            }
         ?>
     </body>
 </html>
