@@ -40,7 +40,7 @@
                 <div class="collapse navbar-collapse" id="navbarCollapse"> <!-- Ajout de la div collapse pour le menu mobile -->
                     <div class ="container">
                         <div class="row align-items-center justify-content-center">
-                            <div class="col-md-4 col-sm-12 text-center fs-4 font-weight-bold">
+                            <div class="col-md-4 col-sm-12 text-center fs-4  mt-xs-3 mt-sm-3 font-weight-bold">
                                 <a class="nav-link" aria-current="page" href="/GestionFABLAB/public_html/index.php">Accueil</a> 
                             </div>
                             <div class="col-md-4 col-sm-12 mt-xs-3 mt-sm-3 text-center fs-4 font-weight-bold">
