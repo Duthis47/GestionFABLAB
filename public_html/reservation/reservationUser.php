@@ -40,6 +40,7 @@
                         selectable: true,
                         slotMinTime : '08:00:00',
                         slotMaxTime : '20:00:00',
+                        height : "auto",
                         expandRows : true,
                         dateClick: function(info) {
                             //Script a effectuer lorsque je clic sur une date (info est relatif au jour du clic)

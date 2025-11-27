@@ -9,19 +9,13 @@
     </head>
     
     <body> 
-    <script id="verifThemeNavigateur">
+    <script>
         // Vérifie si le cookie 'user_theme' n'existe pas
-        if (document.cookie.indexOf('user_theme=') === -1) {
             // Détecte si l'utilisateur préfère le mode sombre
             const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
             const theme = prefersDark ? 'dark' : 'light';
-            
             // Crée le cookie (valable 30 jours)
             document.cookie = "user_theme=" + theme + "; max-age=" + (30*24*60*60) + "; path=/";
-            alert(document.cookie);
-            // Recharge la page pour que PHP puisse lire le cookie immédiatement
-            location.reload();
-        }
     </script>
         <?php 
         //Ici, j'utilise le cookie générer par le script JS pour changer la couleur du header
