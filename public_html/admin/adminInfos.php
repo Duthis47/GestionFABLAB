@@ -14,10 +14,12 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHPWebPage.php to 
         <link href="https://fonts.googleapis.com/css2?family=Anonymous+Pro:wght@400&family=Roboto+Condensed:wght@400;500;600&family=Inter:wght@500&display=swap" rel="stylesheet"/>
     </head>
     <body>
-    <div class="container">
         <?php
             require_once './../commun/header.php';
         ?>
+        
+    <div class="container">
+
         <main>
             
         </main>
