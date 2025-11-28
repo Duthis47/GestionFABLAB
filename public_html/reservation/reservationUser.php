@@ -27,8 +27,6 @@
                 debutsem=new Date();
                 debutsem=debutsem.setUTCDate(debutsem.getUTCDate()-debutsem.getUTCDay()+1);
                 let x = new Date(debutsem)
-                alert(x.getDate());
-                if (debutsem )
                 document.addEventListener('DOMContentLoaded', function () {
                     let calendarEl = document.getElementById('calendrier');
 
@@ -41,11 +39,28 @@
                         selectable: true,
                         slotMinTime : '08:00:00',
                         slotMaxTime : '20:00:00',
+                        slotDuration : '00:30:00',
+                        slotLabelInterval : '01:00:00',
                         height : "auto",
                         expandRows : true,
                         dateClick: function(info) {
                             //Script a effectuer lorsque je clic sur une date (info est relatif au jour du clic)
-                            info.dayEl.style.backgroundColor = 'red';
+                            alert("test");
+                        },
+                        select: function(info) {
+                            //Script a effectuer lorsque je clic sur une date (info est relatif au jour du clic)
+                            if(info.end - info.start != 30*60*1000){
+                                alert("Sélection invalide");
+                                info.end = info.start + 30*60*1000;
+                            }
+                            calendar.addEvent({
+                                title: 'Sélectionné',
+                                start: info.start,
+                                end: info.end,
+                                backgroundColor: 'blue', // La couleur que vous vouliez
+                                borderColor: 'blue',
+                                id: 'selection_temporaire' // ID pour pouvoir le supprimer si besoin
+                            });
                         },
                         headerToolbar: {
                             left: 'prev,next',
