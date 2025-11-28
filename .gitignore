@@ -15,3 +15,4 @@ error_log
 .idea/
 
 .nb_project/
+.nbproject/
