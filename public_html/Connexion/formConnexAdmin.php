@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portail Administrateur - FabLab</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Poppins:wght@300;400;500;600&display=swap">
-        <link rel="stylesheet" href="./stylesConnex.css">
+    <link rel="stylesheet" href="./stylesConnex.css">
 
 </head>
 
@@ -16,7 +16,6 @@
             header("Location: /GestionFABLAB/public_html/admin/adminInfos.php");
         }
         if (isset($_GET["connex"]) && $_GET["connex"] == "echec"){
-          echo $_GET["connex"];
             $echec = 'true';
         }else {
             $echec = 'false';
@@ -62,8 +61,5 @@
             </form>
         </div>
     </div>
-    <!-- On affiche la div seulement si c'est un échec -->
-
 </body>
-
 </html>

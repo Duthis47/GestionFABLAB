@@ -15,5 +15,5 @@ if ($username === $config['username'] && password_verify($passwd, $config['passw
     header("Location: /GestionFABLAB/public_html/admin/adminInfos.php");
 }
 else {
-header("Location: /GestionFABLAB/public_html/formConnexAdmin.php?connex=echec");
+header("Location: /GestionFABLAB/public_html/Connexion/formConnexAdmin.php?connex=echec");
 }

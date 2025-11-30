@@ -10,7 +10,6 @@
     
     <body> 
     <script>
-        // Vérifie si le cookie 'user_theme' n'existe pas
             // Détecte si l'utilisateur préfère le mode sombre
             const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
             const theme = prefersDark ? 'dark' : 'light';
@@ -18,7 +17,7 @@
             document.cookie = "user_theme=" + theme + "; max-age=" + (30*24*60*60) + "; path=/";
     </script>
         <?php 
-        //Empeche l'affichage des erreurs
+        //Empeche l'affichage des potentiels erreurs
         //error_reporting(0);
         //ini_set('display_errors', 0);
 
