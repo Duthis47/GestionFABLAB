@@ -1,66 +1,69 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Portail Administrateur - FabLab</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="/GestionFABLAB/public_html/CSS/style.css"/>
-  <link href="https://fonts.googleapis.com/css2?family=Anonymous+Pro:wght@400&family=Roboto+Condensed:wght@400;500;600&family=Inter:wght@500&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portail Administrateur - FabLab</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Poppins:wght@300;400;500;600&display=swap">
+        <link rel="stylesheet" href="./stylesConnex.css">
+
 </head>
+
 <body>
     <?php 
         if (isset($_SESSION["isAdmin"])){
             header("Location: /GestionFABLAB/public_html/admin/adminInfos.php");
         }
-        $echec = isset($_GET["connex"]) && $_GET["connex"] == "echec";
+        if (isset($_GET["connex"]) && $_GET["connex"] == "echec"){
+          echo $_GET["connex"];
+            $echec = 'true';
+        }else {
+            $echec = 'false';
+        };
     ?>
         <?php
         require_once './../commun/header.php';
     ?>
-  <div class="container">
 
+    <div class="container" style="max-width:800px">
+        <div class="form-box">
+            <h2>LOGIN</h2>
+            <p>Welcome back</p>
 
-    <main class="main-content">
-      <h1 class="title">Portail Administrateur</h1>
+            <form action="/GestionFABLAB/public_html/scriptsConnexions/connexionAdmin.php" method="POST">
+                <div class="input-group">
+                    <input type="text" name = "username" id="username" required class="input-field">
+                    <label for="username">Username</label>
+                    <div class="glow-line"></div>
+                </div>
 
-      <form class="login-form" action="/GestionFABLAB/public_html/scriptsConnexions/connexionAdmin.php" method="POST">
-        <div class="input-wrapper">
-          <label for="username" class="sr-only">Utilisateur</label>
-          <input
-            type="text"
-            id="username"
-            name="username"
-            placeholder="Utilisateur"
-            class="input-field"
-            required
-          />
+                <div class="input-group">
+                    <input type="password" name="password" id="password" required class="input-field">
+                    <label for="password">Password</label>
+                    <div class="glow-line"></div>
+                </div>
+
+                <div class="remember-forgot">
+                </div>
+
+                <button type="submit" class="login-btn">
+                    <span>SIGN IN</span>
+                    <div class="btn-glow"></div>
+                </button>
+
+                <?php if($echec == 'true'){ ?>
+                  <div class="signup-link" style="color: red;">
+                      Nom d'utilisateur ou Mot de Passe incorrect
+                  </div>
+               <?php 
+               }
+               ?>
+            </form>
         </div>
-          
-        <div class="input-wrapper">
-          <label for="password" class="sr-only">Mot de passe</label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            placeholder="Mot de passe"
-            class="input-field"
-            required
-          />
-        </div>
-          <?php 
-            if ($echec){
-          ?>
-        <div class="erreurAdmin"> 
-              Nom d'utilisateur ou mot de passe incorrect
-        </div>
-               <?php } ?> 
-        <button type="submit" class="btn-submit">
-          <span>Connexion</span>
-        </button>
-      </form>
-    </main>
-  </div>
+    </div>
+    <!-- On affiche la div seulement si c'est un échec -->
+
 </body>
+
 </html>

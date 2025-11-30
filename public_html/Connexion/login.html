@@ -4,13 +4,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ISA NET - Connexion</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Poppins:wght@300;400;500;600&display=swap">
+    <title>Portail Administrateur - FabLab</title>
+    <link rel="stylesheet" href="stylesConnex.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Poppins:wght@300;400;500;600&display=swap">
 </head>
 
 <body>
+    <?php 
+        if (isset($_SESSION["isAdmin"])){
+            header("Location: /GestionFABLAB/public_html/admin/adminInfos.php");
+        }
+        $echec = isset($_GET["connex"]) && $_GET["connex"] == "echec";
+    ?>
+        <?php
+        require_once './../commun/header.php';
+    ?>
     <div id="particles-js"></div>
 
     <div class="container">

@@ -18,6 +18,10 @@
             document.cookie = "user_theme=" + theme + "; max-age=" + (30*24*60*60) + "; path=/";
     </script>
         <?php 
+        //Empeche l'affichage des erreurs
+        //error_reporting(0);
+        //ini_set('display_errors', 0);
+
         //Ici, j'utilise le cookie générer par le script JS pour changer la couleur du header
         $theme = isset($_COOKIE['user_theme']) ? $_COOKIE['user_theme'] : 'light';
         if ($theme == 'light'){
@@ -40,7 +44,7 @@
                 <div class="collapse navbar-collapse" id="navbarCollapse"> <!-- Ajout de la div collapse pour le menu mobile -->
                     <div class ="container">
                         <div class="row align-items-center justify-content-center">
-                            <div class="col-md-4 col-sm-12 text-center fs-4  mt-xs-3 mt-sm-3 font-weight-bold">
+                            <div class="col-md-4 col-sm-12 mt-xs-3 mt-sm-3 text-center fs-4 ont-weight-bold">
                                 <a class="nav-link" aria-current="page" href="/GestionFABLAB/public_html/index.php">Accueil</a> 
                             </div>
                             <div class="col-md-4 col-sm-12 mt-xs-3 mt-sm-3 text-center fs-4 font-weight-bold">
@@ -62,7 +66,7 @@
 
                                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                                         <li><a class="dropdown-item" href="#">Infos</a></li>
-                                        <li><a class="dropdown-item" href="#">Gestion</a></li>
+                                        <li><a class="dropdown-item" href="/GestionFABLAB/public_html/admin/adminGestion.php">Gestion</a></li>
                                         <li><a class="dropdown-item" href="#">Something else here</a></li>
                                     </ul>
                                 </div>
