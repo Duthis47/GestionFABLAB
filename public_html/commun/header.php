@@ -28,7 +28,7 @@
         }else {
             $navbarColor = 'bg-secondary';
         }
-        session_start();
+        if (!isset($_SESSION)) { session_start(); }
         ?>
         
         <nav class="navbar navbar-expand-md navbar-white <?php echo $navbarColor; ?> mb-5 "> 
