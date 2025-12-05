@@ -21,23 +21,53 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHPWebPage.php to 
             require_once './../commun/header.php';
             
         ?>
+<div class="container">
+            <form method="POST" action="#Ajout des réservables" class="row g-3 needs-validation" novalidate>
 
-            <form method="POST" action="/GestionFABLAB/public_html/scriptAdmin/scriptGestion.php">
+                <div class="col-md-4">
+                    <label for="validationCustom01" class="form-label">Ajouter un nom</label>
+                    <input type="text" class="form-control" id="validationCustom01" value="" required placeholder="Exemple de nom">
+                    <div class="valid-feedback">
+                        Ca a l'air bon!
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <label for="validationCustom02" class="form-label">Ajouter un tuto : </label>
+                    <input type="text" class="form-control" id="validationCustom02" value="" required placeholder="Exemple de tuto">
+                    <div class="valid-feedback">
+                        Is ok
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <label for="validationCustomUsername" class="form-label">Ajouter des règles de sécurité</label>
+                    <div class="input-group has-validation">
+                    <input type="text" class="form-control" id="validationCustomUsername" aria-describedby="inputGroupPrepend" required placeholder="Exemple de règle">
+                    <div class="invalid-feedback">
+                        C PAS DE LA SÉCU ÇA!!
+                    </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <label for="validationTextarea" class="form-label">Ajouter une description</label>
+                    <textarea class="form-control" id="validationTextarea" placeholder="Lorem ipsum dolor" required></textarea>
+                    <div class="invalid-feedback">
+                    Please enter a message in the textarea.
+                    </div>
+                </div>
+                
+
 
 
                 <div class="spinner-container">
                                     <input type="number" class="form-control form-control-spinner" id="demo-simple" value="0" min="0" max="100">
-                                    <div class="spinner-controls">
-                                        <button type="button" class="spinner-btn up" tabindex="-1"><i class="fas fa-chevron-up"></i></button>
-                                        <button type="button" class="spinner-btn down" tabindex="-1"><i class="fas fa-chevron-down"></i></button>
-                                    </div>
                                 </div>
                 <div class="container">
-
-            <input type="submit" name="btnValider" value="Valider" class="btn-reservation"/>
-            <input type="submit" name="btnCancel" value="Annuler" class="btn-reservation"/>
+        
+            <input type="submit" name="btnValider" value="Valider" class="btn btn-primary"/>
+            <input type="submit" name="btnCancel" value="Annuler" class="btn btn-primary"/>
 
             </form>
+        </div>   
         </div>
         <?php 
             }

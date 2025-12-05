@@ -17,7 +17,7 @@
         <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.19/index.global.min.js"></script>
         
             <?php
-            include_once './../commun/header.php';
+                include_once './../commun/header.php';
             ?>
         <div class="container">
             <h1 class="text-wrapper-4">Réserver un créneau</h1>
@@ -45,10 +45,11 @@
                         expandRows : true,
                         dateClick: function(info) {
                             //Script a effectuer lorsque je clic sur une date (info est relatif au jour du clic)
-                            alert("test");
+                            
                         },
                         select: function(info) {
                             //Script a effectuer lorsque je clic sur une date (info est relatif au jour du clic)
+                            <a href="#" role="button" class="btn btn-secondary popover-test" title="Popover title" data-content="Popover body content is set in this attribute.">button</a>
                             if(info.end - info.start != 30*60*1000){
                                 alert("Sélection invalide");
                                 info.end = info.start + 30*60*1000;
@@ -81,8 +82,5 @@
 
             </script>
         </div>
-        <script id="filtrage">
-            
-        </script>
     </body>
 </html>
