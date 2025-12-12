@@ -62,6 +62,9 @@
             afficherCalendrier('etudiant');
         </script>
     </div>
+        <?php
+    include_once './../commun/footer.php';
+    ?>
 </body>
 
 </html>
