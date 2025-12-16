@@ -15,22 +15,19 @@
         <?php
         require_once './commun/header.php';
         ?>
-        <h1 class="display-3">Hello, world!</h1>
+        <div class="px-4" >
         <h1 class="fw-500 text-dark" style="font-family: 'Roboto Condensed'; font-size: 87.383px;">Bienvenue au FabLab Milieux Aquatiques</h1>
         <p class="fw-500 text-dark" style="font-family: 'Roboto Condensed'; font-size: 32px;">Bienvenue au FabLab Milieux Aquatiques</p>
         <button type="button" class="btn btn-primary btn-lg px-4 me-md-2 fw-bold" style="border-radius: 15px; background: #B8E1FF; color: #000; font-family: 'Roboto Condensed'; font-size: 32px; font-style: normal; font-weight: 400; line-height: normal;">Découvrir les équipements</button> 
 
-          <div class="row p-4 pb-0 pe-lg-0 pt-lg-5 align-items-center rounded-3 border shadow-lg"> 
+        <div class="row p-4 pb-0 pe-lg-0 pt-lg-5 rounded-3 border shadow-lg"> 
             <div class="col-lg-7 p-3 p-lg-5 pt-lg-3"> 
-            <h1 class="display-4 fw-bold lh-1 text-body-emphasis">Bienvenue au FabLab Milieux Aquatiques</h1> 
-            <p class="lead">Le FabLab Milieux Aquatiques met à disposition du matériel de prototypage, d'impression 3D, de découpe laser et bien plus encore. Accédez facilement aux outils via la plateforme de réservation.</p> 
-            <div class="d-grid gap-2 d-md-flex justify-content-md-start mb-4 mb-lg-3"> 
-                <button type="button" class="btn btn-lg px-4 me-md-2 fw-bold" style="border-radius: 15px; background: #B8E1FF; color: #000; font-family: 'Roboto Condensed'; font-size: 32px; font-style: normal; font-weight: 400; line-height: normal;">Primary</button> 
-                <button type="button" class="btn btn-outline-secondary btn-lg px-4">Default</button> 
-            </div> 
+                <h1 class="display-4 fw-bold lh-1 text-body-emphasis">Bienvenue au FabLab Milieux Aquatiques</h1> 
+                <p class="lead">Le FabLab Milieux Aquatiques met à disposition du matériel de prototypage, un laboratoire scientifique et des espaces de travail. Réservez facilement les outils et salles via la plateforme de réservation.</p> 
+                
             </div> 
             <div class="col-lg-4 offset-lg-1 p-0 overflow-hidden shadow-lg"> 
-            <img class="rounded-lg-3" src="bootstrap-docs.png" alt="" width="720"> 
+                <img class="rounded-lg-3" src="./image/image1.png" alt="" width="720"> 
             </div> 
         </div>
     </body>

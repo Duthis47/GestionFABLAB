@@ -25,13 +25,13 @@
         
         <nav class="navbar navbar-expand-md navbar-white <?php echo $navbarColor; ?> mt-5 "> 
             <div class="container-fluid"> 
+                
                 <a class="navbar-brand" href="#"> 
-                    <img alt="Logo fablab" src="/image/logo-fablab.png" class="img-fluid-logo"/>
+                    <img alt="Logo uppa" src="/GestionFABLAB/public_html/image/logo-uppa.png" class="img-fluid-logo"/>
                 </a> 
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation"> 
                     <span class="navbar-toggler-icon"></span> 
                 </button> 
-
                 <div class="collapse navbar-collapse" id="navbarCollapse"> <!-- Ajout de la div collapse pour le menu mobile -->
                     <div class ="container">
                         <div class="row align-items-center justify-content-center">
@@ -68,7 +68,12 @@
                         </div>
                     </div> 
                 </div>
-
+                <a class="navbar-brand" href="#"> 
+                    <img alt="Logo fablab" src="/GestionFABLAB/public_html/image/logo-fablab.png" class="img-fluid-logo"/>
+                </a> 
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation"> 
+                    <span class="navbar-toggler-icon"></span> 
+                </button> 
 
 
             </div> 
