@@ -1,3 +1,6 @@
+<?php
+        require_once './../commun/header.php';
+    ?>
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -13,7 +16,7 @@
 <body>
     <?php 
         if (isset($_SESSION["isAdmin"])){
-            header("Location: /GestionFABLAB/public_html/admin/adminInfos.php");
+            header("Location: /admin/adminInfos.php");
         }
         if (isset($_GET["connex"]) && $_GET["connex"] == "echec"){
             $echec = 'true';
@@ -21,16 +24,14 @@
             $echec = 'false';
         };
     ?>
-        <?php
-        require_once './../commun/header.php';
-    ?>
+        
 
     <div class="container" style="max-width:800px">
         <div class="form-box">
             <h2>LOGIN</h2>
             <p>Welcome back</p>
 
-            <form action="/GestionFABLAB/public_html/scriptsConnexions/connexionAdmin.php" method="POST">
+            <form action="/scriptsConnexions/connexionAdmin.php" method="POST">
                 <div class="input-group">
                     <input type="text" name = "username" id="username" required class="input-field">
                     <label for="username">Username</label>

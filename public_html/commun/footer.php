@@ -1,13 +1,5 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <script src="/GestionFABLAB/public_html/bootstrap/js/color-modes.js"></script>
-        <link href="/GestionFABLAB/public_html/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
-        <meta name="theme-color" content="#712cf9" />
-        <link href="/GestionFABLAB/public_html/bootstrap/navbar/navbar-static.css" rel="stylesheet" />
-        <link href="/GestionFABLAB/public_html/CSS/style.css" rel="stylesheet"/>
-    </head>
-    
     <body> 
     <script>
             // Détecte si l'utilisateur préfère le mode sombre
@@ -34,7 +26,7 @@
         <nav class="navbar navbar-expand-md navbar-white <?php echo $navbarColor; ?> mt-5 "> 
             <div class="container-fluid"> 
                 <a class="navbar-brand" href="#"> 
-                    <img alt="Logo fablab" src="/GestionFABLAB/public_html/image/logo-fablab.png" class="img-fluid-logo"/>
+                    <img alt="Logo fablab" src="/image/logo-fablab.png" class="img-fluid-logo"/>
                 </a> 
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation"> 
                     <span class="navbar-toggler-icon"></span> 
@@ -44,16 +36,16 @@
                     <div class ="container">
                         <div class="row align-items-center justify-content-center">
                             <div class="col-md-4 col-sm-12 mt-xs-3 mt-sm-3 text-center fs-4 ont-weight-bold">
-                                <a class="nav-link" aria-current="page" href="/GestionFABLAB/public_html/index.php">Accueil</a> 
+                                <a class="nav-link" aria-current="page" href="/index.php">Accueil</a> 
                             </div>
                             <div class="col-md-4 col-sm-12 mt-xs-3 mt-sm-3 text-center fs-4 font-weight-bold">
-                                <a href="/GestionFABLAB/public_html/reservation/reservationUser.php" class="btn btn-warning btn-lg active" role="button" aria-pressed="true">Reservation</a>  
+                                <a href="/reservation/reservationUser.php" class="btn btn-warning btn-lg active" role="button" aria-pressed="true">Reservation</a>  
                             </div>
                             <div class="col-md-4 col-sm-12 mt-xs-3 mt-sm-3 text-center fs-4 font-weight-bold">
                             <?php 
                             if (!isset($_SESSION['isAdmin'])){
                             ?>
-                                <a class="nav-link" href="/GestionFABLAB/public_html/Connexion/formConnexAdmin.php">Administrateur</a>
+                                <a class="nav-link" href="/Connexion/formConnexAdmin.php">Administrateur</a>
                             
                             <?php 
                             } else {
@@ -65,7 +57,7 @@
 
                                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                                         <li><a class="dropdown-item" href="#">Infos</a></li>
-                                        <li><a class="dropdown-item" href="/GestionFABLAB/public_html/admin/adminGestion.php">Gestion</a></li>
+                                        <li><a class="dropdown-item" href="/admin/adminGestion.php">Gestion</a></li>
                                         <li><a class="dropdown-item" href="#">Something else here</a></li>
                                     </ul>
                                 </div>
@@ -83,6 +75,6 @@
         </nav>
         
         <!-- Un seul script Bootstrap Bundle (qui inclut Popper) à la fin -->
-        <script src="/GestionFABLAB/public_html/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="/bootstrap/js/bootstrap.bundle.min.js"></script>
     </body>
 </html>

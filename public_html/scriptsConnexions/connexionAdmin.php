@@ -12,8 +12,8 @@ $passwd = $_POST["password"];
 if ($username === $config['username'] && password_verify($passwd, $config['passwd'])){
     session_start();
     $_SESSION["isAdmin"] = true;
-    header("Location: /GestionFABLAB/public_html/admin/adminInfos.php");
+    header("Location: /admin/adminGestion.php");
 }
 else {
-header("Location: /GestionFABLAB/public_html/Connexion/formConnexAdmin.php?connex=echec");
+    header("Location: /Connexion/formConnexAdmin.php?connex=echec");
 }
