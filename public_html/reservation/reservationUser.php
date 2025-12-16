@@ -1,3 +1,5 @@
+<?php if (!isset($_SESSION)) { session_start(); } ?>
+
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -8,13 +10,13 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="/CSS/style.css" />
+    <link rel="stylesheet" href="./../CSS/style.css" />
     <link
         href="https://fonts.googleapis.com/css2?family=Anonymous+Pro:wght@400&family=Roboto+Condensed:wght@400;500;600&family=Inter:wght@500&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="/fullcalendar/packages/core/main.css">
-    <link rel="stylesheet" href="/fullcalendar/packages/daygrid/main.css">
-    <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="./../fullcalendar/packages/core/main.css">
+    <link rel="stylesheet" href="./../fullcalendar/packages/daygrid/main.css">
+    <link href="./../bootstrap/css/bootstrap.min.css" rel="stylesheet" />
 </head>
 
 <body>
@@ -54,8 +56,8 @@
                 </div>
             </div>
         </div>
-        <script src="/JS/calendrier.js">
-            <script src="/bootstrap/JS/bootstrap.bundle.min.js"></script>
+        <script src="./../JS/calendrier.js">
+            <script src="./../bootstrap/JS/bootstrap.bundle.min.js"></script>
 
         </script>
         <script>

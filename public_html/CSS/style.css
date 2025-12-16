@@ -16,7 +16,16 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this t
   aspect-ratio: 1.77;
 }
 
-.img-fluid-logo{
+.img-fluid-logo-header{
     max-width: 60%;
+    height: auto;
+}
+
+.img-fluid-logo-footer-uppa{
+    max-width: 20%;
+    height: auto;
+}
+.img-fluid-logo-footer-fablab{
+    max-width: 85%;
     height: auto;
 }

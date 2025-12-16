@@ -1,6 +1,4 @@
-<?php
-        require_once './../commun/header.php';
-    ?>
+<?php if (!isset($_SESSION)) { session_start(); } ?>
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -14,9 +12,12 @@
 </head>
 
 <body>
+    <?php
+        require_once './../commun/header.php';
+    ?>
     <?php 
         if (isset($_SESSION["isAdmin"])){
-            header("Location: /admin/adminInfos.php");
+            header("Location: ./../admin/adminInfos.php");
         }
         if (isset($_GET["connex"]) && $_GET["connex"] == "echec"){
             $echec = 'true';
@@ -31,7 +32,7 @@
             <h2>LOGIN</h2>
             <p>Welcome back</p>
 
-            <form action="/scriptsConnexions/connexionAdmin.php" method="POST">
+            <form action="./../scriptsConnexions/connexionAdmin.php" method="POST">
                 <div class="input-group">
                     <input type="text" name = "username" id="username" required class="input-field">
                     <label for="username">Username</label>

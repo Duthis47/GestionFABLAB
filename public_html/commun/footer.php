@@ -20,66 +20,30 @@
         }else {
             $navbarColor = 'bg-secondary';
         }
-        if (!isset($_SESSION)) { session_start(); }
         ?>
         
         <nav class="navbar navbar-expand-md navbar-white <?php echo $navbarColor; ?> mt-5 "> 
             <div class="container-fluid"> 
                 
                 <a class="navbar-brand" href="#"> 
-                    <img alt="Logo uppa" src="/GestionFABLAB/public_html/image/logo-uppa.png" class="img-fluid-logo"/>
+                    <img alt="Logo uppa" src="./../image/logo-uppa.png" class="img-fluid-logo-footer-uppa"/>
                 </a> 
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation"> 
                     <span class="navbar-toggler-icon"></span> 
                 </button> 
                 <div class="collapse navbar-collapse" id="navbarCollapse"> <!-- Ajout de la div collapse pour le menu mobile -->
                     <div class ="container">
-                        <div class="row align-items-center justify-content-center">
-                            <div class="col-md-4 col-sm-12 mt-xs-3 mt-sm-3 text-center fs-4 ont-weight-bold">
-                                <a class="nav-link" aria-current="page" href="/index.php">Accueil</a> 
-                            </div>
-                            <div class="col-md-4 col-sm-12 mt-xs-3 mt-sm-3 text-center fs-4 font-weight-bold">
-                                <a href="/reservation/reservationUser.php" class="btn btn-warning btn-lg active" role="button" aria-pressed="true">Reservation</a>  
-                            </div>
-                            <div class="col-md-4 col-sm-12 mt-xs-3 mt-sm-3 text-center fs-4 font-weight-bold">
-                            <?php 
-                            if (!isset($_SESSION['isAdmin'])){
-                            ?>
-                                <a class="nav-link" href="/Connexion/formConnexAdmin.php">Administrateur</a>
-                            
-                            <?php 
-                            } else {
-                            ?>
-                                <div class="dropdown show">
-                                    <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
-                                        Admin Menu
-                                    </a>
-
-                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                        <li><a class="dropdown-item" href="#">Infos</a></li>
-                                        <li><a class="dropdown-item" href="/admin/adminGestion.php">Gestion</a></li>
-                                        <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                    </ul>
-                                </div>
-                            <?php
-                            } 
-                            ?>
-                            </div>
-                        </div>
                     </div> 
                 </div>
                 <a class="navbar-brand" href="#"> 
-                    <img alt="Logo fablab" src="/GestionFABLAB/public_html/image/logo-fablab.png" class="img-fluid-logo"/>
+                    <img alt="Logo fablab" src="./../image/logo-fablab.png" class="img-fluid-logo-footer-fablab"/>
                 </a> 
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation"> 
-                    <span class="navbar-toggler-icon"></span> 
-                </button> 
 
 
             </div> 
         </nav>
         
         <!-- Un seul script Bootstrap Bundle (qui inclut Popper) à la fin -->
-        <script src="/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="./../bootstrap/js/bootstrap.bundle.min.js"></script>
     </body>
 </html>

@@ -1,3 +1,5 @@
+<?php if (!isset($_SESSION)) { session_start(); } ?>
+
 <!DOCTYPE html>
 <!--
 Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -9,29 +11,25 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHPWebPage.php to 
         <title>Gestion Administrateur - FABLAB</title>
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link rel="stylesheet" href="/CSS/style.css"/>
+        <link rel="stylesheet" href="./../CSS/style.css"/>
         <link href="https://fonts.googleapis.com/css2?family=Anonymous+Pro:wght@400&family=Roboto+Condensed:wght@400;500;600&family=Inter:wght@500&display=swap" rel="stylesheet">
     </head>
     <body>
         <?php
-        if(!isset($_SESSION)){
-            ob_start();
-            session_start();
-        }
         if (isset($_SESSION["isAdmin"])){
 
             require_once './../commun/header.php';
             
         ?>
         <div class="container">
-            <form method="POST" action="/scriptAdmin/scriptGestion.php">
+            <form method="POST" action="./../scriptAdmin/scriptGestion.php">
                 <input type="submit" name="btnReset" value="Deconnexion" class="btn-reservation"/>
             </form>
         </div>
         <?php 
             }
             else {
-                header("Location: /index.php");
+                header("Location: ./../index.php");
             }
         ?>
     </body>

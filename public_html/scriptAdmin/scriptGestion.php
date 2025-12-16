@@ -10,7 +10,7 @@ if (isset($_SESSION["isAdmin"])){
     switch($_POST["btnReset"]){
         case "Deconnexion" :
             session_destroy();
-            header("Location: /index.php");
+            header("Location: ./../index.php");
             break;
     }
 }
