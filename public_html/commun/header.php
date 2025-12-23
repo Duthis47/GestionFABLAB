@@ -1,4 +1,8 @@
+<!-- Chemin absolu pour les ressources -->
+
+
 <?php 
+include_once __DIR__ . '/../../config.php';
 //Empeche l'affichage des potentiels erreurs
 //error_reporting(0);
 //ini_set('display_errors', 0);
@@ -11,16 +15,6 @@ if ($theme == 'light'){
     $navbarColor = 'bg-secondary';
 }
 ?>
-
-<!DOCTYPE html>
-    <head>
-        <script src="./../bootstrap/js/color-modes.js"></script>
-        <link href="./../bootstrap/css/bootstrap.min.css" rel="stylesheet" />
-        <meta name="theme-color" content="#712cf9" />
-        <link href="./../bootstrap/navbar/navbar-static.css" rel="stylesheet" />
-        <link href="./../CSS/style.css" rel="stylesheet"/>
-    </head>
-    
     <script>
             // Détecte si l'utilisateur préfère le mode sombre
             const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -32,7 +26,7 @@ if ($theme == 'light'){
     <nav class="navbar navbar-expand-md navbar-white <?php echo $navbarColor; ?> mb-5 "> 
         <div class="container-fluid"> 
             <a class="navbar-brand" href="#"> 
-                <img alt="Logo fablab" src="./../image/logo-fablab.png" class="img-fluid-logo-header"/>
+                <img alt="Logo fablab" src="<?= BASE_URL ?>image/logo-fablab.png" class="img-fluid-logo-header"/>
             </a> 
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation"> 
                 <span class="navbar-toggler-icon"></span> 
@@ -42,16 +36,16 @@ if ($theme == 'light'){
                 <div class ="container">
                     <div class="row align-items-center justify-content-center">
                         <div class="col-md-4 col-sm-12 mt-xs-3 mt-sm-3 text-center fs-4 ont-weight-bold">
-                            <a class="nav-link" aria-current="page" href="./../index.php">Accueil</a> 
+                            <a class="nav-link" aria-current="page" href="<?= BASE_URL ?>index.php">Accueil</a> 
                         </div>
                         <div class="col-md-4 col-sm-12 mt-xs-3 mt-sm-3 text-center fs-4 font-weight-bold">
-                            <a href="./../reservation/reservationUser.php" class="btn btn-warning btn-lg active" role="button" aria-pressed="true">Reservation</a>  
+                            <a href="<?= BASE_URL ?>reservation/reservationUser.php" class="btn btn-warning btn-lg active" role="button" aria-pressed="true">Reservation</a>  
                         </div>
                         <div class="col-md-4 col-sm-12 mt-xs-3 mt-sm-3 text-center fs-4 font-weight-bold">
                         <?php 
                         if (!isset($_SESSION['isAdmin'])){
                         ?>
-                            <a class="nav-link" href="./../Connexion/formConnexAdmin.php">Administrateur</a>
+                            <a class="nav-link" href="<?= BASE_URL ?>Connexion/formConnexAdmin.php">Administrateur</a>
                         
                         <?php 
                         } else {
@@ -63,7 +57,7 @@ if ($theme == 'light'){
 
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                                     <li><a class="dropdown-item" href="#">Infos</a></li>
-                                    <li><a class="dropdown-item" href="./../admin/adminGestion.php">Gestion</a></li>
+                                    <li><a class="dropdown-item" href="<?= BASE_URL ?>admin/adminGestion.php">Gestion</a></li>
                                     <li><a class="dropdown-item" href="#">Something else here</a></li>
                                 </ul>
                             </div>
@@ -78,4 +72,4 @@ if ($theme == 'light'){
     </nav>
         
         <!-- Un seul script Bootstrap Bundle (qui inclut Popper) à la fin -->
-        <script src="./../bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="<?= BASE_URL ?>bootstrap/js/bootstrap.bundle.min.js"></script>

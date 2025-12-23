@@ -26,7 +26,7 @@
             <div class="container-fluid"> 
                 
                 <a class="navbar-brand" href="#"> 
-                    <img alt="Logo uppa" src="./../image/logo-uppa.png" class="img-fluid-logo-footer-uppa"/>
+                    <img alt="Logo uppa" src="<?= BASE_URL ?>image/logo-uppa.png" class="img-fluid-logo-footer-uppa"/>
                 </a> 
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation"> 
                     <span class="navbar-toggler-icon"></span> 
@@ -36,14 +36,11 @@
                     </div> 
                 </div>
                 <a class="navbar-brand" href="#"> 
-                    <img alt="Logo fablab" src="./../image/logo-fablab.png" class="img-fluid-logo-footer-fablab"/>
+                    <img alt="Logo fablab" src="<?= BASE_URL ?>image/logo-fablab.png" class="img-fluid-logo-footer-fablab"/>
                 </a> 
 
 
             </div> 
         </nav>
-        
-        <!-- Un seul script Bootstrap Bundle (qui inclut Popper) à la fin -->
-        <script src="./../bootstrap/js/bootstrap.bundle.min.js"></script>
     </body>
 </html>

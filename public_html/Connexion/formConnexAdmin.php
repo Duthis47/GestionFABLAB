@@ -8,7 +8,11 @@
     <title>Portail Administrateur - FabLab</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Poppins:wght@300;400;500;600&display=swap">
     <link rel="stylesheet" href="./stylesConnex.css">
-
+    <link href="./../CSS/style.css" rel="stylesheet"/>
+    <script src="./../bootstrap/js/color-modes.js"></script>
+    <link href="./../bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <meta name="theme-color" content="#712cf9" />
+    <link href="./../bootstrap/navbar/navbar-static.css" rel="stylesheet" />
 </head>
 
 <body>

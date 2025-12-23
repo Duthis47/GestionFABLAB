@@ -17,6 +17,10 @@
     <link rel="stylesheet" href="./../fullcalendar/packages/core/main.css">
     <link rel="stylesheet" href="./../fullcalendar/packages/daygrid/main.css">
     <link href="./../bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="./../bootstrap/js/color-modes.js"></script>
+    <link href="./../bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <meta name="theme-color" content="#712cf9" />
+    <link href="./../bootstrap/navbar/navbar-static.css" rel="stylesheet" />
 </head>
 
 <body>
