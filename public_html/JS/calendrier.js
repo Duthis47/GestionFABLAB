@@ -1,3 +1,15 @@
+function toDateTimeLocal(date) {
+    const pad = (num) => String(num).padStart(2, '0');
+
+    const year = date.getFullYear();
+    const month = pad(date.getMonth() + 1);
+    const day = pad(date.getDate());
+    const hours = pad(date.getHours());
+    const minutes = pad(date.getMinutes());
+
+    return `${year}-${month}-${day}T${hours}:${minutes}`;
+}
+
 function afficherCalendrier(type) {
     let allDay;
     if (type == 'etudiant') {
@@ -45,13 +57,6 @@ function afficherCalendrier(type) {
                         calendar.unselect();
                         return;
                     }
-                    // Vérification de la durée max
-                    else if (duration > maxDuration) {
-                        alert("La durée maximale est de 1 heure. Le créneau a été ajusté.");
-                        // On force la fin à start + 1h pour l'enregistrement
-                        info.end = new Date(info.start.getTime() + maxDuration);
-                    }
-
 
                     // Remplissage du popup bootstrap
                     document.getElementById('startDisplay').innerText = info.start.toLocaleString();

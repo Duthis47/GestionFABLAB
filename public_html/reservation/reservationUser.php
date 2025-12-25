@@ -46,9 +46,9 @@
                                 <label for="eventTitle" class="form-label">Motif du rendez-vous</label>
                                 <input type="text" class="form-control" id="eventTitle" required>
                             </div>
-                            <p>Début : <span id="startDisplay"></span></p>
-                            <p>Fin : <span id="endDisplay"></span></p>
-                            <!-- Champs cachés pour stocker les dates ISO -->
+                            <!-- Transformer ca en input pour modifier date et heure-->
+                            <p>Début : <input type="datetime-local" id="startDisplay"/></p>
+                            <p>Fin : <input type="datetime-local" id="endDisplay"/></p>
                             <input type="hidden" id="startInput">
                             <input type="hidden" id="endInput">
                         </form>
@@ -61,9 +61,8 @@
             </div>
         </div>
         <script src="./../JS/calendrier.js">
-            <script src="./../bootstrap/JS/bootstrap.bundle.min.js"></script>
-
         </script>
+        <script src="./../bootstrap/JS/bootstrap.bundle.min.js"></script>
         <script>
             afficherCalendrier('etudiant');
         </script>
