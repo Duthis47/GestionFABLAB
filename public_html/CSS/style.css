@@ -6,6 +6,9 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this t
     Created on : 19 nov. 2025, 09:16:29
     Author     : etudiant
 */
+body {
+    font-family: 'Roboto Condensed', sans-serif;
+}
 
 .logo-image {
   position: relative;
@@ -29,3 +32,6 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this t
     max-width: 85%;
     height: auto;
 }
+
+
+

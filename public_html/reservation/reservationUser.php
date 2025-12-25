@@ -60,8 +60,7 @@
                 </div>
             </div>
         </div>
-        <script src="./../JS/calendrier.js">
-        </script>
+        <script src="./../JS/calendrier.js"></script>
         <script src="./../bootstrap/JS/bootstrap.bundle.min.js"></script>
         <script>
             afficherCalendrier('etudiant');
