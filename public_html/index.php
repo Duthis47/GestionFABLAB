@@ -15,23 +15,70 @@
         <link href="./bootstrap/navbar/navbar-static.css" rel="stylesheet" />
     </head>
 
-    <body>
+    <body >
         <?php
         require_once './commun/header.php';
         ?>
-        <div class="px-5 py-5" >
-        <h1 class="fw-500 text-dark" style="font-family: 'Roboto Condensed'; font-size: 87.383px;">Bienvenue au FabLab Milieux Aquatiques</h1>
-        <p class="fw-500 text-dark" style="font-family: 'Roboto Condensed'; font-size: 32px;">Bienvenue au FabLab Milieux Aquatiques</p>
-        <button type="button" class="btn btn-primary btn-lg px-4 me-md-2 fw-bold" style="border-radius: 15px; background: #B8E1FF; color: #000; font-family: 'Roboto Condensed'; font-size: 32px; font-style: normal; font-weight: 400; line-height: normal;">Découvrir les équipements</button> 
 
-        <div class="row pb-0 pe-lg-0 pt-lg-5 rounded-3 border shadow-lg"> 
-            <div class="col-lg-7 p-3 p-lg-5 pt-lg-3"> 
-                <p class="lead">Le FabLab Milieux Aquatiques met à disposition du matériel de prototypage, un laboratoire scientifique et des espaces de travail. Réservez facilement les outils et salles via la plateforme de réservation.</p> 
-            </div> 
-            <div class="col-lg-4 offset-lg-1 p-0 overflow-hidden shadow-lg"> 
-                <img class="rounded-lg-3" src="./image/image1.png" alt="" width="720"> 
-            </div> 
-        </div>
+        <main class="container py-5">
+            
+            <div class="mb-5">
+                <h1 class="fw-bold text-dark display-4 mb-3" style="font-weight: 700;">
+                    Bienvenue au FabLab<br>Milieux Aquatiques
+                </h1>
+                <p class="fw-bold fs-5 mb-4 text-dark">
+                    Espace d’innovation et de prototypage pour les étudiants et chercheurs
+                </p>
+                <a href="reservation/reservationUser.php" class="btn btn-lg px-4 py-2 fw-normal" 
+                        style="background-color: #B8E1FF; color: #000; border-radius: 10px; font-size: 1.25rem; border: none;">
+                    Découvrir les équipements
+                </a> 
+            </div>
+
+            <div class="p-4 p-md-5 rounded-4 shadow-sm" style="background-color: #f6f6f6;"> 
+                
+                <div class="row align-items-center mb-5">
+                    <div class="col-lg-6 mb-4 mb-lg-0 pe-lg-5"> 
+                        <p class="fs-5" >
+                            Le FabLab Milieux Aquatiques est un espace collaboratif dédié à l'innovation pédagogique. Il rassemble étudiants, chercheurs et partenaires locaux pour <strong>concevoir, expérimenter et fabriquer</strong> des solutions concrètes répondant aux enjeux environnementaux de notre territoire.                        </p> 
+                    </div> 
+                    <div class="col-lg-6"> 
+                        <div class="overflow-hidden rounded-3 shadow-sm">
+                            <img src="./image/image1.png" alt="Intérieur Fablab" class="img-fluid w-100" style="object-fit: cover;"> 
+                        </div>
+                    </div> 
+                </div>
+
+                <div class="row align-items-center">
+                    <div class="col-lg-6 mb-4 mb-lg-0 order-2 order-lg-1"> 
+                        <div class="overflow-hidden rounded-3 shadow-sm">
+                            <img src="./image/image2.png" alt="Atelier outils" class="img-fluid w-100" style="object-fit: cover;"> 
+                        </div>
+                    </div> 
+                    <div class="col-lg-6 order-1 order-lg-2 ps-lg-5"> 
+                        <p class="mb-4 fs-6">
+                            <strong>Campus UPPA de Montaury, à Anglet,</strong><br>
+                            Situé au rez-de-chaussée du bâtiment 1 « Collège Sciences et Technologies pour l'Energie et l'Environnement ».
+                        </p>
+                        <p class="fw-bold">
+                            Ouvert du lundi au vendredi de 8h à 17h
+                        </p>
+                    </div> 
+                </div>
+
+            </div>
+
+            <div class="text-center mt-5 mb-4">
+                <a href="reservation/reservationUser.php" class="btn btn-lg px-5 py-2 fw-bold" 
+                        style="background-color: #F4C430; color: #000; border-radius: 10px; border: none; font-size: 1.2rem;">
+                    Voir les créneaux disponibles
+                </a>
+            </div>
+
+        </main>
+
+        <script src="./bootstrap/js/bootstrap.bundle.min.js"></script>
+
     <?php
     require_once './commun/footer.php';
     ?>

@@ -33,19 +33,18 @@
 
     <div class="container" style="max-width:800px">
         <div class="form-box">
-            <h2>LOGIN</h2>
-            <p>Welcome back</p>
+            <h2>Connexion</h2>
 
             <form action="./../scriptsConnexions/connexionAdmin.php" method="POST">
                 <div class="input-group">
                     <input type="text" name = "username" id="username" required class="input-field">
-                    <label for="username">Username</label>
+                    <label for="username">Identifiant</label>
                     <div class="glow-line"></div>
                 </div>
 
                 <div class="input-group">
                     <input type="password" name="password" id="password" required class="input-field">
-                    <label for="password">Password</label>
+                    <label for="password">Mot de passe</label>
                     <div class="glow-line"></div>
                 </div>
 
@@ -53,7 +52,7 @@
                 </div>
 
                 <button type="submit" class="login-btn">
-                    <span>SIGN IN</span>
+                    <span>Se connecter</span>
                     <div class="btn-glow"></div>
                 </button>
 
