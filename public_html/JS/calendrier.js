@@ -1,16 +1,12 @@
-function toDateTimeLocal(date) {
-    const pad = (num) => String(num).padStart(2, '0');
-
-    const year = date.getFullYear();
-    const month = pad(date.getMonth() + 1);
-    const day = pad(date.getDate());
-    const hours = pad(date.getHours());
-    const minutes = pad(date.getMinutes());
-
-    return `${year}-${month}-${day}T${hours}:${minutes}`;
+function toDatetimeLocal(date) {
+    const dateLocal = new Date(date);
+    dateLocal.setMinutes(dateLocal.getMinutes() - dateLocal.getTimezoneOffset());
+    return dateLocal.toISOString().slice(0, 16);
 }
 
-function afficherCalendrier(type) {
+function afficherCalendrierSalle(type, salle) {
+    //type peut etre 'etudiant' ou 'admin'
+    //salle est l'id de la salle a afficher
     let allDay;
     if (type == 'etudiant') {
         allDay = false;
@@ -18,7 +14,6 @@ function afficherCalendrier(type) {
     else {
         allDay = true;
     }
-
     debutsem = new Date();
     debutsem = debutsem.setUTCDate(debutsem.getUTCDate() - debutsem.getUTCDay() + 1);
     let x = new Date(debutsem)
@@ -58,11 +53,11 @@ function afficherCalendrier(type) {
                         return;
                     }
 
-                    // Remplissage du popup bootstrap
-                    document.getElementById('startDisplay').innerText = info.start.toLocaleString();
-                    document.getElementById('endDisplay').innerText = info.end.toLocaleString();
-                    document.getElementById('startInput').value = info.start.toISOString();
-                    document.getElementById('endInput').value = info.end.toISOString();
+                    // Remplissage du popup Bootstrap
+                    document.getElementById('startInput').ariaPlaceholder = toDatetimeLocal(info.start);
+                    document.getElementById('endInput').ariaPlaceholder = toDatetimeLocal(info.end);
+                    document.getElementById('startInput').value = toDatetimeLocal(info.start);
+                    document.getElementById('endInput').value = toDatetimeLocal(info.end);
                     document.getElementById('eventTitle').value = ""; // Reset du champ
 
 

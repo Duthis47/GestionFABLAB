@@ -1,4 +1,6 @@
-<?php if (!isset($_SESSION)) { session_start(); } ?>
+<?php if (!isset($_SESSION)) {
+    session_start();
+} ?>
 
 <!DOCTYPE html>
 <html lang="fr">
@@ -28,10 +30,36 @@
 
     <?php
     include_once './../commun/header.php';
+    $salle = !isset($_GET["estMateriel"]);
     ?>
     <div class="container">
         <h1 class="text-wrapper-4">Réserver un créneau</h1>
         <br /><br />
+        <div id="filtre">
+            <!-- Ici mettre le filtre de salle ou de matériel -->
+            <form action="">
+                <?php 
+                if ($salle){
+                    $listeElement = null;
+                }
+                ?>
+                <div class="mb-3">
+                    <label for="salle" class="form-label">Choisir une salle :</label>
+                    <select class="form-select" id="salle" name="salle">
+                        <option value="" disabled selected>-- Sélectionner une salle --</option>
+                        <option value="1" <?php if (isset($_GET["estSalle"]) && $_GET["estSalle"] == "1") {
+                                                echo "selected";
+                                            } ?>>Salle 1 - Impression 3D</option>
+                        <option value="2" <?php if (isset($_GET["estSalle"]) && $_GET["estSalle"] == "2") {
+                                                echo "selected";
+                                            } ?>>Salle 2 - Découpe Laser</option>
+                        <option value="3" <?php if (isset($_GET["estSalle"]) && $_GET["estSalle"] == "3") {
+                                                echo "selected";
+                                            } ?>>Salle 3 - Atelier Bois/Plastique</option>
+                    </select>
+                </div>
+            </form>
+        </div>
         <div id="calendrier"></div>
         <div class="modal fade" id="popupResa" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -47,10 +75,10 @@
                                 <input type="text" class="form-control" id="eventTitle" required>
                             </div>
                             <!-- Transformer ca en input pour modifier date et heure-->
-                            <p>Début : <input type="datetime-local" id="startDisplay"/></p>
-                            <p>Fin : <input type="datetime-local" id="endDisplay"/></p>
-                            <input type="hidden" id="startInput">
-                            <input type="hidden" id="endInput">
+                            <p>Début : <input type="datetime-local" id="startInput" /></p>
+                            <p>Fin : <input type="datetime-local" id="endInput" /></p>
+
+
                         </form>
                     </div>
                     <div class="modal-footer">
@@ -62,11 +90,22 @@
         </div>
         <script src="./../JS/calendrier.js"></script>
         <script src="./../bootstrap/JS/bootstrap.bundle.min.js"></script>
+        <?php if ($salle) { ?>
+            <script>
+                salle = document.getElementById('salle').value;
+                afficherCalendrierSalle('etudiant', salle);
+            </script>
+        <?php } else { ?>
+            <script>
+                materiel = document.getElementById('materiel').value;
+                afficherCalendrierMateriel('etudiant', materiel);
+            </script>
+            <?php
+        } ?>
         <script>
-            afficherCalendrier('etudiant');
         </script>
     </div>
-        <?php
+    <?php
     include_once './../commun/footer.php';
     ?>
 </body>
