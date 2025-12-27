@@ -2,13 +2,13 @@
 
 class GestionConnexion {
     private static $instance = null;
-    private $connexion;
+    private static $connexion;
 
     private function __construct() {
         $host = 'localhost';
-        $db   = 'fablab_db';
-        $user = 'fablab_user';
-        $pass = 'fablab_password';
+        $db   = 'sae3';
+        $user = 'adminer';
+        $pass = 'Isanum64!';
         self::$connexion = new PDO("mysql:host=$host;dbname=$db;charset=utf8", $user, $pass);
     }
 

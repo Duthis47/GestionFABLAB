@@ -1,29 +1,30 @@
 <!-- Chemin absolu pour les ressources -->
 
-
 <?php 
 include_once __DIR__ . '/../../config.php';
 //Empeche l'affichage des potentiels erreurs
 //error_reporting(0);
 //ini_set('display_errors', 0);
-
-//Ici, j'utilise le cookie générer par le script JS pour changer la couleur du header
-$theme = isset($_COOKIE['user_theme']) ? $_COOKIE['user_theme'] : 'light';
-if ($theme == 'light'){
-    $navbarColor = 'bg-gray';
-}else {
-    $navbarColor = 'bg-secondary';
-}
 ?>
-    <script>
-            // Détecte si l'utilisateur préfère le mode sombre
-            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-            const theme = prefersDark ? 'dark' : 'light';
-            // Crée le cookie (valable 30 jours)
-            document.cookie = "user_theme=" + theme + "; max-age=" + (30*24*60*60) + "; path=/";
-    </script>
+
+<script>
+    (function() {
+        const getCookie = (name) => {
+            const value = `; ${document.cookie}`;
+            const parts = value.split(`; ${name}=`);
+            if (parts.length === 2) return parts.pop().split(';').shift();
+        };
+
+        let theme = getCookie('user_theme');
+        if (!theme) {
+            theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+        document.documentElement.setAttribute('data-theme', theme);
+        document.cookie = "user_theme=" + theme + "; max-age=" + (30*24*60*60) + "; path=/";
+    })();
+</script>
         
-    <nav class="navbar navbar-expand-md navbar-white <?php echo $navbarColor; ?> mb-5 "> 
+    <nav class="navbar navbar-expand-md navbar-white navbar-custom mb-5 "> 
         <div class="container-fluid"> 
             <a class="navbar-brand" href="#"> 
                 <img alt="Logo fablab" src="<?= BASE_URL ?>image/logo-fablab.png" class="img-fluid-logo-header"/>
@@ -32,7 +33,7 @@ if ($theme == 'light'){
                 <span class="navbar-toggler-icon"></span> 
             </button> 
             
-            <div class="collapse navbar-collapse" id="navbarCollapse"> <!-- Ajout de la div collapse pour le menu mobile -->
+            <div class="collapse navbar-collapse" id="navbarCollapse">
                 <div class ="container">
                     <div class="row align-items-center justify-content-center">
                         <div class="col-md-4 col-sm-12 mt-xs-3 mt-sm-3 text-center fs-4 ont-weight-bold">
@@ -71,5 +72,5 @@ if ($theme == 'light'){
         </div> 
     </nav>
         
-        <!-- Un seul script Bootstrap Bundle (qui inclut Popper) à la fin -->
-        <script src="<?= BASE_URL ?>bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- Un seul script Bootstrap Bundle (qui inclut Popper) à la fin -->
+    <script src="<?= BASE_URL ?>bootstrap/js/bootstrap.bundle.min.js"></script>

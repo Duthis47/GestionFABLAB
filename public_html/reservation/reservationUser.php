@@ -31,74 +31,142 @@
     <?php
     include_once './../commun/header.php';
     $salle = !isset($_GET["estMateriel"]);
+    if ($salle){
+        $titreR = "Réservation de Salle";
+        $titreF = "Choisir une salle";
+        $script = "./sReservationSalle.php";
+    }else {
+        $titreR = "Réservation de Matériel";
+        $titreF = "Choisir un matériel";
+        $script = "./sReservationMateriel.php";
+    }
     ?>
     <div class="container">
         <h1 class="text-wrapper-4">Réserver un créneau</h1>
         <br /><br />
         <div id="filtre">
             <!-- Ici mettre le filtre de salle ou de matériel -->
-            <form action="">
-                <?php 
-                if ($salle){
-                    $listeElement = null;
-                }
-                ?>
+            <form>
                 <div class="mb-3">
-                    <label for="salle" class="form-label">Choisir une salle :</label>
-                    <select class="form-select" id="salle" name="salle">
-                        <option value="" disabled selected>-- Sélectionner une salle --</option>
-                        <option value="1" <?php if (isset($_GET["estSalle"]) && $_GET["estSalle"] == "1") {
-                                                echo "selected";
-                                            } ?>>Salle 1 - Impression 3D</option>
-                        <option value="2" <?php if (isset($_GET["estSalle"]) && $_GET["estSalle"] == "2") {
-                                                echo "selected";
-                                            } ?>>Salle 2 - Découpe Laser</option>
-                        <option value="3" <?php if (isset($_GET["estSalle"]) && $_GET["estSalle"] == "3") {
-                                                echo "selected";
-                                            } ?>>Salle 3 - Atelier Bois/Plastique</option>
+                    <label for="salle" class="form-label"><?= $titreF ?></label>
+                    <?php if ($salle) { ?>
+                        <select class="form-select" id="salle" name="salle">
+                                                    <?php 
+                                                    //Liste des salles
+                        include_once './../classesDAO/SalleDAO.php';
+                        
+                        $listeSalle = SalleDAO::getAllSalles();
+                        $i = 1;
+                        foreach ($listeSalle as $salle) {
+                            ?>
+                            <option value="<?php echo $salle['idR']; ?>" 
+                            <?php if (isset($_GET["estSalle"]) && $_GET["estSalle"] == $salle['idR']) {
+                                echo "selected";
+                            } ?>>
+                            Salle <?php echo $i . " - " . $salle['nomSalles'] . " (Capacité : " . $salle['capaAccueil'] . " personnes)"; ?></option>
+                            <?php 
+                            $i++;
+                        }
+                        } else { ?>
+                        <select class="form-select" id="materiel" name="materiel">
+                                                    <?php 
+                        include_once './../classesDAO/MaterielsDAO.php';
+                        
+                        $listeMateriel = MaterielsDAO::getAllMateriels();
+                        $i = 1;
+                        foreach ($listeMateriel as $materiel) {
+                            ?>
+                            <option value="<?php echo $materiel['idR']; ?>" 
+                            <?php if (isset($_GET["estMateriel"]) && $_GET["estMateriel"] == $materiel['idR']) {
+                                echo "selected";
+                            } ?>>
+                            Matériel <?php echo $i . " - " . $materiel['nomMateriel'] . " (Description : " . $materiel['description'] . ")"; ?></option>
+                            <?php 
+                            $i++;
+                        }
+                        } ?>
                     </select>
                 </div>
             </form>
         </div>
+        <div id="Description"><!-- Faire un petit bloc de texte pour la description du materiel ou de la salle --></div>
         <div id="calendrier"></div>
         <div class="modal fade" id="popupResa" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="modalLabel">Réserver un créneau</h5>
+                        <h5 class="modal-title" id="modalLabel"><?= $titreR ?></h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form id="bookingForm">
+                        <form id="bookingForm" method="POST" action="<?= $script ?>">
                             <div class="mb-3">
-                                <label for="eventTitle" class="form-label">Motif du rendez-vous</label>
-                                <input type="text" class="form-control" id="eventTitle" required>
+                                <label for="nom" class="form-label">Nom</label>
+                                <input type="text" class="form-control" id="nom" name="nom" required>
                             </div>
-                            <!-- Transformer ca en input pour modifier date et heure-->
+                            <div class="mb-3">
+                                <label for="prenom" class="form-label">Prenom</label>
+                                <input type="text" class="form-control" id="prenom" name="prenom" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="mail" class="form-label">Mail UPPA</label>
+                                <input type="mail" class="form-control" id="mail" name="mail" required>
+                            </div>
+
+                            <!-- En cas de salle on demande le nombre d'occupant -->
+                            <?php 
+                            if ($salle){ ?>
+                                <div class="mb-3">
+                                    <label for="nbOccupant" class="form-label">nombre d'occupant</label>
+                                    <input type="number" min="1" class="form-control" id="nbOccupant" name="nbOccupant" required>
+                                </div>
+                            <?php } ?>
+
                             <p>Début : <input type="datetime-local" id="startInput" /></p>
                             <p>Fin : <input type="datetime-local" id="endInput" /></p>
-
-
+                            <input type="hidden" value="" id="numSalle" name="numSalle"/>
+                            <input type="hidden" value="" id="numMateriel" name="numMateriel"/>
                         </form>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                        <button type="button" class="btn btn-primary" id="saveEventBtn">Confirmer</button>
+                        <button type="reset" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                        <button type="submit" class="btn btn-primary" id="saveEventBtn">Confirmer</button>
                     </div>
                 </div>
             </div>
         </div>
+                    <!-- Modal de matériel -->
         <script src="./../JS/calendrier.js"></script>
         <script src="./../bootstrap/JS/bootstrap.bundle.min.js"></script>
         <?php if ($salle) { ?>
             <script>
-                salle = document.getElementById('salle').value;
-                afficherCalendrierSalle('etudiant', salle);
+                laSalle = document.getElementById('salle')
+                laSalle.addEventListener('change', function() {
+                    salle = this.value;
+                    document.getElementById('numSalle').value = salle;
+                    //Faire un fetch pour charger les éléments
+                    afficherCalendrier('etudiant');
+                });
+                salle = laSalle.value;
+                //Faire un fetch pour charger les éléments
+                document.getElementById('numSalle').value = salle;
+                document.getElementById('numMateriel').value = "";
+                afficherCalendrier('etudiant');
             </script>
         <?php } else { ?>
             <script>
-                materiel = document.getElementById('materiel').value;
-                afficherCalendrierMateriel('etudiant', materiel);
+                leMateriel = document.getElementById('materiel')
+                leMateriel.addEventListener('change', function() {
+                    materiel = this.value;
+                    document.getElementById('numMateriel').value = materiel;
+                    //Faire un fetch pour charger les éléments
+                    afficherCalendrier('etudiant');
+                });
+                materiel = leMateriel.value;
+                document.getElementById('numMateriel').value = materiel;
+                document.getElementById('numSalle').value = "";
+                //Faire un fetch pour charger les éléments
+                afficherCalendrier('etudiant');
             </script>
             <?php
         } ?>

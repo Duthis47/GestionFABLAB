@@ -33,5 +33,18 @@ body {
     height: auto;
 }
 
+:root {
+    --navbar-bg-color: #e9ecef; 
+    --navbar-text-color: #000;
+}
 
+[data-theme="dark"] {
+    --navbar-bg-color: #6c757d;
+    --navbar-text-color: #fff;
+}
 
+.navbar-custom {
+    background-color: var(--navbar-bg-color) !important;
+    color: var(--navbar-text-color);
+    transition: background-color 0.3s ease;
+}

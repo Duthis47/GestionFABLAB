@@ -1,0 +1,11 @@
+<?php 
+
+include_once './../classes/GestionConnexion.php';
+class MaterielsDAO {
+    public static function getAllMateriels(): array {
+        $connexion = GestionConnexion::getConnexion();
+        $stmt = $connexion->prepare("SELECT idR, Nom, Description, Tuto, Regle_securite FROM Materiels NATURAL JOIN Reservables");
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+}

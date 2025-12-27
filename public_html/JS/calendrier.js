@@ -4,7 +4,7 @@ function toDatetimeLocal(date) {
     return dateLocal.toISOString().slice(0, 16);
 }
 
-function afficherCalendrierSalle(type, salle) {
+function afficherCalendrier(type, toutesLesResa) {
     //type peut etre 'etudiant' ou 'admin'
     //salle est l'id de la salle a afficher
     let allDay;
@@ -18,7 +18,6 @@ function afficherCalendrierSalle(type, salle) {
     debutsem = debutsem.setUTCDate(debutsem.getUTCDate() - debutsem.getUTCDay() + 1);
     let x = new Date(debutsem)
 
-    document.addEventListener('DOMContentLoaded', function () {
         let calendarEl = document.getElementById('calendrier');
 
         var calendar = new FullCalendar.Calendar(calendarEl, {
@@ -58,51 +57,15 @@ function afficherCalendrierSalle(type, salle) {
                     document.getElementById('endInput').ariaPlaceholder = toDatetimeLocal(info.end);
                     document.getElementById('startInput').value = toDatetimeLocal(info.start);
                     document.getElementById('endInput').value = toDatetimeLocal(info.end);
-                    document.getElementById('eventTitle').value = ""; // Reset du champ
+                    document.getElementById('nom').value = ""; // Reset du champ
+                    document.getElementById('prenom').value = ""; // Reset du champ
+                    document.getElementById('mail').value = ""; // Reset du champ
+                    document.getElementById('nbOccupant').value = ""; // Reset du champ
 
 
                     var monPopup = new bootstrap.Modal(document.getElementById('popupResa'));
-                    monPopup.show();
-
-                    // Gestion du bouton "Confirmer"
-                    document.getElementById('saveEventBtn').onclick = function () {
-                        let title = document.getElementById('eventTitle').value;
-
-                        if (title) {
-                            // Envoi vers le backend
-                            fetch('api.php', {
-                                method: 'POST',
-                                headers: {
-                                    'Content-Type': 'application/json'
-                                },
-                                body: JSON.stringify({
-                                    title: title,
-                                    start: info.start.toISOString(),
-                                    end: info.end.toISOString()
-                                })
-                            })
-                                .then(response => response.json())
-                                .then(data => {
-                                    if (data.status === 'success') {
-                                        // Ajouter l'événement visuellement
-                                        calendar.addEvent({
-                                            title: title,
-                                            start: info.start,
-                                            end: info.end,
-                                            backgroundColor: '#28a745', // Vert Bootstrap
-                                            borderColor: '#28a745'
-                                        });
-                                        myModal.hide();
-                                        calendar.unselect(); // Enlever la sélection grise
-                                    } else {
-                                        alert("Erreur lors de l'enregistrement");
-                                    }
-                                })
-                                .catch(error => console.error('Erreur:', error));
-                        } else {
-                            alert("Veuillez entrer un motif.");
-                        }
-                    };
+                    monPopup.show();                                    
+                         
                 }
             },
 
@@ -121,8 +84,6 @@ function afficherCalendrierSalle(type, salle) {
         });
         calendar.setOption('locale', 'fr');
         calendar.render();
-    });
-
     /*    
     calendar.addEvent({
                             title: 'Sélectionné',
