@@ -1,6 +1,7 @@
 <?php if (!isset($_SESSION)) {
     session_start();
-} ?>
+} 
+?>
 
 <!DOCTYPE html>
 <html lang="fr">
@@ -118,7 +119,9 @@
                             if ($salle){ ?>
                                 <div class="mb-3">
                                     <label for="nbOccupant" class="form-label">nombre d'occupant</label>
-                                    <input type="number" min="1" class="form-control" id="nbOccupant" name="nbOccupants" required>
+                                    <input type="number" min="1" max="<?= $salle["capaAccueil"] ?>" class="form-control" id="nbOccupant" name="nbOccupants" required>
+                                    <input type="hidden" value="<?= $salle["capaAccueil"] ?>" id="capaSalle" name="capaSalle"/>
+                                    <input type="hidden" value="" id="placeRestante" name="placeRestante"/>
                                 </div>
                             <?php } ?>
 
@@ -147,12 +150,16 @@
                 laSalle.addEventListener('change', function() {
                     salle = this.value;
                     document.getElementById('numSalle').value = salle;
-                    recupSalle(salle);
+                    document.getElementById('placeRestante').value = 3;
+                    var t = document.getElementById('capaSalle').value;
+                    recupSalle(salle, t);
                 });
                 salle = laSalle.value;
                 document.getElementById('numSalle').value = salle;
                 document.getElementById('numMateriel').value = "";
-                recupSalle(salle);
+                document.getElementById('placeRestante').value = 3    
+                var t = document.getElementById('capaSalle').value;
+                recupSalle(salle, t);       
             </script>
         <?php } else { ?>
             <script>

@@ -20,7 +20,7 @@ $nbOccupants = $_POST["nbOccupants"];
 $success = ReservationDAO::ajouterReservationSalle($nomU, $prenomU, $mailU, $salleID, $dateDebut, $dateFin, $nbOccupants);
 
 if ($success) {
-    echo "Réservation effectuée avec succès.";
+    header("Location: ./reservationUser.php?reservation=success");
 } else {
     echo "Erreur lors de la réservation.";
 }
