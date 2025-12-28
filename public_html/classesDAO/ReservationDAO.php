@@ -13,7 +13,7 @@ class ReservationDAO {
 
     public static function getReservationsByMateriel(int $materielId): array {
         $connexion = GestionConnexion::getConnexion();
-        $stmt = $connexion->prepare("SELECT * FROM ReserverMateriels WHERE materiel_id = :materielId");
+        $stmt = $connexion->prepare("SELECT * FROM ReserverMateriels WHERE idR_materiel = :materielId");
         $stmt->bindParam(':materielId', $materielId, PDO::PARAM_INT);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -27,7 +27,7 @@ class ReservationDAO {
         }else {
             $utilisateurId = UtilisateurDAO::ajouterUtilisateur($nomU, $prenomU, $mailUtilisateur);
         }
-        $stmt = $connexion->prepare("INSERT INTO ReserverSalles (utilisateur_id, idR_salle, DateTime_debut, DateTime_fin, Nb_occupant, AutorisationFinal) VALUES (:utilisateurId, :salleId, :dateDebut, :dateFin, :nbOccupants, 0)");
+        $stmt = $connexion->prepare("INSERT INTO ReserverSalles (idU, idR_salle, DateTime_debut, DateTime_fin, Nb_occupant, AutorisationFinal) VALUES (:utilisateurId, :salleId, :dateDebut, :dateFin, :nbOccupants, 0)");
         $stmt->bindParam(':utilisateurId', $utilisateurId, PDO::PARAM_INT);
         $stmt->bindParam(':salleId', $salleId, PDO::PARAM_INT);
         $stmt->bindParam(':dateDebut', $dateDebut);

@@ -1,0 +1,42 @@
+
+
+function recupSalle(idSalle) {
+    fetch('./../api/recupMateriels.php?id=' + idSalle)
+        .then(response => {
+            // Au lieu de response.json(), on prend le texte brut
+            return response.text();
+        })
+        .then(text => {
+            console.log("RÉPONSE BRUTE DU PHP :", text); // C'est ici que tu verras l'erreur
+
+            // On essaie de convertir manuellement pour voir si ça tient
+            try {
+                const data = JSON.parse(text);
+                // Si ça marche, on continue
+                let listeResa = data;
+                afficherCalendrierSalle('etudiant', listeResa);
+            } catch (e) {
+                console.error(e.message);
+            }
+        });
+}
+function recupMateriels(idMateriel) {
+    fetch('./../api/recupMateriels.php?id=' + idMateriel)
+        .then(response => {
+            // Au lieu de response.json(), on prend le texte brut
+            return response.text();
+        })
+        .then(text => {
+            console.log("RÉPONSE BRUTE DU PHP :", text); // C'est ici que tu verras l'erreur
+
+            // On essaie de convertir manuellement pour voir si ça tient
+            try {
+                const data = JSON.parse(text);
+                // Si ça marche, on continue
+                let listeResa = data;
+                afficherCalendrierMateriel('etudiant', listeResa);
+            } catch (e) {
+                console.error("Ce n'est pas du JSON valide !");
+            }
+        });
+}

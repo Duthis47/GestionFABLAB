@@ -63,7 +63,7 @@
                             <?php if (isset($_GET["estSalle"]) && $_GET["estSalle"] == $salle['idR']) {
                                 echo "selected";
                             } ?>>
-                            Salle <?php echo $i . " - " . $salle['nomSalles'] . " (Capacité : " . $salle['capaAccueil'] . " personnes)"; ?></option>
+                            Salle <?php echo $i . " - " . $salle['Nom'] . " (Capacité : " . $salle['capaAccueil'] . " personnes)"; ?></option>
                             <?php 
                             $i++;
                         }
@@ -80,7 +80,7 @@
                             <?php if (isset($_GET["estMateriel"]) && $_GET["estMateriel"] == $materiel['idR']) {
                                 echo "selected";
                             } ?>>
-                            Matériel <?php echo $i . " - " . $materiel['nomMateriel'] . " (Description : " . $materiel['description'] . ")"; ?></option>
+                            Matériel <?php echo $i . " - " . $materiel['Nom']; ?></option>
                             <?php 
                             $i++;
                         }
@@ -118,40 +118,41 @@
                             if ($salle){ ?>
                                 <div class="mb-3">
                                     <label for="nbOccupant" class="form-label">nombre d'occupant</label>
-                                    <input type="number" min="1" class="form-control" id="nbOccupant" name="nbOccupant" required>
+                                    <input type="number" min="1" class="form-control" id="nbOccupant" name="nbOccupants" required>
                                 </div>
                             <?php } ?>
 
-                            <p>Début : <input type="datetime-local" id="startInput" /></p>
-                            <p>Fin : <input type="datetime-local" id="endInput" /></p>
+                            <p>Début : <input type="datetime-local" id="startInput" name="dateDebut"/></p>
+                            <p>Fin : <input type="datetime-local" id="endInput" name="dateFin"/></p>
                             <input type="hidden" value="" id="numSalle" name="numSalle"/>
                             <input type="hidden" value="" id="numMateriel" name="numMateriel"/>
-                        </form>
                     </div>
                     <div class="modal-footer">
                         <button type="reset" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
                         <button type="submit" class="btn btn-primary" id="saveEventBtn">Confirmer</button>
                     </div>
+                </form>
+
                 </div>
             </div>
         </div>
                     <!-- Modal de matériel -->
         <script src="./../JS/calendrier.js"></script>
         <script src="./../bootstrap/JS/bootstrap.bundle.min.js"></script>
+        <script src="./../JS/recupElement.js"></script>
+
         <?php if ($salle) { ?>
             <script>
                 laSalle = document.getElementById('salle')
                 laSalle.addEventListener('change', function() {
                     salle = this.value;
                     document.getElementById('numSalle').value = salle;
-                    //Faire un fetch pour charger les éléments
-                    afficherCalendrier('etudiant');
+                    recupSalle(salle);
                 });
                 salle = laSalle.value;
-                //Faire un fetch pour charger les éléments
                 document.getElementById('numSalle').value = salle;
                 document.getElementById('numMateriel').value = "";
-                afficherCalendrier('etudiant');
+                recupSalle(salle);
             </script>
         <?php } else { ?>
             <script>
@@ -159,19 +160,15 @@
                 leMateriel.addEventListener('change', function() {
                     materiel = this.value;
                     document.getElementById('numMateriel').value = materiel;
-                    //Faire un fetch pour charger les éléments
-                    afficherCalendrier('etudiant');
+                    recupMateriels(materiel);
                 });
                 materiel = leMateriel.value;
                 document.getElementById('numMateriel').value = materiel;
                 document.getElementById('numSalle').value = "";
-                //Faire un fetch pour charger les éléments
-                afficherCalendrier('etudiant');
+                recupMateriels(materiel);
             </script>
             <?php
         } ?>
-        <script>
-        </script>
     </div>
     <?php
     include_once './../commun/footer.php';
