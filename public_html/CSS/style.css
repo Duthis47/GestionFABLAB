@@ -26,10 +26,12 @@ body {
 
 .img-fluid-logo-footer-uppa{
     max-width: 20%;
+    min-width: 10%;
     height: auto;
 }
 .img-fluid-logo-footer-fablab{
     max-width: 85%;
+    min-width: 15%;
     height: auto;
 }
 

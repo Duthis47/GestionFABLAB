@@ -36,7 +36,7 @@ include_once __DIR__ . '/../../config.php';
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <div class ="container">
                     <div class="row align-items-center justify-content-center">
-                        <div class="col-md-4 col-sm-12 mt-xs-3 mt-sm-3 text-center fs-4 ont-weight-bold">
+                        <div class="col-md-4 col-sm-12 mt-xs-3 mt-sm-3 text-center fs-4 font-weight-bold">
                             <a class="nav-link" aria-current="page" href="<?= BASE_URL ?>index.php">Accueil</a> 
                         </div>
                         <div class="col-md-4 col-sm-12 mt-xs-3 mt-sm-3 text-center fs-4 font-weight-bold">

@@ -22,25 +22,50 @@
         }
         ?>
         
-        <nav class="navbar navbar-expand-md navbar-white <?php echo $navbarColor; ?> mt-5 "> 
-            <div class="container-fluid"> 
-                
-                <a class="navbar-brand" href="#"> 
-                    <img alt="Logo uppa" src="<?= BASE_URL ?>image/logo-uppa.png" class="img-fluid-logo-footer-uppa"/>
-                </a> 
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation"> 
-                    <span class="navbar-toggler-icon"></span> 
-                </button> 
-                <div class="collapse navbar-collapse" id="navbarCollapse"> <!-- Ajout de la div collapse pour le menu mobile -->
-                    <div class ="container">
-                    </div> 
+        <footer class="container-fluid font-weight-bold">
+            <div class="row align-items-center justify-content-center">
+                <div class="col-12 col-md-auto mb-3 mb-md-0">
+                    <a class="navbar-brand" href="#"> 
+                        <img alt="Logo uppa" src="<?= BASE_URL ?>image/logo-uppa.png" class="img-fluid-logo-footer-uppa"/>
+                    </a> 
                 </div>
-                <a class="navbar-brand" href="#"> 
-                    <img alt="Logo fablab" src="<?= BASE_URL ?>image/logo-fablab.png" class="img-fluid-logo-footer-fablab"/>
-                </a> 
+
+                <div class="col-12 col-md-auto mb-3 mb-md-0 fs-4">
+                    <p>Suivez nous sur les réseaux sociaux!</p>
+                    <ul class="list-unstyled">
+                        <li>Instagram</li>
+                        <li>Linkedin</li>
+                    </ul>
+                    <p>Ou retrouvez toutes nos informations ici!</p>
+                </div>
+
+                <div class="col-12 col-md-auto mb-3 mb-md-0 fs-4">
+                    <p>Contactez-nous!</p>
+                    <ul class="list-unstyled">
+                        <li>Mail</li>
+                        <li>Chez nous</li>
+                    </ul>
+                </div>
+
+                <div class="col-12 col-md-auto">
+                    <a class="navbar-brand" href="#"> 
+                        <img alt="Logo fablab" src="<?= BASE_URL ?>image/logo-fablab.png" class="img-fluid-logo-footer-fablab"/>
+                    </a> 
+                </div>
+            </div>
 
 
-            </div> 
-        </nav>
+            <div class="row align-items-center justify-content-center">
+                <div class="col-12 col-md-4 mb-3 mb-md-0 fs-4">
+                    <p>Site réalisé par Charlotte ENCARNACAO, Mathis DUCROT et Honoré BLAISE dans le cadre d’une SAÉ à ISANUM</p>
+                </div>
+                <div class="col-12 col-md-4 mb-3 mb-md-0 fs-4">
+                    <p>RGPD</p>
+                </div>
+                <div class="col-12 col-md-4 mb-3 mb-md-0 fs-4">
+                    <p>Mentions légales</p>
+                </div>
+            </div>
+        </footer>
     </body>
 </html>
