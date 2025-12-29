@@ -1,4 +1,5 @@
 function toDatetimeLocal(date) {
+    //Conversion en format utilisable par FullCalendar
     const dateLocal = new Date(date);
     dateLocal.setMinutes(dateLocal.getMinutes() - dateLocal.getTimezoneOffset());
     return dateLocal.toISOString().slice(0, 16);
@@ -58,8 +59,11 @@ function afficherCalendrierSalle(type, toutesLesResa, placeTotalSalle) {
         },
         //On autorise la selection que si il reste de la place
         selectAllow: function(selectInfo) {
-            let nbActuel = verifierDisponibilite(calendar, selectInfo.start, selectInfo.end);
-            return (nbActuel < placeTotalSalle);
+            if (type == 'etudiant') {
+                let nbActuel = verifierDisponibilite(calendar, selectInfo.start, selectInfo.end);
+                return (nbActuel < placeTotalSalle);
+            }
+            return true;
         },
         select: function (info) {
             if (type == 'etudiant') {
@@ -83,6 +87,7 @@ function afficherCalendrierSalle(type, toutesLesResa, placeTotalSalle) {
                 document.getElementById('prenom').value = ""; // Reset du champ
                 document.getElementById('mail').value = ""; // Reset du champ
                 document.getElementById('nbOccupant').value = ""; // Reset du champ
+                document.getElementById('nbOccupant').max = placeTotalSalle - verifierDisponibilite(calendar, info.start, info.end); // Reset du champ
 
 
                 var monPopup = new bootstrap.Modal(document.getElementById('popupResa'));
@@ -106,23 +111,19 @@ function afficherCalendrierSalle(type, toutesLesResa, placeTotalSalle) {
     });
     toutesLesResa.forEach(function (resa) {
     
-    // 1. Correction du format de date (SQL -> ISO)
-    // On remplace l'espace du milieu par un T pour être sûr que FullCalendar comprenne
-    // Ex: "2025-12-30 09:00:00" devient "2025-12-30T09:00:00"
     let startISO = resa.DateTime_debut.replace(" ", "T");
     let endISO = resa.DateTime_fin.replace(" ", "T");
 
     calendar.addEvent({
-        // On construit un titre dynamique car tu n'as pas de champ 'nom'
         title: 'Réservé (' + resa.Nb_occupant + ' pers.)', 
         
         start: startISO,
         end: endISO,
         
-        backgroundColor: '#ffa500', // Rouge bootstrap
+        backgroundColor: '#ffa500',
         borderColor: '#ffa500',
         textColor: '#ffffff',
-        allDay: false, // Important pour forcer l'affichage en heures
+        allDay: false, 
         editable: false,
         display: "background",
 
@@ -131,53 +132,35 @@ function afficherCalendrierSalle(type, toutesLesResa, placeTotalSalle) {
         }
     });
 });
-// 1. On récupère le début et la fin de la vue actuelle (ex: Lundi matin au Vendredi soir)
-    // Astuce : On prend large pour être sûr de couvrir la semaine affichée
     let startView = calendar.view.activeStart;
     let endView = calendar.view.activeEnd;
     
-    // 2. On parcourt le temps par tranches de 30 minutes (1800000 ms)
-    // On part du début de la semaine jusqu'à la fin
     for (let time = startView.getTime(); time < endView.getTime(); time += 1800 * 1000) {
         
-        let dateCreneau = new Date(time); // 8h00, puis 8h30...
-        let dateFinCreneau = new Date(time + 1800 * 1000); // 8h30, puis 9h00...
+        let dateCreneau = new Date(time); 
+        let dateFinCreneau = new Date(time + 1800 * 1000);
 
-        // On vérifie qu'on est bien dans les heures d'ouverture (8h-20h) pour ne pas calculer la nuit pour rien
         let heure = dateCreneau.getHours();
         if (heure < 8 || heure >= 20) continue;
 
-        // 3. On utilise ta fonction de comptage (qu'on a déjà faite !)
-        // On demande : "Combien de gens entre 8h00 et 8h30 ?"
         let total = verifierDisponibilite(calendar, dateCreneau, dateFinCreneau);
 
-        // 4. SI C'EST PLEIN -> On pose un petit pavé rouge
         if (total >= placeTotalSalle) {
             calendar.addEvent({
                 title: 'COMPLET (' + total + ')',
                 start: dateCreneau,
                 end: dateFinCreneau,
-                display: 'block',    // Bloc solide
-                backgroundColor: '#d9534f', // Rouge
+                display: 'block',    
+                backgroundColor: '#d9534f', 
                 borderColor: '#d9534f',
-                editable: false,     // Touche pas à ça
-                extendedProps: { nbOccupant: 0 }, // Pour pas fausser les comptes
+                editable: false,     
+                extendedProps: { nbOccupant: 0 },
                 classNames: ['bloc-force-full'] 
             });
         }
     }
     calendar.setOption('locale', 'fr');
     calendar.render();
-    /*    
-    calendar.addEvent({
-                            title: 'Sélectionné',
-                            start: info.start,
-                            end: info.end,
-                            backgroundColor: 'blue', // La couleur que vous vouliez
-                            borderColor: 'blue',
-                            id: 'selection_temporaire' // ID pour pouvoir le supprimer si besoin
-                        });
-                        */
 }
 
 
@@ -261,14 +244,10 @@ function afficherCalendrierMateriel(type, toutesLesResa) {
     });
     toutesLesResa.forEach(function (resa) {
     
-    // 1. Correction du format de date (SQL -> ISO)
-    // On remplace l'espace du milieu par un T pour être sûr que FullCalendar comprenne
-    // Ex: "2025-12-30 09:00:00" devient "2025-12-30T09:00:00"
     let startISO = resa.DateTime_debut.replace(" ", "T");
     let endISO = resa.DateTime_fin.replace(" ", "T");
 
     calendar.addEvent({
-        // On construit un titre dynamique car tu n'as pas de champ 'nom'
         title: 'Réservé (' + resa.Nb_occupant + ' pers.)', 
         
         start: startISO,
@@ -276,7 +255,7 @@ function afficherCalendrierMateriel(type, toutesLesResa) {
         backgroundColor: '#d9534f',
         borderColor: '#d9534f',
         textColor: 'white',
-        allDay: false // Important pour forcer l'affichage en heures
+        allDay: false 
     });
 });
     calendar.setOption('locale', 'fr');

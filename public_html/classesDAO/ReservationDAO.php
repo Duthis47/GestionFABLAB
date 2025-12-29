@@ -27,7 +27,7 @@ class ReservationDAO {
         }else {
             $utilisateurId = UtilisateurDAO::ajouterUtilisateur($nomU, $prenomU, $mailUtilisateur);
         }
-        $stmt = $connexion->prepare("INSERT INTO ReserverSalles (utilisateur_id, idR_salle, DateTime_debut, DateTime_fin, Nb_occupant, AutorisationFinal) VALUES (:utilisateurId, :salleId, :dateDebut, :dateFin, :nbOccupants, 0)");
+        $stmt = $connexion->prepare("INSERT INTO ReserverSalles (idU, idR_salle, DateTime_debut, DateTime_fin, Nb_occupant, AutorisationFinal) VALUES (:utilisateurId, :salleId, :dateDebut, :dateFin, :nbOccupants, 0)");
         $stmt->bindParam(':utilisateurId', $utilisateurId, PDO::PARAM_INT);
         $stmt->bindParam(':salleId', $salleId, PDO::PARAM_INT);
         $stmt->bindParam(':dateDebut', $dateDebut);
