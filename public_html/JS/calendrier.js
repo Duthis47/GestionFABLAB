@@ -121,12 +121,11 @@ function afficherCalendrierSalle(type, toutesLesResa, placeTotalSalle) {
         end: endISO,
         
         backgroundColor: '#ffa500',
-        borderColor: '#ffa500',
+        borderColor: '#000000',
         textColor: '#ffffff',
         allDay: false, 
         editable: false,
         display: "background",
-
         extendedProps: {
             nbOccupant: parseInt(resa.Nb_occupant)
         }
