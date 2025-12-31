@@ -62,3 +62,26 @@ body {
     border-radius: 0 !important; 
     z-index: 999 !important;
 }
+
+/* --- BOUTONS --- */
+.btn-fablab-blue {
+    background-color: #B8E1FF;
+    color: #000; 
+    border: none;
+    border-radius: 10px;
+}
+.btn-fablab-blue:hover {
+    background-color: #9acbee;
+    color: #000;
+}
+
+.btn-fablab-yellow {
+    background-color: #F4C430;
+    color: #000; 
+    border: none;
+    border-radius: 10px;
+}
+.btn-fablab-yellow:hover {
+    background-color: #dcb02b;
+    color: #000;
+}

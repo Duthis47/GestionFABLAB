@@ -1,6 +1,6 @@
 <?php if (!isset($_SESSION)) { session_start(); } ?>
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" data-bs-theme="auto">
 
 <head>
     <meta charset="UTF-8">

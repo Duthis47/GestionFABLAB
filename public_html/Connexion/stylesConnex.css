@@ -109,3 +109,22 @@
     margin-top: 20px;
     font-weight: 500;
 }
+
+/* --- GESTION DU MODE SOMBRE --- */
+[data-bs-theme="dark"] .form-box {
+    background: #2b3035; /* Fond gris foncé */
+    color: #fff;         /* Texte blanc */
+}
+
+[data-bs-theme="dark"] .form-box h2 {
+    color: #fff;         /* Titre blanc */
+}
+
+[data-bs-theme="dark"] .input-field {
+    color: #fff;         /* Ce que tu écris devient blanc */
+    border-bottom: 2px solid #666; /* La ligne du bas s'éclaircit */
+}
+
+[data-bs-theme="dark"] .input-group label {
+    color: #bbb;         /* Le label devient gris clair pour être lisible */
+}
