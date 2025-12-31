@@ -110,8 +110,8 @@
                                 <input type="text" class="form-control" id="prenom" name="prenom" required>
                             </div>
                             <div class="mb-3">
-                                <label for="mail" class="form-label">Mail UPPA</label>
-                                <input type="mail" class="form-control" id="mail" name="mail" required>
+                                <label for="mail" class="form-label">Mail UPPA (@etud.univ-pau.fr) </label>
+                                <input type="email" class="form-control" id="mail" name="mail" title="@etud.univ-pau.fr" pattern=".@etud.univ-pau.fr" required>
                             </div>
 
                             <!-- En cas de salle on demande le nombre d'occupant -->
