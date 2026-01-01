@@ -219,7 +219,6 @@ function afficherCalendrierMateriel(type, toutesLesResa) {
                 document.getElementById('nom').value = ""; // Reset du champ
                 document.getElementById('prenom').value = ""; // Reset du champ
                 document.getElementById('mail').value = ""; // Reset du champ
-                document.getElementById('nbOccupant').value = ""; // Reset du champ
 
 
                 var monPopup = new bootstrap.Modal(document.getElementById('popupResa'));
@@ -241,22 +240,7 @@ function afficherCalendrierMateriel(type, toutesLesResa) {
         },
         editable: true
     });
-    toutesLesResa.forEach(function (resa) {
-    
-    let startISO = resa.DateTime_debut.replace(" ", "T");
-    let endISO = resa.DateTime_fin.replace(" ", "T");
 
-    calendar.addEvent({
-        title: 'Réservé (' + resa.Nb_occupant + ' pers.)', 
-        
-        start: startISO,
-        end: endISO,
-        backgroundColor: '#d9534f',
-        borderColor: '#d9534f',
-        textColor: 'white',
-        allDay: false 
-    });
-});
     calendar.setOption('locale', 'fr');
     calendar.render();
 }

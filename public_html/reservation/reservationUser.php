@@ -31,8 +31,9 @@
 
     <?php
     include_once './../commun/header.php';
-    $salle = !isset($_GET["estMateriel"]);
-    if ($salle){
+    $isSalleMode = !isset($_GET["estMateriel"]);
+    $capaSalle = 0;
+    if ($isSalleMode){
         $titreR = "Réservation de Salle";
         $titreF = "Choisir une salle";
         $script = "./sReservationSalle.php";
@@ -50,7 +51,7 @@
             <form>
                 <div class="mb-3">
                     <label for="salle" class="form-label"><?= $titreF ?></label>
-                    <?php if ($salle) { ?>
+                    <?php if ($isSalleMode) { ?>
                         <select class="form-select" id="salle" name="salle">
                                                     <?php 
                                                     //Liste des salles
@@ -59,6 +60,9 @@
                         $listeSalle = SalleDAO::getAllSalles();
                         $i = 1;
                         foreach ($listeSalle as $salle) {
+                            if($i==1){
+                                $capaSalle = $salle['capaAccueil'];
+                            }
                             ?>
                             <option value="<?php echo $salle['idR']; ?>" 
                             <?php if (isset($_GET["estSalle"]) && $_GET["estSalle"] == $salle['idR']) {
@@ -68,16 +72,17 @@
                             <?php 
                             $i++;
                         }
-                        } else { ?>
+                        } else { 
+                        include_once './../classesDAO/MaterielsDAO.php';
+                        $listeMateriel = MaterielsDAO::getAllMateriels();
+                        ?>
                         <select class="form-select" id="materiel" name="materiel">
                                                     <?php 
-                        include_once './../classesDAO/MaterielsDAO.php';
                         
-                        $listeMateriel = MaterielsDAO::getAllMateriels();
                         $i = 1;
                         foreach ($listeMateriel as $materiel) {
                             ?>
-                            <option value="<?php echo $materiel['idR']; ?>" 
+                            <option value="<?php echo $materiel['idR'];?>" data-salle="<?= $materiel["idS"]?>"
                             <?php if (isset($_GET["estMateriel"]) && $_GET["estMateriel"] == $materiel['idR']) {
                                 echo "selected";
                             } ?>>
@@ -114,20 +119,27 @@
                                 <input type="email" class="form-control" id="mail" name="mail" title="@etud.univ-pau.fr" pattern=".@etud.univ-pau.fr" required>
                             </div>
 
-                            <!-- En cas de salle on demande le nombre d'occupant -->
+                            <!-- En cas de salle on demande le nombre d'occupant a enlever si on considère l'ajout de salle pour matériel -->
                             <?php 
-                            if ($salle){ ?>
+                            //if ($isSalleMode){ ?>
                                 <div class="mb-3">
                                     <label for="nbOccupant" class="form-label">nombre d'occupant</label>
-                                    <input type="number" min="1" max="<?= $salle["capaAccueil"] ?>" class="form-control" id="nbOccupant" name="nbOccupants" required>
-                                    <input type="hidden" value="<?= $salle["capaAccueil"] ?>" id="capaSalle" name="capaSalle"/>
+                                    <input type="number" min="1" max="" class="form-control" id="nbOccupant" name="nbOccupants" required>
+                                    <input type="hidden" value="<?= $capaSalle ?>" id="capaSalle" name="capaSalle"/>
                                     <input type="hidden" value="" id="placeRestante" name="placeRestante"/>
                                 </div>
-                            <?php } ?>
-
+                            <?php //}
+                            if(!$isSalleMode){
+                                ?>
+                                <input type="hidden" value="" id="numSalle" name="numSalle"/>
+                            <?php
+                            }else {?>
+                                <input type="hidden" value="" id="numSalle" name="numSalle"/>
+                            <?php
+                            }
+                            ?>
                             <p>Début : <input type="datetime-local" id="startInput" name="dateDebut"/></p>
                             <p>Fin : <input type="datetime-local" id="endInput" name="dateFin"/></p>
-                            <input type="hidden" value="" id="numSalle" name="numSalle"/>
                             <input type="hidden" value="" id="numMateriel" name="numMateriel"/>
                     </div>
                     <div class="modal-footer">
@@ -143,8 +155,8 @@
         <script src="./../JS/calendrier.js"></script>
         <script src="./../bootstrap/JS/bootstrap.bundle.min.js"></script>
         <script src="./../JS/recupElement.js"></script>
-
-        <?php if ($salle) { ?>
+                    
+        <?php if ($isSalleMode) { ?>
             <script>
                 laSalle = document.getElementById('salle')
                 laSalle.addEventListener('change', function() {
@@ -167,11 +179,12 @@
                 leMateriel.addEventListener('change', function() {
                     materiel = this.value;
                     document.getElementById('numMateriel').value = materiel;
+                    document.getElementById('numSalle').value = this.options[this.selectedIndex].getAttribute('data-salle');
                     recupMateriels(materiel);
                 });
                 materiel = leMateriel.value;
                 document.getElementById('numMateriel').value = materiel;
-                document.getElementById('numSalle').value = "";
+                document.getElementById('numSalle').value = leMateriel.selectedOptions[0].getAttribute('data-salle');
                 recupMateriels(materiel);
             </script>
             <?php

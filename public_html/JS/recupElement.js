@@ -13,6 +13,7 @@ function recupSalle(idSalle, capaSalle) {
                 const data = JSON.parse(text);
                 // Si ça marche, on continue
                 let listeResa = data;
+                document.getElementById("nbOccupant").setAttribute("max", capaSalle);
                 afficherCalendrierSalle('etudiant', listeResa, capaSalle);                
                 return listeResa;
             } catch (e) {

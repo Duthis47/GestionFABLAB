@@ -6,6 +6,11 @@ include_once './../classesDAO/SalleDAO.php';
 include_once './../classesDAO/ReservationDAO.php';
 include_once './../classesDAO/UtilisateurDAO.php';
 
+session_start();
+
+if (isset($_SESSION["redirectedResa"])){
+    $_POST = $_SESSION["redirectedResa"];
+}
 
 //Recupération des données du formulaire
 $salleID = $_POST["numSalle"];
@@ -20,7 +25,12 @@ $nbOccupants = $_POST["nbOccupants"];
 $success = ReservationDAO::ajouterReservationSalle($nomU, $prenomU, $mailU, $salleID, $dateDebut, $dateFin, $nbOccupants);
 
 if ($success) {
-    header("Location: ./reservationUser.php?reservation=success");
+    if (isset($_SESSION["redirectedResa"])) {
+        unset($_SESSION["redirectedResa"]);
+        header("Location: ./reservationUser.php?reservation=success&estMateriel=true");
+    }else {
+        header("Location: ./reservationUser.php?reservation=success");
+    }
 } else {
     echo "Erreur lors de la réservation.";
 }
