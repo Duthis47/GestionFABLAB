@@ -51,7 +51,9 @@
             <form>
                 <div class="mb-3">
                     <label for="salle" class="form-label"><?= $titreF ?></label>
-                    <?php if ($isSalleMode) { ?>
+                    <?php                         
+                    $tableauElement = [];
+                    if ($isSalleMode) { ?>
                         <select class="form-select" id="salle" name="salle">
                                                     <?php 
                                                     //Liste des salles
@@ -60,6 +62,7 @@
                         $listeSalle = SalleDAO::getAllSalles();
                         $i = 1;
                         foreach ($listeSalle as $salle) {
+                            $tableauElement[$salle["idR"]] = $salle['capaAccueil'];
                             if($i==1){
                                 $capaSalle = $salle['capaAccueil'];
                             }
@@ -81,6 +84,10 @@
                         
                         $i = 1;
                         foreach ($listeMateriel as $materiel) {
+                            $tableauElement[$materiel['idR']] = $materiel['Nombre'];
+                            if ($i==1){
+                                $capaSalle = $materiel['Nombre'];
+                            }
                             ?>
                             <option value="<?php echo $materiel['idR'];?>" data-salle="<?= $materiel["idS"]?>"
                             <?php if (isset($_GET["estMateriel"]) && $_GET["estMateriel"] == $materiel['idR']) {
@@ -90,9 +97,11 @@
                             <?php 
                             $i++;
                         }
-                        } ?>
+                        }
+                        $tableauElement = json_encode($tableauElement) ?>
                     </select>
                 </div>
+                <input type="hidden" name="tableauElement[]" id="tableauElement" value="<?= htmlspecialchars($tableauElement, ENT_QUOTES, 'UTF-8')?>"/>
             </form>
         </div>
         <div id="Description"><!-- Faire un petit bloc de texte pour la description du materiel ou de la salle --></div>
@@ -159,9 +168,12 @@
         <?php if ($isSalleMode) { ?>
             <script>
                 laSalle = document.getElementById('salle')
+                var t = document.getElementById('capaSalle').value;
                 laSalle.addEventListener('change', function() {
+                    lesElements = JSON.parse(document.getElementById('tableauElement').value);
                     salle = this.value;
                     document.getElementById('numSalle').value = salle;
+                    document.getElementById('capaSalle').value = lesElements[salle];
                     document.getElementById('placeRestante').value = 3;
                     var t = document.getElementById('capaSalle').value;
                     recupSalle(salle, t);
@@ -170,22 +182,25 @@
                 document.getElementById('numSalle').value = salle;
                 document.getElementById('numMateriel').value = "";
                 document.getElementById('placeRestante').value = 3    
-                var t = document.getElementById('capaSalle').value;
                 recupSalle(salle, t);       
             </script>
         <?php } else { ?>
             <script>
                 leMateriel = document.getElementById('materiel')
+                var t = document.getElementById('capaSalle').value;
                 leMateriel.addEventListener('change', function() {
+                    lesElements = JSON.parse(document.getElementById('tableauElement').value);
                     materiel = this.value;
                     document.getElementById('numMateriel').value = materiel;
+                    document.getElementById('capaSalle').value = lesElements[materiel];
+                    var t = document.getElementById('capaSalle').value;
                     document.getElementById('numSalle').value = this.options[this.selectedIndex].getAttribute('data-salle');
-                    recupMateriels(materiel);
+                    recupMateriels(materiel, t);
                 });
                 materiel = leMateriel.value;
                 document.getElementById('numMateriel').value = materiel;
                 document.getElementById('numSalle').value = leMateriel.selectedOptions[0].getAttribute('data-salle');
-                recupMateriels(materiel);
+                recupMateriels(materiel, t);
             </script>
             <?php
         } ?>

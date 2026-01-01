@@ -13,7 +13,7 @@ class ReservationDAO {
 
     public static function getReservationsByMateriel(int $materielId): array {
         $connexion = GestionConnexion::getConnexion();
-        $stmt = $connexion->prepare("SELECT * FROM ReserverMateriels NATURAL JOIN Materiels NATURAL JOIN Salles WHERE idR_materiel = :materielId");
+        $stmt = $connexion->prepare("SELECT * FROM ReserverMateriels JOIN Materiels ON Materiels.idR = idR_materiel JOIN Salles ON Materiels.idS = Salles.idR WHERE idR_materiel = :materielId");
         $stmt->bindParam(':materielId', $materielId, PDO::PARAM_INT);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);

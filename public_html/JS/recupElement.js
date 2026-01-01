@@ -21,21 +21,20 @@ function recupSalle(idSalle, capaSalle) {
             }
         });
 }
-function recupMateriels(idMateriel) {
+function recupMateriels(idMateriel, nbExemplaireTotal) {
     fetch('./../api/recupMateriels.php?id=' + idMateriel)
         .then(response => {
             // Au lieu de response.json(), on prend le texte brut
             return response.text();
         })
         .then(text => {
-            console.log("RÉPONSE BRUTE DU PHP :", text); // C'est ici que tu verras l'erreur
 
             // On essaie de convertir manuellement pour voir si ça tient
             try {
                 const data = JSON.parse(text);
                 // Si ça marche, on continue
                 let listeResa = data;
-                afficherCalendrierMateriel('etudiant', listeResa);
+                afficherCalendrierMateriel('etudiant', listeResa, nbExemplaireTotal);
             } catch (e) {
                 console.error("Ce n'est pas du JSON valide !");
             }

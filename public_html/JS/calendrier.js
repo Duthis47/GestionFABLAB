@@ -5,13 +5,13 @@ function toDatetimeLocal(date) {
     return dateLocal.toISOString().slice(0, 16);
 }
 
-function verifierDisponibilite(calendar, start, end, eventIgnoredId = null) {
+function verifierDisponibilite(calendar, start, end) {
     let total = 0;
     let events = calendar.getEvents();
 
     events.forEach(ev => {
         // Si chevauchement
-        if (ev.start < end && ev.end > start) {
+        if (ev.start < end && ev.end > start && ev.title !== 'Indisponible') {
             // On récupère le nombre d'occupants stocké dans extendedProps
             total += (ev.extendedProps.nbOccupant || 0);
         }
@@ -30,7 +30,7 @@ function afficherCalendrierSalle(type, toutesLesResa, placeTotalSalle) {
         allDay = true;
     }
 
-
+    console.log(placeTotalSalle)
     debutsem = new Date();
     debutsem = debutsem.setUTCDate(debutsem.getUTCDate() - debutsem.getUTCDay() + 1);
     let x = new Date(debutsem)
@@ -163,7 +163,7 @@ function afficherCalendrierSalle(type, toutesLesResa, placeTotalSalle) {
 }
 
 
-function afficherCalendrierMateriel(type, toutesLesResa) {
+function afficherCalendrierMateriel(type, toutesLesResa, nbExemplaireTotal) {
     //type peut etre 'etudiant' ou 'admin'
     //salle est l'id de la salle a afficher
     let allDay;
@@ -219,7 +219,7 @@ function afficherCalendrierMateriel(type, toutesLesResa) {
                 document.getElementById('nom').value = ""; // Reset du champ
                 document.getElementById('prenom').value = ""; // Reset du champ
                 document.getElementById('mail').value = ""; // Reset du champ
-
+                document.getElementById('nbOccupant').value = ""; // Reset du champ
 
                 var monPopup = new bootstrap.Modal(document.getElementById('popupResa'));
                 monPopup.show();
@@ -240,7 +240,58 @@ function afficherCalendrierMateriel(type, toutesLesResa) {
         },
         editable: true
     });
+    console.log(toutesLesResa)
+    toutesLesResa.forEach(function (resa) {
+        
+        let startISO = resa.DateTime_debut.replace(" ", "T");
+        let endISO = resa.DateTime_fin.replace(" ", "T");
 
+        calendar.addEvent({
+            title: 'Réservé', 
+            
+            start: startISO,
+            end: endISO,
+
+            backgroundColor: '#ffa500',
+            borderColor: '#000000',
+            textColor: '#ffffff',
+            allDay: false, 
+            editable: false,
+            display: "background",
+
+            extendedProps: {
+                nbOccupant: 1
+            }
+        });
+    });
+
+    let startView = calendar.view.activeStart;
+    let endView = calendar.view.activeEnd;
+
+    for (let time = startView.getTime(); time < endView.getTime(); time += 1800 * 1000) {
+        
+        let dateCreneau = new Date(time); 
+        let dateFinCreneau = new Date(time + 1800 * 1000);
+
+        let heure = dateCreneau.getHours();
+        if (heure < 8 || heure >= 20) continue;
+
+        let total = verifierDisponibilite(calendar, dateCreneau, dateFinCreneau);
+        console.log("heure:"+heure+" total:"+total);
+        if (total >= nbExemplaireTotal) {
+            calendar.addEvent({
+                title: 'Indisponible',
+                start: dateCreneau,
+                end: dateFinCreneau,
+                display: 'block',    
+                backgroundColor: '#d9534f', 
+                borderColor: '#d9534f',
+                editable: false,     
+                extendedProps: { nbOccupant: 0 },
+                classNames: ['bloc-force-full'] 
+            });
+        }
+    }
     calendar.setOption('locale', 'fr');
     calendar.render();
 }
