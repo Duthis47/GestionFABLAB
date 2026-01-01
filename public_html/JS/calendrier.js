@@ -30,7 +30,6 @@ function afficherCalendrierSalle(type, toutesLesResa, placeTotalSalle) {
         allDay = true;
     }
 
-    console.log(placeTotalSalle)
     debutsem = new Date();
     debutsem = debutsem.setUTCDate(debutsem.getUTCDate() - debutsem.getUTCDay() + 1);
     let x = new Date(debutsem)
@@ -220,7 +219,7 @@ function afficherCalendrierMateriel(type, toutesLesResa, nbExemplaireTotal) {
                 document.getElementById('prenom').value = ""; // Reset du champ
                 document.getElementById('mail').value = ""; // Reset du champ
                 document.getElementById('nbOccupant').value = ""; // Reset du champ
-
+                document.getElementById('nbOccupant').max = document.getElementById("materiel").selectedOptions[0].getAttribute('data-maxPlaceSalle');
                 var monPopup = new bootstrap.Modal(document.getElementById('popupResa'));
                 monPopup.show();
 
@@ -240,7 +239,7 @@ function afficherCalendrierMateriel(type, toutesLesResa, nbExemplaireTotal) {
         },
         editable: true
     });
-    console.log(toutesLesResa)
+
     toutesLesResa.forEach(function (resa) {
         
         let startISO = resa.DateTime_debut.replace(" ", "T");
@@ -277,7 +276,6 @@ function afficherCalendrierMateriel(type, toutesLesResa, nbExemplaireTotal) {
         if (heure < 8 || heure >= 20) continue;
 
         let total = verifierDisponibilite(calendar, dateCreneau, dateFinCreneau);
-        console.log("heure:"+heure+" total:"+total);
         if (total >= nbExemplaireTotal) {
             calendar.addEvent({
                 title: 'Indisponible',

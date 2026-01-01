@@ -89,7 +89,7 @@
                                 $capaSalle = $materiel['Nombre'];
                             }
                             ?>
-                            <option value="<?php echo $materiel['idR'];?>" data-salle="<?= $materiel["idS"]?>"
+                            <option value="<?php echo $materiel['idR'];?>" data-salle="<?= $materiel["idS"]?>" data-maxPlaceSalle="<?= $materiel['CapaAccueil'] ?>"
                             <?php if (isset($_GET["estMateriel"]) && $_GET["estMateriel"] == $materiel['idR']) {
                                 echo "selected";
                             } ?>>
