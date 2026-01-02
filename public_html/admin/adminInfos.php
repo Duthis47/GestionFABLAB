@@ -28,8 +28,14 @@ if (!isset($_SESSION['isAdmin'])) {
         
         <div class="container">
             <main>
-                <button><a href="./afficherCalendrierAdmin.php" >Afficher les reservations des salles</a></button>
-                <button><a href="./afficherCalendrierAdmin.php?estMateriel=true" >Afficher les reservations des matériels</a></button>
+                <div class="d-flex gap-3 my-4">
+                    <a href="./afficherCalendrierAdmin.php" class="btn btn-fablab-blue btn-lg">
+                        Afficher les réservations — Salles
+                    </a>
+                    <a href="./afficherCalendrierAdmin.php?estMateriel=true" class="btn btn-fablab-blue btn-lg">
+                        Afficher les réservations — Matériels
+                    </a>
+                </div>
             </main>
         </div>
 
