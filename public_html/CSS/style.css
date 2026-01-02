@@ -75,13 +75,24 @@ body {
     color: #000;
 }
 
+.btn-outline-fablab-blue {
+    background-color: transparent;
+    color: #000;
+    border: 1px solid #B8E1FF;
+    border-radius: 10px;
+}
+.btn-outline-fablab-blue:hover {
+    background-color: #B8E1FF;
+    color: #000;
+}
+
 .btn-fablab-yellow {
-    background-color: #F4C430;
+    background-color: #ffc107;
     color: #000; 
     border: none;
     border-radius: 10px;
 }
 .btn-fablab-yellow:hover {
-    background-color: #dcb02b;
+    background-color: #e0a800;
     color: #000;
 }
