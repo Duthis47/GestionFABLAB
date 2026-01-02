@@ -12,7 +12,7 @@ class ReservationDAO {
             $ajoutJoin = " JOIN Utilisateur ON Utilisateur.idU = ReserverSalles.idU ";
         }
         $connexion = GestionConnexion::getConnexion();
-        $stmt = $connexion->prepare("SELECT DateTime_debut, DateTime_fin, Nb_occupant, AutorisationFinal". $ajoutAttribut ." FROM ReserverSalles" . $ajoutJoin." WHERE idR_salle = :salleId");
+        $stmt = $connexion->prepare("SELECT ReserverSalles.idU, idR_salle, DateTime_debut, DateTime_fin, Nb_occupant, AutorisationFinal". $ajoutAttribut ." FROM ReserverSalles" . $ajoutJoin." WHERE idR_salle = :salleId");
         $stmt->bindParam(':salleId', $salleId, PDO::PARAM_INT);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -62,5 +62,19 @@ class ReservationDAO {
         $stmt->bindParam(':dateDebut', $dateDebut);
         $stmt->bindParam(':dateFin', $dateFin);
         return $stmt->execute();
+    }
+
+
+    public static function accepterReservation($type, $idU, $idR){
+        $connexion = GestionConnexion::getConnexion();
+        $table = "Materiels";
+        if ($type == "true"){
+            $table="Salles";
+        }
+        $ordreSQL = "UPDATE ".$table." SET AutorisationFinal = 1 WHERE idU = :idU AND DateTime_debut = :idR";
+        $req = $connexion->prepare($ordreSQL);
+        $req->bindValue("idU", $idU, PDO::PARAM_INT);
+        $req->bindValue("idR", $idR, PDO::PARAM_INT);
+        return $req->execute();
     }
 }

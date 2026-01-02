@@ -15,7 +15,12 @@
     include_once './../classesDAO/SalleDAO.php';
     include_once './../classesDAO/MaterielsDAO.php';
 
-    $isSalleMode = !isset($_GET['estMateriel']);
+    if (!isset($_GET["estMateriel"])) {
+        $isSalleMode = true;
+    }else {
+        $isSalleMode = false;
+    }
+    $isSalleModeJson = json_encode($isSalleMode);
     $tableauElement = [];
     if(!$isSalleMode){
         $titreF = "Choisissez le matériel à afficher";
@@ -32,7 +37,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Page de Réservation - FABLAB</title>
+    <title>Page de Réservation - FABLAB <?= $isSalleMode ?></title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -56,7 +61,7 @@
 <body>
     <div class="container">
         <div id="filtre">
-            <!-- Ici mettre le filtre de salle ou de matériel -->
+            <!-- filtre de salle ou de matériel -->
             <form>
                 <div class="mb-3">
                     <label for="element" class="form-label"><?= $titreF ?></label>
@@ -64,10 +69,16 @@
                     ?>
                     <select class="form-select" id="element" name="element">
                        <?php
+                       $defaultId = 0;
+                       $i = 1;
                        foreach ($tableauElement as $element) {
-                           $id = $element['idR'];
-                           $nom = $element['Nom'];
-                           echo "<option value='" . $id . "' " . $selected . ">" . htmlspecialchars($nom) . "</option>";
+                            if ($i == 1){
+                                $defaultId = $element['idR'];
+                            }
+                            $i++;
+                            $id = $element['idR'];
+                            $nom = $element['Nom'];
+                            echo "<option value='" . $id . "' " . $selected . ">" . htmlspecialchars($nom) . "</option>";
                        }
                        ?>
                     </select>
@@ -76,24 +87,32 @@
             </form>
         </div>
         <main>
+
             <div id='calendrier'></div>
-            <form id="popupAdmin" method="post" action="#">
-                <div class="modal" tabindex="-1" role="dialog">
+            <!-- Preparation du popup de validation admin -->
+            <form  method="post" action="./../scriptAdmin/scriptBtnAcceptRefus.php">
+                <div id="popupAdmin" class="modal" tabindex="-1" role="dialog">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h5 class="modal-title" id="title">Information Réservation</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                                </button>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
-                                <input type="text" disabled="true" id="idResa" name="idResa"/>
-                                <p>Modal body text goes here.</p>
+                                <p>
+                                    <strong>Début :</strong> <span id="start"></span><br>
+                                    <strong>Fin :</strong> <span id="end"></span><br>
+                                    <strong>Nombre d'occupants :</strong> <span id="nbOccupant"></span><br>
+                                    <strong>Réservé par :</strong> <span id="reserverPar"></span><br>
+                                    <strong>Raison :</strong> <span id="raison"></span><br>
+                                </p>
                             </div>
+                            <input type="hidden" id="idU" name="idU" value=""/>
+                            <input type="hidden" id="idR" name="idR" value=""/>
+                            <input type="hidden" name="type" value=<?= $isSalleModeJson ?> />
                             <div class="modal-footer">
-                                <button type="submit" name="Valider" class="btn btn-primary">Valider la reservation</button>
-                                <button type="submit" name="Annuler" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="submit" name="Action" value="1" class="btn btn-primary">Valider la reservation</button>
+                                <button type="submit" name="Action" value="0" class="btn btn-secondary" data-dismiss="modal">Refuser la reservation</button>
                             </div>
                         </div>
                     </div>
@@ -120,11 +139,9 @@
             idR = event.target.value;
             capaSalle = tabElement[idR];
 
-            if (!<?= $isSalleMode ?>) {
-                console.log("Materiel");
+            if (!<?= $isSalleModeJson ?>) {
                 recupMateriels("admin", idR, capaSalle);
             } else {
-                console.log("Salle");
                 recupSalle("admin", idR, capaSalle);
             }
         });
@@ -132,7 +149,7 @@
 
         //Charge le calendrier de la salle ou du materiel selectionné au chargement de la page
         let capaSalle = tabElement[idR];
-        if (!<?= $isSalleMode ?>) {
+        if (!<?= $isSalleModeJson ?>) {
             recupMateriels("admin", idR, capaSalle);
         } else {
             recupSalle("admin", idR, capaSalle);
