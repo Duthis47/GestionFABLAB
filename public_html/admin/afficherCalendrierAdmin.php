@@ -41,17 +41,15 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="./../bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="./../bootstrap/navbar/navbar-static.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Anonymous+Pro:wght@400&family=Roboto+Condensed:wght@400;500;600&family=Inter:wght@500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./../CSS/style.css" />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Anonymous+Pro:wght@400&family=Roboto+Condensed:wght@400;500;600&family=Inter:wght@500&display=swap"
-        rel="stylesheet">
     <link rel="stylesheet" href="./../fullcalendar/packages/core/main.css">
     <link rel="stylesheet" href="./../fullcalendar/packages/daygrid/main.css">
-    <link href="./../bootstrap/css/bootstrap.min.css" rel="stylesheet" />
     <script src="./../bootstrap/js/color-modes.js"></script>
-    <link href="./../bootstrap/css/bootstrap.min.css" rel="stylesheet" />
     <meta name="theme-color" content="#712cf9" />
-    <link href="./../bootstrap/navbar/navbar-static.css" rel="stylesheet" />
+
 </head>
 
     <script src="./../fullcalendar/dist/index.global.min.js"></script>

@@ -40,7 +40,7 @@ include_once __DIR__ . '/../../config.php';
                             <a class="nav-link" aria-current="page" href="<?= BASE_URL ?>index.php">Accueil</a> 
                         </div>
                         <div class="col-md-4 col-sm-12 mt-xs-3 mt-sm-3 text-center fs-4 font-weight-bold">
-                            <a href="<?= BASE_URL ?>reservation/reservationUser.php" class="btn btn-warning btn-lg active" role="button" aria-pressed="true">Reservation</a>  
+                            <a href="<?= BASE_URL ?>reservation/reservationUser.php" class="btn btn-fablab-yellow btn-lg " role="button" aria-pressed="true">Reservation</a>  
                         </div>
                         <div class="col-md-4 col-sm-12 mt-xs-3 mt-sm-3 text-center fs-4 font-weight-bold">
                         <?php 

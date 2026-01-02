@@ -13,17 +13,16 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="./../bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="./../bootstrap/navbar/navbar-static.css" rel="stylesheet" />
+
     <link rel="stylesheet" href="./../CSS/style.css" />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Anonymous+Pro:wght@400&family=Roboto+Condensed:wght@400;500;600&family=Inter:wght@500&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Anonymous+Pro:wght@400&family=Roboto+Condensed:wght@400;500;600&family=Inter:wght@500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./../fullcalendar/packages/core/main.css">
     <link rel="stylesheet" href="./../fullcalendar/packages/daygrid/main.css">
-    <link href="./../bootstrap/css/bootstrap.min.css" rel="stylesheet" />
     <script src="./../bootstrap/js/color-modes.js"></script>
-    <link href="./../bootstrap/css/bootstrap.min.css" rel="stylesheet" />
     <meta name="theme-color" content="#712cf9" />
-    <link href="./../bootstrap/navbar/navbar-static.css" rel="stylesheet" />
+    
 </head>
 
 <body>
@@ -35,11 +34,9 @@
     $capaSalle = 0;
     if ($isSalleMode){
         $titreR = "Réservation de Salle";
-        $titreF = "Choisir une salle";
         $script = "./sReservationSalle.php";
     }else {
         $titreR = "Réservation de Matériel";
-        $titreF = "Choisir un matériel";
         $script = "./sReservationMateriel.php";
     }
     ?>
@@ -47,10 +44,16 @@
         <h1 class="text-wrapper-4">Réserver un créneau</h1>
         <br /><br />
         <div id="filtre">
-            <!-- Ici mettre le filtre de salle ou de matériel -->
             <form>
                 <div class="mb-3">
-                    <label for="salle" class="form-label"><?= $titreF ?></label>
+                    <label class="form-label me-3">Choisir
+                        <a href="reservationUser.php" class="btn btn-sm <?= $isSalleMode ? 'btn-fablab-blue' : 'btn-outline-fablab-blue' ?>" >
+                            Salle
+                        </a>
+                        <a href="reservationUser.php?estMateriel=true" class="btn btn-sm <?= !$isSalleMode ? 'btn-fablab-blue' : 'btn-outline-fablab-blue' ?>" >
+                            Matériel
+                        </a>
+                    </label>
                     <?php                         
                     $tableauElement = [];
                     if ($isSalleMode) { ?>
@@ -152,8 +155,8 @@
                             <input type="hidden" value="" id="numMateriel" name="numMateriel"/>
                     </div>
                     <div class="modal-footer">
-                        <button type="reset" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                        <button type="submit" class="btn btn-primary" id="saveEventBtn">Confirmer</button>
+                        <button type="reset" class="btn btn-outline-fablab-blue" data-bs-dismiss="modal">Annuler</button>
+                        <button type="submit" class="btn btn-fablab-yellow" id="saveEventBtn">Confirmer</button>
                     </div>
                 </form>
 

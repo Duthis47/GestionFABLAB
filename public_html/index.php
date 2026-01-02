@@ -31,7 +31,7 @@
                     Espace d’innovation et de prototypage pour les étudiants et chercheurs
                 </p>
                 <a href="reservation/reservationUser.php" class="btn btn-lg px-4 py-2 fw-normal fs-5 btn-fablab-blue">
-                    Découvrir les équipements
+                    Réserver dès maintenant
                 </a> 
             </div>
 
@@ -69,8 +69,11 @@
             </div>
 
             <div class="text-center mt-5 mb-4">
-                <a href="reservation/reservationUser.php" class="btn btn-lg px-5 py-2 fw-bold fs-5 btn-fablab-yellow">
-                    Voir les créneaux disponibles
+                <a href="reservation/reservationUser.php" class="btn btn-lg px-5 py-2 fw-bold fs-5 btn-fablab-yellow me-3">
+                    Réserver une salle
+                </a>
+                <a href="reservation/reservationUser.php?estMateriel=true" class="btn btn-lg px-5 py-2 fw-bold fs-5 btn-fablab-yellow">
+                    Réserver du matériel
                 </a>
             </div>
 
