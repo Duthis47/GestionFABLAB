@@ -1,10 +1,13 @@
-<?php if (!isset($_SESSION)) { session_start(); } ?>
+<?php 
+
+if (!isset($_SESSION)) { session_start(); } 
+if (!isset($_SESSION['isAdmin'])) {
+    header("Location: ./../index.php");
+    exit();
+}
+?>
 
 <!DOCTYPE html>
-<!--
-Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
-Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHPWebPage.php to edit this template
--->
 <html>
     <head>
         <meta charset="UTF-8">
@@ -20,18 +23,15 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHPWebPage.php to 
         <link href="./../bootstrap/navbar/navbar-static.css" rel="stylesheet" />
     </head>
     <body>
-        <?php
-            require_once './../commun/header.php';
-        ?>
+        <?php require_once './../commun/header.php'; ?>
         
-    <div class="container">
+        <div class="container">
+            <main>
+                <button><a href="./afficherCalendrierAdmin.php" >Afficher les reservations des salles</a></button>
+                <button><a href="./afficherCalendrierAdmin.php?estMateriel=true" >Afficher les reservations des matériels</a></button>
+            </main>
+        </div>
 
-        <main>
-            
-        </main>
-    </div>
-        <?php
-            
-        ?>
+        <?php require_once './../commun/footer.php'; ?>
     </body>
 </html>

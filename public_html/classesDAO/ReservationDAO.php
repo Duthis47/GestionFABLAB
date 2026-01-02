@@ -3,17 +3,29 @@ include_once './../classesDAO/UtilisateurDAO.php';
 include_once './../classes/GestionConnexion.php';
 
 class ReservationDAO {
-    public static function getReservationsBySalle(int $salleId): array {
+    public static function getReservationsBySalle(int $salleId, string $type): array {
+        $ajoutAttribut = "";
+        $ajoutJoin ="";
+        if($type === 'admin'){
+            //SI ADMIN, ON RECUPERE AUSSI LES INFOS UTILISATEUR
+            $ajoutAttribut = ", mailU, nomU, prenomU ";
+            $ajoutJoin = " JOIN Utilisateur ON Utilisateur.idU = ReserverSalles.idU ";
+        }
         $connexion = GestionConnexion::getConnexion();
-        $stmt = $connexion->prepare("SELECT DateTime_debut, DateTime_fin, Nb_occupant, AutorisationFinal FROM ReserverSalles WHERE idR_salle = :salleId");
+        $stmt = $connexion->prepare("SELECT DateTime_debut, DateTime_fin, Nb_occupant, AutorisationFinal". $ajoutAttribut ." FROM ReserverSalles" . $ajoutJoin." WHERE idR_salle = :salleId");
         $stmt->bindParam(':salleId', $salleId, PDO::PARAM_INT);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public static function getReservationsByMateriel(int $materielId): array {
+    public static function getReservationsByMateriel(int $materielId, string $type): array {
+        $ajoutJoin ="";
+        if($type === 'admin'){
+            //SI ADMIN, ON RECUPERE AUSSI LES INFOS UTILISATEUR
+            $ajoutJoin = " JOIN Utilisateur ON Utilisateur.idU = ReserverMateriels.idU ";
+        }
         $connexion = GestionConnexion::getConnexion();
-        $stmt = $connexion->prepare("SELECT * FROM ReserverMateriels JOIN Materiels ON Materiels.idR = idR_materiel JOIN Salles ON Materiels.idS = Salles.idR WHERE idR_materiel = :materielId");
+        $stmt = $connexion->prepare("SELECT * FROM ReserverMateriels JOIN Materiels ON Materiels.idR = idR_materiel JOIN Salles ON Materiels.idS = Salles.idR ".$ajoutJoin."WHERE idR_materiel = :materielId");
         $stmt->bindParam(':materielId', $materielId, PDO::PARAM_INT);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);

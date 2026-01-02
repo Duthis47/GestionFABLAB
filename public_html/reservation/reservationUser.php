@@ -27,7 +27,7 @@
 </head>
 
 <body>
-    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.19/index.global.min.js"></script>
+    <script src="./../fullcalendar/dist/index.global.min.js"></script>
 
     <?php
     include_once './../commun/header.php';
@@ -176,13 +176,13 @@
                     document.getElementById('capaSalle').value = lesElements[salle];
                     document.getElementById('placeRestante').value = 3;
                     var t = document.getElementById('capaSalle').value;
-                    recupSalle(salle, t);
+                    recupSalle("etudiant", salle, t);
                 });
                 salle = laSalle.value;
                 document.getElementById('numSalle').value = salle;
                 document.getElementById('numMateriel').value = "";
                 document.getElementById('placeRestante').value = 3    
-                recupSalle(salle, t);       
+                recupSalle("etudiant", salle, t);       
             </script>
         <?php } else { ?>
             <script>
@@ -195,12 +195,12 @@
                     document.getElementById('capaSalle').value = lesElements[materiel];
                     var t = document.getElementById('capaSalle').value;
                     document.getElementById('numSalle').value = this.options[this.selectedIndex].getAttribute('data-salle');
-                    recupMateriels(materiel, t);
+                    recupMateriels("etudiant", materiel, t);
                 });
                 materiel = leMateriel.value;
                 document.getElementById('numMateriel').value = materiel;
                 document.getElementById('numSalle').value = leMateriel.selectedOptions[0].getAttribute('data-salle');
-                recupMateriels(materiel, t);
+                recupMateriels("etudiant", materiel, t);
             </script>
             <?php
         } ?>

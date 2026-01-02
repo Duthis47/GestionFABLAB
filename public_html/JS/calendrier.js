@@ -57,7 +57,7 @@ function afficherCalendrierSalle(type, toutesLesResa, placeTotalSalle) {
 
         },
         //On autorise la selection que si il reste de la place
-        selectAllow: function(selectInfo) {
+        selectAllow: function (selectInfo) {
             if (type == 'etudiant') {
                 let nbActuel = verifierDisponibilite(calendar, selectInfo.start, selectInfo.end);
                 return (nbActuel < placeTotalSalle);
@@ -95,6 +95,13 @@ function afficherCalendrierSalle(type, toutesLesResa, placeTotalSalle) {
             }
         },
 
+        eventClick: function(info) {
+            if(type == 'admin') {
+                // Afficher les détails de la réservation dans un formulaire ou une modale
+                document.getElementById('popupAdmin').style.display = "block";
+
+            }
+        },
         headerToolbar: {
             left: 'prev,next,today',
             center: 'title',
@@ -108,61 +115,68 @@ function afficherCalendrierSalle(type, toutesLesResa, placeTotalSalle) {
         },
         editable: true
     });
-    toutesLesResa.forEach(function (resa) {
-    
-    let startISO = resa.DateTime_debut.replace(" ", "T");
-    let endISO = resa.DateTime_fin.replace(" ", "T");
 
-    calendar.addEvent({
-        title: 'Réservé (' + resa.Nb_occupant + ' pers.)', 
-        
-        start: startISO,
-        end: endISO,
-        
-        backgroundColor: '#ffa500',
-        borderColor: '#000000',
-        textColor: '#ffffff',
-        allDay: false, 
-        editable: false,
-        display: "background",
-        extendedProps: {
-            nbOccupant: parseInt(resa.Nb_occupant)
-        }
-    });
-});
-    let startView = calendar.view.activeStart;
-    let endView = calendar.view.activeEnd;
-    
-    for (let time = startView.getTime(); time < endView.getTime(); time += 1800 * 1000) {
-        
-        let dateCreneau = new Date(time); 
-        let dateFinCreneau = new Date(time + 1800 * 1000);
-
-        let heure = dateCreneau.getHours();
-        if (heure < 8 || heure >= 20) continue;
-
-        let total = verifierDisponibilite(calendar, dateCreneau, dateFinCreneau);
-
-        if (total >= placeTotalSalle) {
-            calendar.addEvent({
-                title: 'COMPLET (' + total + ')',
-                start: dateCreneau,
-                end: dateFinCreneau,
-                display: 'block',    
-                backgroundColor: '#d9534f', 
-                borderColor: '#d9534f',
-                editable: false,     
-                extendedProps: { nbOccupant: 0 },
-                classNames: ['bloc-force-full'] 
-            });
-        }
+    var colorDisplay="background";
+    if (type == 'admin') {
+        colorDisplay="block";
     }
+    console.log(toutesLesResa);
+        toutesLesResa.forEach(function (resa) {
+            console.log(resa);
+            let startISO = resa.DateTime_debut.replace(" ", "T");
+            let endISO = resa.DateTime_fin.replace(" ", "T");
+
+            calendar.addEvent({
+                title: 'Réservé (' + resa.Nb_occupant + ' pers.)',
+
+                start: startISO,
+                end: endISO,
+
+                backgroundColor: '#ffa500',
+                borderColor: '#000000',
+                textColor: '#ffffff',
+                allDay: false,
+                editable: false,
+                display: colorDisplay,
+                extendedProps: {
+                    nbOccupant: parseInt(resa.Nb_occupant)
+                }
+            });
+        });
+        let startView = calendar.view.activeStart;
+        let endView = calendar.view.activeEnd;
+
+        for (let time = startView.getTime(); time < endView.getTime(); time += 1800 * 1000) {
+
+            let dateCreneau = new Date(time);
+            let dateFinCreneau = new Date(time + 1800 * 1000);
+
+            let heure = dateCreneau.getHours();
+            if (heure < 8 || heure >= 20) continue;
+
+            let total = verifierDisponibilite(calendar, dateCreneau, dateFinCreneau);
+
+            if (total >= placeTotalSalle) {
+                calendar.addEvent({
+                    title: 'COMPLET (' + total + ')',
+                    start: dateCreneau,
+                    end: dateFinCreneau,
+                    display: 'block',
+                    backgroundColor: '#d9534f',
+                    borderColor: '#d9534f',
+                    editable: false,
+                    extendedProps: { nbOccupant: 0 },
+                    classNames: ['bloc-force-full']
+                });
+            }
+        }
+    //}
     calendar.setOption('locale', 'fr');
     calendar.render();
 }
 
 
-function afficherCalendrierMateriel(type, toutesLesResa, nbExemplaireTotal) {
+function afficherCalendrierMateriel(type, toutesLesResa, nbExemplaireTotal = 100) {
     //type peut etre 'etudiant' ou 'admin'
     //salle est l'id de la salle a afficher
     let allDay;
@@ -240,54 +254,56 @@ function afficherCalendrierMateriel(type, toutesLesResa, nbExemplaireTotal) {
         editable: true
     });
 
-    toutesLesResa.forEach(function (resa) {
-        
-        let startISO = resa.DateTime_debut.replace(" ", "T");
-        let endISO = resa.DateTime_fin.replace(" ", "T");
+    if (type == 'etudiant') {
+        toutesLesResa.forEach(function (resa) {
 
-        calendar.addEvent({
-            title: 'Réservé', 
-            
-            start: startISO,
-            end: endISO,
+            let startISO = resa.DateTime_debut.replace(" ", "T");
+            let endISO = resa.DateTime_fin.replace(" ", "T");
 
-            backgroundColor: '#ffa500',
-            borderColor: '#000000',
-            textColor: '#ffffff',
-            allDay: false, 
-            editable: false,
-            display: "background",
-
-            extendedProps: {
-                nbOccupant: 1
-            }
-        });
-    });
-
-    let startView = calendar.view.activeStart;
-    let endView = calendar.view.activeEnd;
-
-    for (let time = startView.getTime(); time < endView.getTime(); time += 1800 * 1000) {
-        
-        let dateCreneau = new Date(time); 
-        let dateFinCreneau = new Date(time + 1800 * 1000);
-
-        let heure = dateCreneau.getHours();
-        if (heure < 8 || heure >= 20) continue;
-
-        let total = verifierDisponibilite(calendar, dateCreneau, dateFinCreneau);
-        if (total >= nbExemplaireTotal) {
             calendar.addEvent({
-                title: 'Indisponible',
-                start: dateCreneau,
-                end: dateFinCreneau,
-                display: 'block',    
-                backgroundColor: '#d9534f', 
-                borderColor: '#d9534f',
-                editable: false,     
-                extendedProps: { nbOccupant: 0 },
-                classNames: ['bloc-force-full'] 
+                title: 'Réservé',
+
+                start: startISO,
+                end: endISO,
+
+                backgroundColor: '#ffa500',
+                borderColor: '#000000',
+                textColor: '#ffffff',
+                allDay: false,
+                editable: false,
+                display: "background",
+
+                extendedProps: {
+                    nbOccupant: 1
+                }
             });
+        });
+
+        let startView = calendar.view.activeStart;
+        let endView = calendar.view.activeEnd;
+
+        for (let time = startView.getTime(); time < endView.getTime(); time += 1800 * 1000) {
+
+            let dateCreneau = new Date(time);
+            let dateFinCreneau = new Date(time + 1800 * 1000);
+
+            let heure = dateCreneau.getHours();
+            if (heure < 8 || heure >= 20) continue;
+
+            let total = verifierDisponibilite(calendar, dateCreneau, dateFinCreneau);
+            if (total >= nbExemplaireTotal) {
+                calendar.addEvent({
+                    title: 'Indisponible',
+                    start: dateCreneau,
+                    end: dateFinCreneau,
+                    display: 'block',
+                    backgroundColor: '#d9534f',
+                    borderColor: '#d9534f',
+                    editable: false,
+                    extendedProps: { nbOccupant: 0 },
+                    classNames: ['bloc-force-full']
+                });
+            }
         }
     }
     calendar.setOption('locale', 'fr');

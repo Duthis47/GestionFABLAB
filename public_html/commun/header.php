@@ -57,7 +57,7 @@ include_once __DIR__ . '/../../config.php';
                                 </a>
 
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                    <li><a class="dropdown-item" href="#">Infos</a></li>
+                                    <li><a class="dropdown-item" href="<?= BASE_URL ?>admin/adminInfos.php">Infos</a></li>
                                     <li><a class="dropdown-item" href="<?= BASE_URL ?>admin/adminGestion.php">Gestion</a></li>
                                     <li><a class="dropdown-item" href="#">Something else here</a></li>
                                 </ul>
