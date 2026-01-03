@@ -130,6 +130,11 @@ function afficherCalendrierSalle(type, toutesLesResa, placeTotalSalle) {
                 monPopup.show();
             }
         },
+        buttonText: {
+            today: "Aujourd'hui",
+            week: "Semaine",
+            day: "Jour"
+        },
         headerToolbar: {
             left: 'prev,next,today',
             center: 'title',
@@ -315,6 +320,11 @@ function afficherCalendrierMateriel(type, toutesLesResa, nbExemplaireTotal = 100
             left: 'prev,next,today',
             center: 'title',
             right: 'timeGridWeek,timeGridDay',
+        },
+        buttonText: {
+            today: "Aujourd'hui",
+            week: "Semaine",
+            day: "Jour"
         },
         eventTimeFormat: {
             hour: '2-digit',
