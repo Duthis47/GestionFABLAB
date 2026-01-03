@@ -88,7 +88,7 @@
 
             <div id='calendrier'></div>
             <!-- Preparation du popup de validation admin -->
-            <form  method="post" action="./../scriptAdmin/scriptBtnAcceptRefus.php">
+            <form method="post" action="./../scriptAdmin/scriptBtnAcceptRefus.php">
                 <div id="popupAdmin" class="modal" tabindex="-1" role="dialog">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
@@ -107,9 +107,10 @@
                             </div>
                             <input type="hidden" id="idU" name="idU" value=""/>
                             <input type="hidden" id="idR" name="idR" value=""/>
+                            <input type="hidden" id="dateDebut" name="dateDebut" value=""/>
                             <input type="hidden" name="type" value=<?= $isSalleModeJson ?> />
                             <div class="modal-footer">
-                                <button type="submit" name="Action" value="1" class="btn btn-primary">Valider la reservation</button>
+                                <button type="submit" id="Valider" name="Action" value="1" class="btn btn-primary">Valider la reservation</button>
                                 <button type="submit" name="Action" value="0" class="btn btn-secondary" data-dismiss="modal">Refuser la reservation</button>
                             </div>
                         </div>

@@ -5,6 +5,22 @@ function toDatetimeLocal(date) {
     return dateLocal.toISOString().slice(0, 16);
 }
 
+function toSqlDateTime(date) {
+    const d = new Date(date);
+
+    const year = d.getFullYear();
+    // getMonth() commence à 0, donc on ajoute 1. padStart assure d'avoir 2 chiffres (01, 02...).
+    const month = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
+
+    const hours = String(d.getHours()).padStart(2, '0');
+    const minutes = String(d.getMinutes()).padStart(2, '0');
+    const seconds = String(d.getSeconds()).padStart(2, '0');
+
+    // Résultat : 2026-01-02 10:00:00
+    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+}
+
 function verifierDisponibilite(calendar, start, end) {
     let total = 0;
     let events = calendar.getEvents();
@@ -42,7 +58,8 @@ function afficherCalendrierSalle(type, toutesLesResa, placeTotalSalle) {
         locale: 'fr',
         weekends: false,
         allDaySlot: allDay,
-
+        eventOrder: "duration",
+        slotEventOverlap: false,
         selectable: true,
         slotMinTime: '08:00:00',
         slotMaxTime: '20:00:00',
@@ -97,14 +114,18 @@ function afficherCalendrierSalle(type, toutesLesResa, placeTotalSalle) {
             if (type == 'admin') {
                 // Afficher les détails de la réservation dans un formulaire ou une modale
                 document.getElementById('start').textContent = info.event.start.toLocaleString();
-                document.getElementById('end').textContent = info.event.end.toLocaleString();
+                document.getElementById('dateDebut').value = toSqlDateTime(info.event.start);
                 document.getElementById('nbOccupant').textContent = info.event.extendedProps.nbOccupant;
                 document.getElementById('reserverPar').textContent = info.event.extendedProps.reserverPar || 'Inconnu';
                 document.getElementById('idU').value = info.event.extendedProps.idU;
                 document.getElementById('idR').value = info.event.extendedProps.idR;
                 //A decommenter si on veut afficher la raison
                 //document.getElementById('raison').textContent = info.event.extendedProps.raison || 'Aucune raison fournie';  
-
+                if (info.event.extendedProps.AutorisationFinal == 1) {
+                    document.getElementById("Valider").hidden = true;
+                } else {
+                    document.getElementById("Valider").hidden = false;
+                }
                 var monPopup = new bootstrap.Modal(document.getElementById('popupAdmin'));
                 monPopup.show();
             }
@@ -130,19 +151,20 @@ function afficherCalendrierSalle(type, toutesLesResa, placeTotalSalle) {
     }
 
     console.log(toutesLesResa);
-
     toutesLesResa.forEach(function (resa) {
-        console.log(resa);
+        var colorBack = "#ffa500";
         let startISO = resa.DateTime_debut.replace(" ", "T");
         let endISO = resa.DateTime_fin.replace(" ", "T");
-
+        if (type == 'admin' && resa.AutorisationFinal === 1) {
+            colorBack = "#5CE65C";
+        }
         let eventData = {
             title: 'Réservé (' + resa.Nb_occupant + ' pers.)',
 
             start: startISO,
             end: endISO,
 
-            backgroundColor: '#ffa500',
+            backgroundColor: colorBack,
             borderColor: '#000000',
             textColor: '#ffffff',
             allDay: false,
@@ -157,39 +179,41 @@ function afficherCalendrierSalle(type, toutesLesResa, placeTotalSalle) {
             eventData.extendedProps.reserverPar = resa.nomU + ' ' + resa.prenomU;
             eventData.extendedProps.mailR = resa.mailU;
             eventData.extendedProps.raison = ""; // A remplir si besoin avec les raisons de la réservation
-            eventData.extendedProps.idU = resa.idU
-            eventData.extendedProps.idR = resa.idR_salle
+            eventData.extendedProps.idU = resa.idU;
+            eventData.extendedProps.idR = resa.idR_salle;
+            eventData.extendedProps.AutorisationFinal = resa.AutorisationFinal;
+
         }
         calendar.addEvent(eventData);
     });
     let startView = calendar.view.activeStart;
     let endView = calendar.view.activeEnd;
+    if (type == "etudiant") {
+        for (let time = startView.getTime(); time < endView.getTime(); time += 1800 * 1000) {
 
-    for (let time = startView.getTime(); time < endView.getTime(); time += 1800 * 1000) {
+            let dateCreneau = new Date(time);
+            let dateFinCreneau = new Date(time + 1800 * 1000);
 
-        let dateCreneau = new Date(time);
-        let dateFinCreneau = new Date(time + 1800 * 1000);
+            let heure = dateCreneau.getHours();
+            if (heure < 8 || heure >= 20) continue;
 
-        let heure = dateCreneau.getHours();
-        if (heure < 8 || heure >= 20) continue;
+            let total = verifierDisponibilite(calendar, dateCreneau, dateFinCreneau);
 
-        let total = verifierDisponibilite(calendar, dateCreneau, dateFinCreneau);
-
-        if (total >= placeTotalSalle) {
-            calendar.addEvent({
-                title: 'COMPLET (' + total + ')',
-                start: dateCreneau,
-                end: dateFinCreneau,
-                display: 'block',
-                backgroundColor: '#d9534f',
-                borderColor: '#d9534f',
-                editable: false,
-                extendedProps: { nbOccupant: 0 },
-                classNames: ['bloc-force-full']
-            });
+            if (total >= placeTotalSalle) {
+                calendar.addEvent({
+                    title: 'COMPLET (' + total + ')',
+                    start: dateCreneau,
+                    end: dateFinCreneau,
+                    display: 'block',
+                    backgroundColor: '#d9534f',
+                    borderColor: '#d9534f',
+                    editable: false,
+                    extendedProps: { nbOccupant: 0 },
+                    classNames: ['bloc-force-full']
+                });
+            }
         }
     }
-    //}
     calendar.setOption('locale', 'fr');
     calendar.render();
 }
@@ -217,7 +241,8 @@ function afficherCalendrierMateriel(type, toutesLesResa, nbExemplaireTotal = 100
         locale: 'fr',
         weekends: false,
         allDaySlot: allDay,
-
+        eventOrder: "duration",
+        slotEventOverlap: false,
         selectable: true,
         slotMinTime: '08:00:00',
         slotMaxTime: '20:00:00',
@@ -253,6 +278,7 @@ function afficherCalendrierMateriel(type, toutesLesResa, nbExemplaireTotal = 100
                 document.getElementById('mail').value = ""; // Reset du champ
                 document.getElementById('nbOccupant').value = ""; // Reset du champ
                 document.getElementById('nbOccupant').max = document.getElementById("materiel").selectedOptions[0].getAttribute('data-maxPlaceSalle');
+
                 var monPopup = new bootstrap.Modal(document.getElementById('popupResa'));
                 monPopup.show();
 
@@ -260,15 +286,26 @@ function afficherCalendrierMateriel(type, toutesLesResa, nbExemplaireTotal = 100
         },
         eventClick: function (info) {
             if (type == 'admin') {
-                // Afficher les détails de la réservation dans un formulaire ou une modale
-                document.getElementById('start').textContent = info.event.start.toLocaleString();
-                document.getElementById('end').textContent = info.event.end.toLocaleString();
+                const dateObjet = info.event.start;
+
+                // Pour Affichage
+                document.getElementById('start').textContent = dateObjet.toLocaleString();
+
+                // Pour la BDD
+                document.getElementById('dateDebut').value = toSqlDateTime(dateObjet);
+
                 document.getElementById('nbOccupant').textContent = info.event.extendedProps.nbOccupant;
                 document.getElementById('reserverPar').textContent = info.event.extendedProps.reserverPar || 'Inconnu';
                 document.getElementById('idU').value = info.event.extendedProps.idU;
                 document.getElementById('idR').value = info.event.extendedProps.idR;
-                //A decommenter si on veut afficher la raison
-                //document.getElementById('raison').textContent = info.event.extendedProps.raison || 'Aucune raison fournie';  
+
+                // Gestion du bouton Valider
+                let btnValider = document.getElementById("Valider");
+                if (info.event.extendedProps.AutorisationFinal == 1) {
+                    btnValider.hidden = true;
+                } else {
+                    btnValider.hidden = false;
+                }
 
                 var monPopup = new bootstrap.Modal(document.getElementById('popupAdmin'));
                 monPopup.show();
@@ -289,44 +326,48 @@ function afficherCalendrierMateriel(type, toutesLesResa, nbExemplaireTotal = 100
     });
 
     var colorDisplay = "background";
-    if (type=='admin'){
+    if (type == 'admin') {
         colorDisplay = "block";
     }
-        toutesLesResa.forEach(function (resa) {
+    var colorBack = "#ffa500";
+    toutesLesResa.forEach(function (resa) {
+        if (type == 'admin' && resa.AutorisationFinal == 1) {
+            colorBack = "#5CE65C";
+        }
+        let startISO = resa.DateTime_debut.replace(" ", "T");
+        let endISO = resa.DateTime_fin.replace(" ", "T");
 
-            let startISO = resa.DateTime_debut.replace(" ", "T");
-            let endISO = resa.DateTime_fin.replace(" ", "T");
+        let eventData = {
+            title: 'Réservé',
 
-            let eventData = {
-                title: 'Réservé',
+            start: startISO,
+            end: endISO,
 
-                start: startISO,
-                end: endISO,
+            backgroundColor: colorBack,
+            borderColor: '#000000',
+            textColor: '#ffffff',
+            allDay: false,
+            editable: false,
+            display: colorDisplay,
 
-                backgroundColor: '#ffa500',
-                borderColor: '#000000',
-                textColor: '#ffffff',
-                allDay: false,
-                editable: false,
-                display: colorDisplay,
-
-                extendedProps: {
-                    nbOccupant: 1
-                }
+            extendedProps: {
+                nbOccupant: 1
             }
-            if (type == 'admin') {
-                eventData.extendedProps.reserverPar = resa.nomU + ' ' + resa.prenomU;
-                eventData.extendedProps.mailR = resa.mailU;
-                eventData.extendedProps.raison = ""; // A remplir si besoin avec les raisons de la réservation
-                eventData.extendedProps.idU = resa.idU
-                eventData.extendedProps.idR = resa.idR_materiel
-            }
-            calendar.addEvent(eventData);
-        });
+        }
+        if (type == 'admin') {
+            eventData.extendedProps.reserverPar = resa.nomU + ' ' + resa.prenomU;
+            eventData.extendedProps.mailR = resa.mailU;
+            eventData.extendedProps.raison = ""; // A remplir si besoin avec les raisons de la réservation
+            eventData.extendedProps.idU = resa.idU;
+            eventData.extendedProps.idR = resa.idR_materiel;
+            eventData.extendedProps.AutorisationFinal = resa.AutorisationFinal;
+        }
+        calendar.addEvent(eventData);
+    });
 
-        let startView = calendar.view.activeStart;
-        let endView = calendar.view.activeEnd;
-
+    let startView = calendar.view.activeStart;
+    let endView = calendar.view.activeEnd;
+    if (type == "etudiant") {
         for (let time = startView.getTime(); time < endView.getTime(); time += 1800 * 1000) {
 
             let dateCreneau = new Date(time);
@@ -338,7 +379,7 @@ function afficherCalendrierMateriel(type, toutesLesResa, nbExemplaireTotal = 100
             let total = verifierDisponibilite(calendar, dateCreneau, dateFinCreneau);
             if (total >= nbExemplaireTotal) {
                 calendar.addEvent({
-                    title: 'Indisponible',
+                    title: 'Complet',
                     start: dateCreneau,
                     end: dateFinCreneau,
                     display: 'block',
@@ -349,7 +390,7 @@ function afficherCalendrierMateriel(type, toutesLesResa, nbExemplaireTotal = 100
                     classNames: ['bloc-force-full']
                 });
             }
-        
+        }
     }
     calendar.setOption('locale', 'fr');
     calendar.render();

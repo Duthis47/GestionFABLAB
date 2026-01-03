@@ -13,21 +13,28 @@ if(!isset($_SESSION['isAdmin'])){
 }
 
 $idU = $_POST["idU"];
-$dateDebut = $_POST["DateTime_debut"];
+$idR = $_POST["idR"];
+$dateDebut = $_POST["dateDebut"];
 $type = $_POST["type"];
+var_dump($_POST);
+$append = "";
+if ($type == "false"){
+    $append = "?estMateriel=true";
+}
 
 if ($_POST["Action"] == "1"){
-    $r = accepterReservation($type, $idU, $dateDebut);
+    $r = ReservationDAO::accepterReservation($type, $idU, $idR, $dateDebut);
     if ($r == 1){
-        //reussite
+        //header("Location: ./../admin/afficherCalendrierAdmin.php".$append);
         exit;
     }else {
-        //echec
+        echo "Erreur de resa";
         exit;
     }
 }else if ($_POST["Action"] == "0"){
+    echo "mode suppression";
     exit;
 }else {
-    header("Location: ./../admin/afficherCalendrierAdmin.php");
+    header("Location: ./../admin/afficherCalendrierAdmin.php".$append);
     exit;
 }

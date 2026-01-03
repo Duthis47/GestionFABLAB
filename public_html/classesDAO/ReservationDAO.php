@@ -65,16 +65,26 @@ class ReservationDAO {
     }
 
 
-    public static function accepterReservation($type, $idU, $idR){
-        $connexion = GestionConnexion::getConnexion();
-        $table = "Materiels";
-        if ($type == "true"){
-            $table="Salles";
+    public static function accepterReservation($type, $idU, $idR, $dateDebut){
+        try {
+            $connexion = GestionConnexion::getConnexion();
+            $table = "ReserverMateriels";
+            $clause = "idR_materiel = :envoi ";
+            $envoi = $idR;
+            if ($type == "true"){
+                $table="ReserverSalles";
+                $clause = "idU = :envoi ";
+                $envoi = $idU;
+            }
+            echo $table ."-".$clause."-".$dateDebut."-".$envoi;
+            $ordreSQL = "UPDATE ".$table." SET AutorisationFinal = 1 WHERE ".$clause."AND DateTime_debut = :idD";
+            echo "<br/>".$ordreSQL;
+            $req = $connexion->prepare($ordreSQL);
+            $req->bindValue("envoi", $envoi, PDO::PARAM_INT);
+            $req->bindValue("idD", $dateDebut);
+            return $req->execute();
+        }catch(PDOException $e){
+            echo $e->getMessage();
         }
-        $ordreSQL = "UPDATE ".$table." SET AutorisationFinal = 1 WHERE idU = :idU AND DateTime_debut = :idR";
-        $req = $connexion->prepare($ordreSQL);
-        $req->bindValue("idU", $idU, PDO::PARAM_INT);
-        $req->bindValue("idR", $idR, PDO::PARAM_INT);
-        return $req->execute();
     }
 }
