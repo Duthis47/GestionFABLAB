@@ -76,9 +76,7 @@ class ReservationDAO {
                 $clause = "idU = :envoi ";
                 $envoi = $idU;
             }
-            echo $table ."-".$clause."-".$dateDebut."-".$envoi;
             $ordreSQL = "UPDATE ".$table." SET AutorisationFinal = 1 WHERE ".$clause."AND DateTime_debut = :idD";
-            echo "<br/>".$ordreSQL;
             $req = $connexion->prepare($ordreSQL);
             $req->bindValue("envoi", $envoi, PDO::PARAM_INT);
             $req->bindValue("idD", $dateDebut);

@@ -16,7 +16,7 @@ $idU = $_POST["idU"];
 $idR = $_POST["idR"];
 $dateDebut = $_POST["dateDebut"];
 $type = $_POST["type"];
-var_dump($_POST);
+
 $append = "";
 if ($type == "false"){
     $append = "?estMateriel=true";
@@ -25,7 +25,7 @@ if ($type == "false"){
 if ($_POST["Action"] == "1"){
     $r = ReservationDAO::accepterReservation($type, $idU, $idR, $dateDebut);
     if ($r == 1){
-        //header("Location: ./../admin/afficherCalendrierAdmin.php".$append);
+        header("Location: ./../admin/afficherCalendrierAdmin.php".$append);
         exit;
     }else {
         echo "Erreur de resa";
