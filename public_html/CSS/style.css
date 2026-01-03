@@ -25,12 +25,12 @@ body {
 }
 
 .img-fluid-logo-footer-uppa{
-    max-width: 20%;
+    max-width: 200px;
     min-width: 10%;
     height: auto;
 }
 .img-fluid-logo-footer-fablab{
-    max-width: 85%;
+    max-width: 200px;
     min-width: 15%;
     height: auto;
 }
@@ -95,4 +95,40 @@ body {
 .btn-fablab-yellow:hover {
     background-color: #e0a800;
     color: #000;
+}
+
+/* Style du footer */
+
+footer{
+    font-size:12px;
+    font-family:Anonymous Pro;
+}
+.footer-a:link {
+  text-decoration: none;
+  color:black;
+}
+
+.footer-a:visited {
+  text-decoration: none;
+  color:black;
+}
+
+/*Ceux que je veux soulignés tjrs */
+.footer-underline-a:link {
+  text-decoration: underline;
+  color:black;
+}
+
+.footer-underline-a:visited {
+  text-decoration: underline;
+  color:black;
+}
+
+/*Suite des liens */
+.footer-a:hover {
+  text-decoration: underline;
+}
+
+.footer-a:active {
+  text-decoration: underline;
 }
