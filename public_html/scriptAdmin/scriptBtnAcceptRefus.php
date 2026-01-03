@@ -28,11 +28,18 @@ if ($_POST["Action"] == "1"){
         header("Location: ./../admin/afficherCalendrierAdmin.php".$append);
         exit;
     }else {
-        echo "Erreur de resa";
+        echo "Erreur de validation, veuillez retourner en arrière";
         exit;
     }
 }else if ($_POST["Action"] == "0"){
-    echo "mode suppression";
+    $r = ReservationDAO::refuserReservation($type, $idU, $idR, $dateDebut);
+    if ($r == 1){
+        header("Location: ./../admin/afficherCalendrierAdmin.php".$append);
+        exit;
+    }else {
+        echo "Erreur de suppression, veuillez retourner en arrière";
+        exit;
+    }
     exit;
 }else {
     header("Location: ./../admin/afficherCalendrierAdmin.php".$append);

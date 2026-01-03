@@ -111,7 +111,7 @@
                             <input type="hidden" name="type" value=<?= $isSalleModeJson ?> />
                             <div class="modal-footer">
                                 <button type="submit" id="Valider" name="Action" value="1" class="btn btn-primary">Valider la reservation</button>
-                                <button type="submit" name="Action" value="0" class="btn btn-secondary" data-dismiss="modal">Refuser la reservation</button>
+                                <button type="submit" id="Refuser" name="Action" value="0" class="btn btn-secondary" data-dismiss="modal">Refuser la reservation</button>
                             </div>
                         </div>
                     </div>
@@ -145,6 +145,25 @@
             }
         });
 
+        const supprimerElement = document.getElementById("Refuser");
+        var confirme = false;
+
+        supprimerElement.addEventListener('click', function(event) {
+            //Permet de securiser le clic sur le bouton (supprime que en cas de validation double)
+            if (!confirme){
+                event.preventDefault();
+                this.textContent = "Êtes-vous sûr ?";
+                this.classList.add('btn-danger'); 
+                confirme = true;
+
+                // On réinitialise si l'utilisateur n'a pas confirmé après 4s
+                setTimeout(() => {
+                    estPret = false;
+                    this.textContent = "Valider la réservation";
+                    this.classList.remove('btn-danger');
+                }, 4000);
+            }
+        })
 
         //Charge le calendrier de la salle ou du materiel selectionné au chargement de la page
         let capaSalle = tabElement[idR];

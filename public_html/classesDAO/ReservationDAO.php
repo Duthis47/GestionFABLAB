@@ -85,4 +85,21 @@ class ReservationDAO {
             echo $e->getMessage();
         }
     }
+
+    public static function refuserReservation($type, $idU, $idR, $dateDebut){
+        $connexion = GestionConnexion::getConnexion();
+        $table = "ReserverMateriels";
+        $clause = "idR_materiel = :envoi ";
+        $envoi = $idR;
+        if ($type == "true"){
+            $table="ReserverSalles";
+            $clause = "idU = :envoi ";
+            $envoi = $idU;
+        }
+        $ordreSQL = "DELETE FROM ".$table." WHERE ".$clause." AND DateTime_debut = :idD";
+        $req = $connexion->prepare($ordreSQL);
+        $req->bindValue("envoi", $envoi, PDO::PARAM_INT);
+        $req->bindValue("idD", $dateDebut);
+        return $req->execute();
+    }
 }
