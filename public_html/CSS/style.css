@@ -25,12 +25,12 @@ body {
 }
 
 .img-fluid-logo-footer-uppa{
-    max-width: 200px;
+    max-width: 250px;
     min-width: 10%;
     height: auto;
 }
 .img-fluid-logo-footer-fablab{
-    max-width: 200px;
+    max-width: 250px;
     min-width: 15%;
     height: auto;
 }
@@ -101,7 +101,7 @@ body {
 
 footer{
     font-size:12px;
-    font-family:Anonymous Pro;
+    font-family: Anonymous Pro;
 }
 .footer-a:link {
   text-decoration: none;
