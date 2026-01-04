@@ -21,20 +21,19 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHPWebPage.php to 
     <body>
         <?php
         if (isset($_SESSION["isAdmin"])){
-
+            // Le header contient maintenant le bouton déconnexion
             require_once './../commun/header.php';
-            
         ?>
+        
         <div class="container">
-            <form method="POST" action="./../scriptAdmin/scriptGestion.php">
-                <input type="submit" name="btnReset" value="Deconnexion" class="btn-reservation"/>
-            </form>
-        </div>
+            <h1>Gestion</h1>
+            </div>
+
         <?php 
-            }
-            else {
-                header("Location: ./../index.php");
-            }
+        } else {
+            header("Location: ./../index.php");
+            exit();
+        }
         ?>
     </body>
 </html>

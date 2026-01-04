@@ -12,7 +12,7 @@ $passwd = $_POST["password"];
 if ($username === $config['username'] && password_verify($passwd, $config['passwd'])){
     session_start();
     $_SESSION["isAdmin"] = true;
-    header("Location: ./../admin/adminGestion.php");
+    header("Location: ./../admin/adminInfos.php");
 }
 else {
     header("Location: ./../Connexion/formConnexAdmin.php?connex=echec");

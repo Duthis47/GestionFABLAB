@@ -57,9 +57,17 @@ include_once __DIR__ . '/../../config.php';
                                 </a>
 
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                    <li><a class="dropdown-item" href="<?= BASE_URL ?>admin/adminInfos.php">Infos</a></li>
+                                    <li><a class="dropdown-item" href="<?= BASE_URL ?>admin/adminInfos.php" >Infos</a></li>
                                     <li><a class="dropdown-item" href="<?= BASE_URL ?>admin/adminGestion.php">Gestion</a></li>
                                     <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li>
+                                        <form method="POST" action="<?= BASE_URL ?>scriptAdmin/scriptGestion.php" class="d-inline">
+                                            <button type="submit" value="Deconnexion" name="btnReset" class="dropdown-item text-danger" style="background-color: none;">
+                                                Déconnexion
+                                            </button>
+                                        </form>
+                                    </li>
                                 </ul>
                             </div>
                         <?php
@@ -74,3 +82,17 @@ include_once __DIR__ . '/../../config.php';
         
     <!-- Un seul script Bootstrap Bundle (qui inclut Popper) à la fin -->
     <script src="<?= BASE_URL ?>bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<style>
+    /* Style des elements du menu Admin au clic*/
+    .dropdown-item:active {
+        background-color: #f8f9fa;
+        color: #212529; 
+    }
+
+    /* bouton Déconnexion au clic*/
+    .dropdown-item.text-danger:active {
+        color: #dc3545 !important; 
+        background-color: #f8f9fa; 
+    }
+</style>
