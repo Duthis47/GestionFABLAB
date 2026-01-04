@@ -60,11 +60,22 @@
     <div class="container mb-5">
         <div id="filtre">
             <!-- filtre de salle ou de matériel -->
+
             <form>
-                <div class="mb-3">
-                    <label for="element" class="form-label"><?= $titreF ?></label>
-                    <?php                         
-                    ?>
+                <div class="mb-3">            
+                    <label for="element" class="form-label me-3"><?= $titreF ?></label>
+                    <label class="form-label">
+                        <a href="afficherCalendrierAdmin.php" 
+                        class="btn btn-sm <?= $isSalleMode ? 'd-none' : 'btn-outline-fablab-blue' ?>">
+                            Salle
+                        </a>
+
+                        <a href="afficherCalendrierAdmin.php?estMateriel=true" 
+                        class="btn btn-sm <?= !$isSalleMode ? 'd-none' : 'btn-outline-fablab-blue' ?>">
+                            Matériel
+                        </a>
+                    </label>
+
                     <select class="form-select" id="element" name="element">
                        <?php
                        $defaultId = 0;
@@ -110,8 +121,8 @@
                             <input type="hidden" id="dateDebut" name="dateDebut" value=""/>
                             <input type="hidden" name="type" value=<?= $isSalleModeJson ?> />
                             <div class="modal-footer">
-                                <button type="submit" id="Valider" name="Action" value="1" class="btn btn-primary">Valider la reservation</button>
-                                <button type="submit" id="Refuser" name="Action" value="0" class="btn btn-secondary" data-dismiss="modal">Refuser la reservation</button>
+                                <button type="submit" id="Valider" name="Action" value="1" class="btn btn-fablab-yellow">Valider la reservation</button>
+                                <button type="submit" id="Refuser" name="Action" value="0" class="btn btn-outline-fablab-blue" data-dismiss="modal">Refuser la reservation</button>
                             </div>
                         </div>
                     </div>
