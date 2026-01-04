@@ -27,7 +27,7 @@ $sqlSalles = "SELECT rs.idU, rs.idR_salle, rs.DateTime_debut, rs.DateTime_fin, r
     FROM ReserverSalles rs
     JOIN Utilisateur u ON u.idU = rs.idU
     JOIN Salles s ON s.idR = rs.idR_salle
-    WHERE 1=1 $whereStatusSalle
+    WHERE 1=1 $whereStatusSalle AND rs.Blocage = 0
     ORDER BY rs.DateTime_debut ASC";
 
 $sqlMateriels = "SELECT rm.idU, rm.idR_materiel, rm.DateTime_debut, rm.DateTime_fin, rm.AutorisationFinal, u.nomU, u.prenomU, u.mailU, r.Nom as MaterielName
@@ -35,7 +35,7 @@ $sqlMateriels = "SELECT rm.idU, rm.idR_materiel, rm.DateTime_debut, rm.DateTime_
     JOIN Utilisateur u ON u.idU = rm.idU
     JOIN Materiels m ON m.idR = rm.idR_materiel
     JOIN Reservables r ON r.idR = rm.idR_materiel
-    WHERE 1=1 $whereStatusMateriel
+    WHERE 1=1 $whereStatusMateriel AND rm.Blocage = 0
     ORDER BY rm.DateTime_debut ASC";
 
 $stmtSalles = $connexion->prepare($sqlSalles);
