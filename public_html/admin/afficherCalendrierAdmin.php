@@ -117,27 +117,52 @@
                     </div>
                 </div>
             </form>
+            <!-- Formulaire de blocage de jour -->
+            <form method="POST" action="./../scriptAdmin/scriptBlocDebloc.php">
+                <div id="popupBlocage" class = "modal" tabindex="-1" role="dialog">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="title">Bloquer une période</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <p>Début : <input type="datetime-local" id="startBloc" name="dateDebut"/></p>
+                            <p>Fin : <input type="datetime-local" id="endBloc" name="dateFin"/></p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="reset" class="btn btn-outline-fablab-blue" data-bs-dismiss="modal">Annuler</button>
+                            <button type="submit" class="btn btn-fablab-yellow" id="saveEventBtn">Confirmer</button>
+                        </div>
+                    </div>
+                </div>
+                <input type="hidden" id="typeM" name="typeM" value=""/>
+                <input type="hidden" name="isSalle" value=<?= $isSalleModeJson ?> />
+                <input type="hidden" id="idR2" name="idR" value=""/>
+            </form>
         </main>
     </div>
-
-
+    
     <script>
         // Fermer le popup au chargement de la page
         let popup = document.getElementById('popupAdmin');
+        let popup2 = document.getElementById('popupBlocage')
         window.onload = (event) => {
             popup.style.display = "none"; 
+            popup2.style.display = "none";
         };
 
         //Recupere l'id de la salle ou du materiel selectionné
         const selectElement = document.getElementById('element');
         const tabElement = JSON.parse(document.getElementById('tableauElement').value);
         let idR = selectElement.value;
+        document.getElementById('idR2').value = idR;
 
-        //Ajoute un ecouteur d'evenement sur le select pour changer le calendrier affiché
+        //Ajoute un ecouteur sur le select pour changer le calendrier affiché
         selectElement.addEventListener('change', (event) => {
             idR = event.target.value;
             capaSalle = tabElement[idR];
-
+            document.getElementById('idR2').value = idR;
             if (!<?= $isSalleModeJson ?>) {
                 recupMateriels("admin", idR, capaSalle);
             } else {

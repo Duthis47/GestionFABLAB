@@ -35,6 +35,19 @@ function verifierDisponibilite(calendar, start, end) {
     return total;
 }
 
+function verifierBlocage(calendar, start, end) {
+    const events = calendar.getEvents();
+
+    const estBloque = events.some(resa => {
+        const cEstUnBlocage = (resa.extendedProps && resa.extendedProps.blocage == 1);
+        const chevauche = (resa.start < end && resa.end > start);
+        return cEstUnBlocage && chevauche;
+    });
+
+    // On retourne false si c'est bloqué, true sinon
+    return !estBloque;
+}
+
 function afficherCalendrierSalle(type, toutesLesResa, placeTotalSalle) {
     //type peut etre 'etudiant' ou 'admin'
     //salle est l'id de la salle a afficher
@@ -75,11 +88,15 @@ function afficherCalendrierSalle(type, toutesLesResa, placeTotalSalle) {
         },
         //On autorise la selection que si il reste de la place
         selectAllow: function (selectInfo) {
+            if (!verifierBlocage(calendar, selectInfo.start, selectInfo.end)){
+                return false;
+            }
             if (type == 'etudiant') {
                 let nbActuel = verifierDisponibilite(calendar, selectInfo.start, selectInfo.end);
                 return (nbActuel < placeTotalSalle);
             }
             return true;
+
         },
         select: function (info) {
             if (type == 'etudiant') {
@@ -108,26 +125,61 @@ function afficherCalendrierSalle(type, toutesLesResa, placeTotalSalle) {
                 var monPopup = new bootstrap.Modal(document.getElementById('popupResa'));
                 monPopup.show();
             }
+            else {
+                let duration = info.end - info.start;
+                const maxDuration = 60 * 60 * 1000; // 1 heure
+
+                if (info.start < new Date()) {
+                    alert("Vous ne pouvez pas modifier le passé.");
+                    calendar.unselect();
+                    return;
+                }
+
+                //On remplit : 
+                document.getElementById('startBloc').ariaPlaceholder = toDatetimeLocal(info.start);
+                document.getElementById('endBloc').ariaPlaceholder = toDatetimeLocal(info.end);
+                document.getElementById('startBloc').value = toSqlDateTime(info.start);
+                document.getElementById('endBloc').value = toSqlDateTime(info.end);
+                document.getElementById("typeM").value = "Bloquer";
+
+                var monPopup = new bootstrap.Modal(document.getElementById('popupBlocage'));
+                monPopup.show();
+            }
         },
 
         eventClick: function (info) {
             if (type == 'admin') {
-                // Afficher les détails de la réservation dans un formulaire ou une modale
-                document.getElementById('start').textContent = info.event.start.toLocaleString();
-                document.getElementById('dateDebut').value = toSqlDateTime(info.event.start);
-                document.getElementById('nbOccupant').textContent = info.event.extendedProps.nbOccupant;
-                document.getElementById('reserverPar').textContent = info.event.extendedProps.reserverPar || 'Inconnu';
-                document.getElementById('idU').value = info.event.extendedProps.idU;
-                document.getElementById('idR').value = info.event.extendedProps.idR;
-                //A decommenter si on veut afficher la raison
-                //document.getElementById('raison').textContent = info.event.extendedProps.raison || 'Aucune raison fournie';  
-                if (info.event.extendedProps.AutorisationFinal == 1) {
-                    document.getElementById("Valider").hidden = true;
-                } else {
-                    document.getElementById("Valider").hidden = false;
+                if (info.event.extendedProps.blocage == 0){
+                    // Afficher les détails de la réservation dans un formulaire ou une modale
+                    document.getElementById('start').textContent = info.event.start.toLocaleString();
+                    document.getElementById('end').textContent = info.event.start.toLocaleString();
+                    document.getElementById('dateDebut').value = toSqlDateTime(info.event.start);
+                    document.getElementById('nbOccupant').textContent = info.event.extendedProps.nbOccupant;
+                    document.getElementById('reserverPar').textContent = info.event.extendedProps.reserverPar || 'Inconnu';
+                    document.getElementById('idU').value = info.event.extendedProps.idU;
+                    document.getElementById('idR').value = info.event.extendedProps.idR;
+                    //A decommenter si on veut afficher la raison
+                    //document.getElementById('raison').textContent = info.event.extendedProps.raison || 'Aucune raison fournie';  
+                    if (info.event.extendedProps.AutorisationFinal == 1) {
+                        document.getElementById("Valider").hidden = true;
+                    } else {
+                        document.getElementById("Valider").hidden = false;
+                    }
+                    var monPopup = new bootstrap.Modal(document.getElementById('popupAdmin'));
+                    monPopup.show();
+                }else {
+                    console.log("test");
+                    document.getElementById('startBloc').ariaPlaceholder = toDatetimeLocal(info.event.start);
+                    document.getElementById('endBloc').ariaPlaceholder = toDatetimeLocal(info.event.end);
+                    document.getElementById('startBloc').value = toSqlDateTime(info.event.start);
+                    document.getElementById('endBloc').value = toSqlDateTime(info.event.end);
+                    document.getElementById('startBloc').readOnly = true;
+                    document.getElementById('endBloc').readOnly = true;
+                    document.getElementById("typeM").value = "Debloquer";
+
+                    var monPopup = new bootstrap.Modal(document.getElementById('popupBlocage'));
+                    monPopup.show();
                 }
-                var monPopup = new bootstrap.Modal(document.getElementById('popupAdmin'));
-                monPopup.show();
             }
         },
         buttonText: {
@@ -155,16 +207,23 @@ function afficherCalendrierSalle(type, toutesLesResa, placeTotalSalle) {
         colorDisplay = "block";
     }
 
+
     console.log(toutesLesResa);
     toutesLesResa.forEach(function (resa) {
+        var title = "Réservé (" + resa.Nb_occupant + "pers.)";
         var colorBack = "#ffa500";
         let startISO = resa.DateTime_debut.replace(" ", "T");
         let endISO = resa.DateTime_fin.replace(" ", "T");
         if (type == 'admin' && resa.AutorisationFinal === 1) {
             colorBack = "#5CE65C";
         }
+        if (resa.Blocage === 1){
+            colorBack = "#333333";
+            colorDisplay = "block";
+            title = "Bloqué";
+        }
         let eventData = {
-            title: 'Réservé (' + resa.Nb_occupant + ' pers.)',
+            title: title,
 
             start: startISO,
             end: endISO,
@@ -176,7 +235,8 @@ function afficherCalendrierSalle(type, toutesLesResa, placeTotalSalle) {
             editable: false,
             display: colorDisplay,
             extendedProps: {
-                nbOccupant: parseInt(resa.Nb_occupant)
+                nbOccupant: parseInt(resa.Nb_occupant),
+                blocage: resa.Blocage || 0
             }
         }
 
@@ -187,7 +247,6 @@ function afficherCalendrierSalle(type, toutesLesResa, placeTotalSalle) {
             eventData.extendedProps.idU = resa.idU;
             eventData.extendedProps.idR = resa.idR_salle;
             eventData.extendedProps.AutorisationFinal = resa.AutorisationFinal;
-
         }
         calendar.addEvent(eventData);
     });
@@ -260,6 +319,12 @@ function afficherCalendrierMateriel(type, toutesLesResa, nbExemplaireTotal = 100
             //Script a effectuer lorsque je clic sur une date (info est relatif au jour du clic)
 
         },
+        selectAllow: function (selectInfo) {
+            if (!verifierBlocage(calendar, selectInfo.start, selectInfo.end)){
+                return false;
+            }
+            return true;
+        },
         select: function (info) {
             if (type == 'etudiant') {
                 // Calcul de la durée en millisecondes
@@ -287,6 +352,26 @@ function afficherCalendrierMateriel(type, toutesLesResa, nbExemplaireTotal = 100
                 var monPopup = new bootstrap.Modal(document.getElementById('popupResa'));
                 monPopup.show();
 
+            }
+            else {
+                let duration = info.end - info.start;
+                const maxDuration = 60 * 60 * 1000; // 1 heure
+
+                if (info.start < new Date()) {
+                    alert("Vous ne pouvez pas modifier le passé.");
+                    calendar.unselect();
+                    return;
+                }
+
+                //On remplit : 
+                document.getElementById('startBloc').ariaPlaceholder = toDatetimeLocal(info.start);
+                document.getElementById('endBloc').ariaPlaceholder = toDatetimeLocal(info.end);
+                document.getElementById('startBloc').value = toSqlDateTime(info.start);
+                document.getElementById('endBloc').value = toSqlDateTime(info.end);
+                document.getElementById("typeM").value = "Bloquer";
+
+                var monPopup = new bootstrap.Modal(document.getElementById('popupBlocage'));
+                monPopup.show();
             }
         },
         eventClick: function (info) {
@@ -334,21 +419,26 @@ function afficherCalendrierMateriel(type, toutesLesResa, nbExemplaireTotal = 100
         },
         editable: true
     });
-
+    var title = "Réservé";
     var colorDisplay = "background";
     if (type == 'admin') {
         colorDisplay = "block";
     }
-    var colorBack = "#ffa500";
     toutesLesResa.forEach(function (resa) {
+        var colorBack = "#ffa500";
         if (type == 'admin' && resa.AutorisationFinal == 1) {
             colorBack = "#5CE65C";
+        }
+        if (resa.Blocage === 1){
+            colorBack = "#333333";
+            colorDisplay = "block";
+            title = "Bloqué";
         }
         let startISO = resa.DateTime_debut.replace(" ", "T");
         let endISO = resa.DateTime_fin.replace(" ", "T");
 
         let eventData = {
-            title: 'Réservé',
+            title: title,
 
             start: startISO,
             end: endISO,
@@ -361,7 +451,8 @@ function afficherCalendrierMateriel(type, toutesLesResa, nbExemplaireTotal = 100
             display: colorDisplay,
 
             extendedProps: {
-                nbOccupant: 1
+                nbOccupant: 1,
+                blocage: resa.Blocage || 0
             }
         }
         if (type == 'admin') {

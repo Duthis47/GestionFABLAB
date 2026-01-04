@@ -39,7 +39,7 @@ function recupMateriels(type, idMateriel, nbExemplaireTotal) {
                 let listeResa = data;
                 afficherCalendrierMateriel(type, listeResa, nbExemplaireTotal);
             } catch (e) {
-                console.error("Ce n'est pas du JSON valide !");
+                console.error(e.message);
             }
         });
 }

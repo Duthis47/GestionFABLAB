@@ -12,7 +12,7 @@ class ReservationDAO {
             $ajoutJoin = " JOIN Utilisateur ON Utilisateur.idU = ReserverSalles.idU ";
         }
         $connexion = GestionConnexion::getConnexion();
-        $stmt = $connexion->prepare("SELECT ReserverSalles.idU, idR_salle, DateTime_debut, DateTime_fin, Nb_occupant, AutorisationFinal". $ajoutAttribut ." FROM ReserverSalles" . $ajoutJoin." WHERE idR_salle = :salleId");
+        $stmt = $connexion->prepare("SELECT ReserverSalles.idU, idR_salle, DateTime_debut, DateTime_fin, Nb_occupant, AutorisationFinal, Blocage". $ajoutAttribut ." FROM ReserverSalles" . $ajoutJoin." WHERE idR_salle = :salleId");
         $stmt->bindParam(':salleId', $salleId, PDO::PARAM_INT);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -31,7 +31,7 @@ class ReservationDAO {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public static function ajouterReservationSalle($nomU, $prenomU, $mailUtilisateur, $salleId, $dateDebut, $dateFin, $nbOccupants) {
+    public static function ajouterReservationSalle($salleId, $dateDebut, $dateFin, $blocage=false, $nomU="admin", $prenomU="admin", $mailUtilisateur="admin@etud.univ-pau.fr", $nbOccupants=0) {
         $connexion = GestionConnexion::getConnexion();
         $user = UtilisateurDAO::getUtilisateurByMail($mailUtilisateur);
         if ($user){
@@ -39,7 +39,11 @@ class ReservationDAO {
         }else {
             $utilisateurId = UtilisateurDAO::ajouterUtilisateur($nomU, $prenomU, $mailUtilisateur);
         }
-        $stmt = $connexion->prepare("INSERT INTO ReserverSalles (idU, idR_salle, DateTime_debut, DateTime_fin, Nb_occupant, AutorisationFinal) VALUES (:utilisateurId, :salleId, :dateDebut, :dateFin, :nbOccupants, 0)");
+        $ordreSQL = "INSERT INTO ReserverSalles (idU, idR_salle, DateTime_debut, DateTime_fin, Nb_occupant, AutorisationFinal) VALUES (:utilisateurId, :salleId, :dateDebut, :dateFin, :nbOccupants, 0)";
+        if ($blocage){
+            $ordreSQL = "INSERT INTO ReserverSalles (idU, idR_salle, DateTime_debut, DateTime_fin, Nb_occupant, AutorisationFinal, Blocage) VALUES (:utilisateurId, :salleId, :dateDebut, :dateFin, :nbOccupants, 0, 1)";
+        }
+        $stmt = $connexion->prepare($ordreSQL);
         $stmt->bindParam(':utilisateurId', $utilisateurId, PDO::PARAM_INT);
         $stmt->bindParam(':salleId', $salleId, PDO::PARAM_INT);
         $stmt->bindParam(':dateDebut', $dateDebut);
@@ -48,7 +52,7 @@ class ReservationDAO {
         return $stmt->execute();
     }
 
-    public static function ajouterReservationMateriel($nomU, $prenomU, $mailUtilisateur, $materielId, $dateDebut, $dateFin) {
+    public static function ajouterReservationMateriel($materielId, $dateDebut, $dateFin, $blocage=false, $nomU="admin", $prenomU="admin", $mailUtilisateur="admin@etud.univ-pau.fr") {
         $connexion = GestionConnexion::getConnexion();
         $user = UtilisateurDAO::getUtilisateurByMail($mailUtilisateur);
         if ($user){
@@ -56,7 +60,12 @@ class ReservationDAO {
         }else {
             $utilisateurId = UtilisateurDAO::ajouterUtilisateur($nomU, $prenomU, $mailUtilisateur);
         }
-        $stmt = $connexion->prepare("INSERT INTO ReserverMateriels (idU, idR_materiel, DateTime_debut, DateTime_fin) VALUES (:utilisateurId, :materielId, :dateDebut, :dateFin)");
+
+        $ordreSQL = "INSERT INTO ReserverMateriels (idU, idR_materiel, DateTime_debut, DateTime_fin) VALUES (:utilisateurId, :materielId, :dateDebut, :dateFin)";
+        if ($blocage){
+            $ordreSQL = "INSERT INTO ReserverMateriels (idU, idR_materiel, DateTime_debut, DateTime_fin, Blocage) VALUES (:utilisateurId, :materielId, :dateDebut, :dateFin, 1)";
+        }
+        $stmt = $connexion->prepare($ordreSQL);
         $stmt->bindParam(':utilisateurId', $utilisateurId, PDO::PARAM_INT);
         $stmt->bindParam(':materielId', $materielId, PDO::PARAM_INT);
         $stmt->bindParam(':dateDebut', $dateDebut);
@@ -102,4 +111,5 @@ class ReservationDAO {
         $req->bindValue("idD", $dateDebut);
         return $req->execute();
     }
+
 }

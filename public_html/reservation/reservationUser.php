@@ -128,7 +128,7 @@
                             </div>
                             <div class="mb-3">
                                 <label for="mail" class="form-label">Mail UPPA (@etud.univ-pau.fr) </label>
-                                <input type="email" class="form-control" id="mail" name="mail" title="@etud.univ-pau.fr" pattern=".@etud.univ-pau.fr" required>
+                                <input type="email" class="form-control" id="mail" name="mail" title="@etud.univ-pau.fr" pattern=".+@etud\.univ-pau\.fr" required>
                             </div>
 
                             <!-- En cas de salle on demande le nombre d'occupant a enlever si on considère l'ajout de salle pour matériel -->
