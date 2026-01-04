@@ -40,7 +40,7 @@
         $script = "./sReservationMateriel.php";
     }
     ?>
-    <div class="container">
+    <div class="container mb-5">
         <h1 class="text-wrapper-4">Réserver un créneau</h1>
         <br /><br />
         <div id="filtre">
@@ -208,6 +208,7 @@
             <?php
         } ?>
     </div>
+
     <?php
     include_once './../commun/footer.php';
     ?>
