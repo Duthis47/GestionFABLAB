@@ -11,7 +11,7 @@ function ajouterResaMatos(){
     $mailUtilisateur = $_POST['mail'];
     $nomUtilisateur = $_POST['nom'];
     $prenomUtilisateur = $_POST['prenom'];
-    $success = ReservationDAO::ajouterReservationMateriel($nomUtilisateur, $prenomUtilisateur, $mailUtilisateur, $idMateriel, $dateDebut, $dateFin);
+    $success = ReservationDAO::ajouterReservationMateriel($idMateriel, $dateDebut, $dateFin, false, $nomUtilisateur, $prenomUtilisateur, $mailUtilisateur);
     if ($success) {
         ajouterResaSalle();
     } else {

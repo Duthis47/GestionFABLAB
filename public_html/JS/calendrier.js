@@ -221,6 +221,8 @@ function afficherCalendrierSalle(type, toutesLesResa, placeTotalSalle) {
             colorBack = "#333333";
             colorDisplay = "block";
             title = "Bloqué";
+        }else {
+            colorDisplay = "background"
         }
         let eventData = {
             title: title,

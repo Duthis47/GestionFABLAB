@@ -22,7 +22,7 @@ $dateFin = $_POST["dateFin"];
 $nbOccupants = $_POST["nbOccupants"];
 
 //Prise en compte de la réservation
-$success = ReservationDAO::ajouterReservationSalle($nomU, $prenomU, $mailU, $salleID, $dateDebut, $dateFin, $nbOccupants);
+$success = ReservationDAO::ajouterReservationSalle($salleID, $dateDebut, $dateFin, false, $nomU, $prenomU, $mailU, $nbOccupants);
 
 if ($success) {
     if (isset($_SESSION["redirectedResa"])) {
