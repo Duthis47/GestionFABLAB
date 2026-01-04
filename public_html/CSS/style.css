@@ -148,3 +148,8 @@ footer{
     color: #0d6efd !important;       
     font-weight: bold;
 }
+
+/*Couleur des liens du dropdown quand cliqués*/
+.dropdown-menu .dropdown-item:active {
+    background-color: rgb(86, 94, 100);
+}
