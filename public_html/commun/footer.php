@@ -29,7 +29,7 @@ include_once __DIR__ . '/../../config.php';
                         </a>
                     </li>
                 </ul>
-                <p class="mb-0">Ou retrouvez toutes nos informations <a class="text-info text-decoration-underline" href="https://organisation.univ-pau.fr/fr/grands-projets/irekia/fablab-milieux-aquatiques.html">ici</a>!</p>
+                <p class="mb-0">Ou retrouvez toutes nos informations <a class="footer-a text-decoration-underline" href="https://organisation.univ-pau.fr/fr/grands-projets/irekia/fablab-milieux-aquatiques.html">ici</a>!</p>
             </div>
 
             <div class="col-12 col-md-auto mb-4 mb-md-0 mx-md-4">
@@ -37,13 +37,13 @@ include_once __DIR__ . '/../../config.php';
                 <ul class="list-unstyled">
                     <li class="mb-2">
                         <img alt="Logo mail" src="<?= BASE_URL ?>image/logo-mail.png" style="width:20px; vertical-align: middle; margin-right: 5px;">
-                        <a class="text-dark text-decoration-none" href="mailto:fablab.ma@univ-pau.fr">fablab.ma@univ-pau.fr</a>
+                        <a class="text-dark footer-a" href="mailto:fablab.ma@univ-pau.fr">fablab.ma@univ-pau.fr</a>
                     </li>
                     <li>
                         <div class="d-flex justify-content-center justify-content-md-start">
                             <img alt="Logo pin" src="<?= BASE_URL ?>image/logo-pin.png" style="width:20px; height: 20px; vertical-align: top; margin-right: 5px;">
                             <span>
-                                Sur place au : <a class="text-dark text-decoration-none" href="https://www.google.fr/maps/place/Université+de+Pau+et+des+Pays+de+l'Adour/@43.4794501,-1.5085429,20.57z/data=!4m6!3m5!1s0xd51400f19c3049b:0x7417b36bb785049a!8m2!3d43.4793862!4d-1.5086889!16s%2Fg%2F11btmqzr9n?entry=ttu&g_ep=EgoyMDI1MTIwOS4wIKXMDSoASAFQAw%3D%3D">1 allée du parc Montaury,<br> 64600 Anglet - rdc du Bâtiment 1, salle 013</a>
+                                Sur place au : <a class="text-dark footer-a" href="https://www.google.fr/maps/place/Université+de+Pau+et+des+Pays+de+l'Adour/@43.4794501,-1.5085429,20.57z/data=!4m6!3m5!1s0xd51400f19c3049b:0x7417b36bb785049a!8m2!3d43.4793862!4d-1.5086889!16s%2Fg%2F11btmqzr9n?entry=ttu&g_ep=EgoyMDI1MTIwOS4wIKXMDSoASAFQAw%3D%3D">1 allée du parc Montaury,<br> 64600 Anglet - rdc du Bâtiment 1, salle 013</a>
                             </span>
                         </div>
                     </li>
@@ -64,10 +64,10 @@ include_once __DIR__ . '/../../config.php';
                 <p class="mb-0">Site réalisé par Charlotte ENCARNACAO, Mathis DUCROT et Honoré BLAISE<br> dans le cadre d’une SAÉ à ISANUM</p>
             </div>
             <div class="col-12 col-md-4 mb-2 mb-md-0">
-                <p class="mb-0"> <a class="text-dark-50 text-decoration-underline" href="#RGPD.php">RGPD</a></p>
+                <p class="mb-0"> <a class="footer-a text-decoration-underline" href="#RGPD.php">RGPD</a></p>
             </div>
             <div class="col-12 col-md-4 mb-2 mb-md-0">
-                <p class="mb-0"> <a class="text-dark-50 text-decoration-underline" href="#mentionslegales.php">Mentions légales</a></p>
+                <p class="mb-0"> <a class="footer-a text-decoration-underline" href="#mentionslegales.php">Mentions légales</a></p>
             </div>
         </div>
     </div>
