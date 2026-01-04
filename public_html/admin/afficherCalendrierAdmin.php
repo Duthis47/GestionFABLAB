@@ -1,38 +1,38 @@
-<!DOCTYPE html>
 <?php
-    //On lance la session si elle n'existe pas
-    if (!isset($_SESSION)) {
-        session_start();
-    }
+//On lance la session si elle n'existe pas
+if (!isset($_SESSION)) {
+    session_start();
+}
 
-    //On verifie que l'utilisateur est un administrateur
-    if(!isset($_SESSION['isAdmin'])){
-        header("Location: ./../index.php");
-        exit();
-    }
+//On verifie que l'utilisateur est un administrateur
+if(!isset($_SESSION['isAdmin'])){
+    header("Location: ./../index.php");
+    exit();
+}
 
-    require_once './../commun/header.php';
-    include_once './../classesDAO/SalleDAO.php';
-    include_once './../classesDAO/MaterielsDAO.php';
+require_once './../commun/header.php';
+include_once './../classesDAO/SalleDAO.php';
+include_once './../classesDAO/MaterielsDAO.php';
 
-    if (!isset($_GET["estMateriel"])) {
-        $isSalleMode = true;
-    }else {
-        $isSalleMode = false;
-    }
-    $isSalleModeJson = json_encode($isSalleMode);
-    $tableauElement = [];
-    if(!$isSalleMode){
-        $titreF = "Choisissez le matériel à afficher";
-        $tableauElement = MaterielsDAO::getAllMateriels();
-    } else {
-        $titreF = "Choisissez la salle à afficher";
-        $tableauElement = SalleDAO::getAllSalles();
-    }
+if (!isset($_GET["estMateriel"])) {
+    $isSalleMode = true;
+}else {
+    $isSalleMode = false;
+}
+$isSalleModeJson = json_encode($isSalleMode);
+$tableauElement = [];
+if(!$isSalleMode){
+    $titreF = "Choisissez le matériel à afficher";
+    $tableauElement = MaterielsDAO::getAllMateriels();
+} else {
+    $titreF = "Choisissez la salle à afficher";
+    $tableauElement = SalleDAO::getAllSalles();
+}
 
-    $tableauElementJson = json_encode($tableauElement);
+$tableauElementJson = json_encode($tableauElement);
 
 ?>
+<!DOCTYPE html>
 
 <head>
     <meta charset="UTF-8">
