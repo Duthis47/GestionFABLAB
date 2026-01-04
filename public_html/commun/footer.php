@@ -1,72 +1,80 @@
-<!DOCTYPE html>
-<html>
-    <body> 
-<script>
-            // Détecte si l'utilisateur préfère le mode sombre
-            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-            const theme = prefersDark ? 'dark' : 'light';
-            // Crée le cookie (valable 30 jours)
-            document.cookie = "user_theme=" + theme + "; max-age=" + (30*24*60*60) + "; path=/";
-</script>
-        <?php 
-        //Empeche l'affichage des potentielles erreurs
-        //error_reporting(0);
-        //ini_set('display_errors', 0);
+<?php 
+include_once __DIR__ . '/../../config.php';
 
-        //Ici, j'utilise le cookie généré par le script JS pour changer la couleur du footer
-        $theme = isset($_COOKIE['user_theme']) ? $_COOKIE['user_theme'] : 'light';
-        if ($theme == 'light'){
-            $footerColor = 'bg-gray';
-        }else {
-            $footerColor = 'bg-secondary';
-        }
-        ?>
+?>
+
+<footer class="navbar-white navbar-custom text-dark py-4" style="font-size: 0.9rem;">
     
+    <div class="container-fluid">
         
-        <footer class="container-fluid font-weight-bold">
-            <div class="row align-items-center justify-content-center">
-                <div class="col-12 col-md-auto mb-3 mb-md-0">
-                    <a class="navbar-brand" href="https://www.univ-pau.fr/fr/index.html"> 
-                        <img alt="Logo uppa" src="<?= BASE_URL ?>image/logo-uppa.png" class="img-fluid-logo-footer-uppa"/>
-                    </a> 
-                </div>
-
-                <div class="col-12 col-md-auto mb-3 mb-md-0 fs-4">
-                    <p>Suivez nous sur les réseaux sociaux!</p>
-                    <ul class="list-unstyled">
-                        <li> <a href="https://www.instagram.com/fablab.milieuxaquatiques/"><img alt="Logo insta" src="<?= BASE_URL ?>image/logo-insta.png"/></a> Instagram</li>
-                        <li> <a href="https://www.linkedin.com/company/fablab-milieux-aquatiques-uppa/"><img alt="Logo linkedin" src="<?= BASE_URL ?>image/logo-linkedin.png"/></a> Linkedin</li>
-                    </ul>
-                    <p>Ou retrouvez toutes nos informations <a class="footer-underline-a" href="https://organisation.univ-pau.fr/fr/grands-projets/irekia/fablab-milieux-aquatiques.html">ici</a>!</p>
-                </div>
-
-                <div class="col-12 col-md-auto mb-3 mb-md-0 fs-4">
-                    <p>Contactez-nous!</p>
-                    <ul class="list-unstyled">
-                        <li><img alt="Logo mail" src="<?= BASE_URL ?>image/logo-mail.png"><a class="footer-a" href="mailto:fablab.ma@univ-pau.fr">fablab.ma@univ-pau.fr</a></li>
-                        <li><img alt="Logo pin" src="<?= BASE_URL ?>image/logo-pin.png">Sur place au : <a class="footer-a" href="https://www.google.fr/maps/place/Université+de+Pau+et+des+Pays+de+l'Adour/@43.4794501,-1.5085429,20.57z/data=!4m6!3m5!1s0xd51400f19c3049b:0x7417b36bb785049a!8m2!3d43.4793862!4d-1.5086889!16s%2Fg%2F11btmqzr9n?entry=ttu&g_ep=EgoyMDI1MTIwOS4wIKXMDSoASAFQAw%3D%3D">1 allée du parc Montaury,<br> 64600 Anglet - rdc du Bâtiment 1, salle 013</a></li>
-                    </ul>
-                </div>
-
-                <div class="col-12 col-md-auto">
-                    <a class="navbar-brand" href="#"> 
-                        <img alt="Logo fablab" src="<?= BASE_URL ?>image/logo-fablab.png" class="img-fluid-logo-footer-fablab"/>
-                    </a> 
-                </div>
+        <div class="row align-items-center justify-content-center text-center">
+            
+            <div class="col-12 col-md-auto mb-4 mb-md-0">
+                <a class="navbar-brand" href="https://www.univ-pau.fr/fr/index.html"> 
+                    <img alt="Logo uppa" src="<?= BASE_URL ?>image/logo-uppa.png" style="height: 70px; width: auto; background: white; padding: 5px; border-radius: 5px;"/>
+                </a> 
             </div>
 
-
-            <div class="row align-items-center justify-content-center">
-                <div class="col-12 col-md-4 mb-3 mb-md-0 fs-4">
-                    <p style="font-size:10px;">Site réalisé par Charlotte ENCARNACAO, Mathis DUCROT et Honoré BLAISE<br> dans le cadre d’une SAÉ à ISANUM</p>
-                </div>
-                <div class="col-12 col-md-4 mb-3 mb-md-0 fs-4">
-                    <p> <a class="footer-underline-a" href="#RGPD.php">RGPD</a></p>
-                </div>
-                <div class="col-12 col-md-4 mb-3 mb-md-0 fs-4">
-                    <p> <a class="footer-underline-a" href="#mentionslegales.php">Mentions légales</a></p>
-                </div>
+            <div class="col-12 col-md-auto mb-4 mb-md-0 mx-md-4">
+                <p class="fw-bold mb-2">Suivez nous sur les réseaux sociaux!</p>
+                <ul class="list-unstyled">
+                    <li class="mb-1"> 
+                        <a href="https://www.instagram.com/fablab.milieuxaquatiques/" class="text-dark text-decoration-none">
+                            <img alt="Logo insta" src="<?= BASE_URL ?>image/logo-insta.png" style="width:20px; vertical-align: middle; margin-right: 5px;"/> Instagram
+                        </a>
+                    </li>
+                    <li class="mb-1"> 
+                        <a href="https://www.linkedin.com/company/fablab-milieux-aquatiques-uppa/" class="text-dark text-decoration-none">
+                            <img alt="Logo linkedin" src="<?= BASE_URL ?>image/logo-linkedin.png" style="width:20px; vertical-align: middle; margin-right: 5px;"/> Linkedin
+                        </a>
+                    </li>
+                </ul>
+                <p class="mb-0">Ou retrouvez toutes nos informations <a class="text-info text-decoration-underline" href="https://organisation.univ-pau.fr/fr/grands-projets/irekia/fablab-milieux-aquatiques.html">ici</a>!</p>
             </div>
-        </footer>
-    </body>
-</html>
+
+            <div class="col-12 col-md-auto mb-4 mb-md-0 mx-md-4">
+                <p class="fw-bold mb-2">Contactez-nous!</p>
+                <ul class="list-unstyled">
+                    <li class="mb-2">
+                        <img alt="Logo mail" src="<?= BASE_URL ?>image/logo-mail.png" style="width:20px; vertical-align: middle; margin-right: 5px;">
+                        <a class="text-dark text-decoration-none" href="mailto:fablab.ma@univ-pau.fr">fablab.ma@univ-pau.fr</a>
+                    </li>
+                    <li>
+                        <div class="d-flex justify-content-center justify-content-md-start">
+                            <img alt="Logo pin" src="<?= BASE_URL ?>image/logo-pin.png" style="width:20px; height: 20px; vertical-align: top; margin-right: 5px;">
+                            <span>
+                                Sur place au : <a class="text-dark text-decoration-none" href="https://www.google.fr/maps/place/Université+de+Pau+et+des+Pays+de+l'Adour/@43.4794501,-1.5085429,20.57z/data=!4m6!3m5!1s0xd51400f19c3049b:0x7417b36bb785049a!8m2!3d43.4793862!4d-1.5086889!16s%2Fg%2F11btmqzr9n?entry=ttu&g_ep=EgoyMDI1MTIwOS4wIKXMDSoASAFQAw%3D%3D">1 allée du parc Montaury,<br> 64600 Anglet - rdc du Bâtiment 1, salle 013</a>
+                            </span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="col-12 col-md-auto">
+                <a class="navbar-brand" href="#"> 
+                    <img alt="Logo fablab" src="<?= BASE_URL ?>image/logo-fablab.png" style="height: 70px; width: auto;"/>
+                </a> 
+            </div>
+        </div>
+
+        <hr class="border-secondary my-4">
+
+        <div class="row align-items-center justify-content-center text-center small text-dark-50">
+            <div class="col-12 col-md-4 mb-2 mb-md-0">
+                <p class="mb-0">Site réalisé par Charlotte ENCARNACAO, Mathis DUCROT et Honoré BLAISE<br> dans le cadre d’une SAÉ à ISANUM</p>
+            </div>
+            <div class="col-12 col-md-4 mb-2 mb-md-0">
+                <p class="mb-0"> <a class="text-dark-50 text-decoration-underline" href="#RGPD.php">RGPD</a></p>
+            </div>
+            <div class="col-12 col-md-4 mb-2 mb-md-0">
+                <p class="mb-0"> <a class="text-dark-50 text-decoration-underline" href="#mentionslegales.php">Mentions légales</a></p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script>
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const theme = prefersDark ? 'dark' : 'light';
+    document.cookie = "user_theme=" + theme + "; max-age=" + (30*24*60*60) + "; path=/";
+</script>

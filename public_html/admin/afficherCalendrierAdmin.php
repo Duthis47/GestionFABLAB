@@ -57,7 +57,7 @@
     <script src="./../JS/recupElement.js"></script>
 
 <body>
-    <div class="container">
+    <div class="container mb-5">
         <div id="filtre">
             <!-- filtre de salle ou de matériel -->
             <form>
