@@ -60,6 +60,7 @@ include_once __DIR__ . '/../../config.php';
                                     <li><a class="dropdown-item" href="<?= BASE_URL ?>admin/adminInfos.php" >Réservations</a></li>
                                     <li><a class="dropdown-item" href="<?= BASE_URL ?>admin/adminGestionDispo.php">Disponibilités</a></li>
                                     <li><a class="dropdown-item" href="<?= BASE_URL ?>admin/ajout.php">Ajout de réservable</a></li>
+                                    <li><a class="dropdown-item" href="<?= BASE_URL ?>admin/modif.php">Modifier des réservables</a></li>
                                     <li><hr class="dropdown-divider"></li>
                                     <li>
                                         <form method="POST" action="<?= BASE_URL ?>scriptAdmin/scriptGestion.php" class="d-inline">
