@@ -203,6 +203,7 @@
                                 <div class="col-12">
                                     <label for="validationFormMateriel" class="form-label fw-semibold">Formation obligatoire</label>
                                     <select class="form-select" aria-label="Default select example" name="formMat" id="formMat" required>
+                                        <option value='0'>Aucune formation</option>
                                         <?php
                                             include_once './../classesDAO/FormationDAO.php';
                                             $lesFormations = FormationDAO::recupTout();
