@@ -15,10 +15,6 @@ else {
 require_once './../classesDAO/SalleDAO.php';
 ?>
 <!DOCTYPE html>
-<!--
-Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
-Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHPWebPage.php to edit this template
--->
 <html>
     <head>
         <meta charset="UTF-8">
@@ -35,23 +31,40 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHPWebPage.php to 
         
     </head>
     <body>
-<div class="container">
-            <button type="submit"><a href = "ajout.php"><h3>Retour</h3></a></button>
-
-            <form method="POST" action="" class="row g-3 needs-validation">
-                <h1>Ajouter une formation</h1>
-                <div class="col-md-4">
-                    <label for="validationCustom01" class="form-label">Ajouter un intitulé</label>
-                    <input type="text" class="form-control" name="nomForm" id="validationNom" value="" required placeholder="Ex : Formation utilisation perceuse">
-                    <div class="invalid-feedback">
-                        Saisissez un intitulé.
+<div class="container py-5 mb-5">
+            
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <div class="mb-4">
+                        <a href="ajout.php" class="btn btn-outline-fablab-blue btn-sm d-inline-flex align-items-center gap-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
+                            </svg>
+                            Retour au menu
+                        </a>
                     </div>
-                </div>
-                <div class="col-md-6">
-                    <input type="reset" name="btnCancel" value="Annuler" class="btn btn-outline-fablab-blue"/>
-                    <input type="submit" name="btnValider" value="Valider" class="btn btn-fablab-yellow"/>
-                </div>
-            </form>
+
+                    <h2 class="mb-4 fw-bold">Ajouter une formation</h2>
+
+                    <div class="card shadow-sm border-0">
+                        <div class="card-body p-4">
+
+                            <form method="POST" action="" class="row g-3 needs-validation" novalidate>
+                                <div class="col-12">
+                                    <label for="validationNom" class="form-label fw-semibold">Intitulé de la formation</label>
+                                    <input type="text" class="form-control" name="nomForm" id="validationNom" value="" required placeholder="Ex : Formation utilisation perceuse">
+                                    <div class="invalid-feedback">
+                                        Saisissez un intitulé.
+                                    </div>
+                                </div>
+                                <div class="col-12 d-flex justify-content-end gap-2 mt-4">
+                                    <a href="ajout.php" class="btn btn-outline-fablab-blue">Annuler</a>
+                                    <input type="submit" name="btnValider" value="Valider" class="btn btn-fablab-yellow"/>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
             <br>
             <?php
                 $leMsg = "";
@@ -71,28 +84,30 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHPWebPage.php to 
 
                             $connexion = GestionConnexion::getConnexion();
 
-                            
-                            $connexion->beginTransaction();
+                            $stmt = $connexion->prepare($rsql);
 
                             $stmt->bindParam(':lIntitule', $lIntitule, PDO::PARAM_STR);
+                            
+                            $res = $stmt->execute();
 
                             if ($res) {
-                                $_SESSION['flash_message'] = "<div>Matériel ajouté avec succès !</div>";
+                                $_SESSION['flash_message'] = "<div class='alert alert-success mt-3'>Formation ajoutée avec succès !</div>";
                                 ob_end_clean();
 
                                 header("Location: " . $_SERVER['REQUEST_URI']);
                                 exit();
                             } else {
-                                $leMsg = "<div>Erreur lors de l'ajout de matériel.</div>";
+                                $leMsg = "<div class='alert alert-danger mt-3'>Erreur lors de l'ajout de la formation.</div>";
                             }
                             
-                            echo $leMsg; 
                         }
                 }
+                echo $leMsg; 
                 ob_end_flush();
             ?>
             <br>
         </div>   
+        </div>
         </div>
         <?php include_once './../commun/footer.php'; ?>
     </body>
