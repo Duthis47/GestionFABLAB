@@ -1,6 +1,7 @@
 <?php if (!isset($_SESSION)) {
     session_start();
 } 
+
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -103,8 +104,62 @@
                 <input type="hidden" name="tableauElement[]" id="tableauElement" value="<?= htmlspecialchars($tableauElement, ENT_QUOTES, 'UTF-8')?>"/>
             </form>
         </div>
-    </div>
+        <!-- TODO: Formulaire Salle-->
+         <?php 
+         if ($isSalleMode == "true"){
+         ?>
+        <div id="formSalle">
 
+        </div>
+        <script>
+            laSalle = document.getElementById('salle')
+            var t = document.getElementById('capaSalle').value;
+            salle = laSalle.value;
+            document.getElementById('numSalle').value = salle;
+            document.getElementById('numMateriel').value = "";
+
+            laSalle.addEventListener('change', function() {
+                lesElements = JSON.parse(document.getElementById('tableauElement').value);
+                salle = this.value;
+                document.getElementById('numSalle').placeholder = ;
+                document.getElementById('capaSalle').value = lesElements[salle];
+                document.getElementById('placeRestante').value = 3;
+            }); 
+        </script>
+        <?php 
+         }else {
+        ?>
+        <!-- TODO: Formulaire Materiel-->
+        <div id="formMateriel">
+            
+        </div>
+        <script>
+            let tableauElement = document.getElementById('tableauElement');
+            leMateriel = document.getElementById('materiel');
+            var t = document.getElementById('capaSalle').value;
+            materiel = leMateriel.value;
+            document.getElementById('numMateriel').value = materiel;
+            document.getElementById('numSalle').value = leMateriel.selectedOptions[0].getAttribute('data-salle');
+            recupMateriels("etudiant", materiel, t);
+
+            leMateriel.addEventListener('change', function() {
+                lesElements = JSON.parse(document.getElementById('tableauElement').value);
+                materiel = this.value;
+                document.getElementById('numMateriel').value = materiel;
+                document.getElementById('capaSalle').value = lesElements[materiel];
+                var t = document.getElementById('capaSalle').value;
+                document.getElementById('numSalle').value = this.options[this.selectedIndex].getAttribute('data-salle');
+                recupMateriels("etudiant", materiel, t);
+            });
+        </script>
+        <?php 
+         }
+        ?>
+    </div>
+    <script>
+        
+
+    </script>
     <?php
     include_once './../commun/footer.php';
     ?>
