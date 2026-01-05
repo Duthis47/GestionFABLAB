@@ -31,6 +31,36 @@ class ReservationDAO {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public static function getBlocagesFuturs($isSalle) {
+        $connexion = GestionConnexion::getConnexion();
+        $mailAdmin = "admin@etud.univ-pau.fr"; 
+
+        if ($isSalle) {
+            $sql = "SELECT r.idR_salle as idR, r.DateTime_debut as dateDebut, r.DateTime_fin as dateFin, s.nomSalles as nomElement
+                    FROM ReserverSalles r
+                    JOIN Salles s ON r.idR_salle = s.idR
+                    JOIN Utilisateur u ON r.idU = u.idU
+                    WHERE u.mailU = :mail 
+                    AND r.DateTime_fin > NOW()
+                    ORDER BY r.DateTime_debut ASC";
+        } else {
+            $sql = "SELECT rm.idR_materiel as idR, rm.DateTime_debut as dateDebut, rm.DateTime_fin as dateFin, r.Nom as nomElement
+                    FROM ReserverMateriels rm
+                    JOIN Materiels m ON rm.idR_materiel = m.idR
+                    JOIN Utilisateur u ON rm.idU = u.idU
+                    JOIN Reservables r ON r.idR = rm.idR_materiel
+                    WHERE u.mailU = :mail 
+                    AND rm.DateTime_fin > NOW()
+                    ORDER BY rm.DateTime_debut ASC";
+        }
+
+        $stmt = $connexion->prepare($sql);
+        $stmt->bindParam(':mail', $mailAdmin);
+        $stmt->execute();
+        
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     public static function ajouterReservationSalle($salleId, $dateDebut, $dateFin, $blocage=false, $nomU="admin", $prenomU="admin", $mailUtilisateur="admin@etud.univ-pau.fr", $nbOccupants=0) {
         $connexion = GestionConnexion::getConnexion();
         $user = UtilisateurDAO::getUtilisateurByMail($mailUtilisateur);

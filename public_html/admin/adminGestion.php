@@ -21,7 +21,6 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHPWebPage.php to 
     <body>
         <?php
         if (isset($_SESSION["isAdmin"])){
-            // Le header contient maintenant le bouton déconnexion
             require_once './../commun/header.php';
         ?>
         

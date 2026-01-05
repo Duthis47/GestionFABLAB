@@ -59,20 +59,18 @@ $tableauElementJson = json_encode($tableauElement);
 <body>
     <div class="container mb-5">
         <div id="filtre">
-            <!-- filtre de salle ou de matériel -->
-
             <form>
                 <div class="mb-3">            
-                    <label for="element" class="form-label me-3"><?= $titreF ?></label>
+                    <label for="element" class="form-label fs-4 fw-semibold me-3"><?= $titreF ?></label>
                     <label class="form-label">
                         <a href="afficherCalendrierAdmin.php" 
                         class="btn btn-sm <?= $isSalleMode ? 'd-none' : 'btn-outline-fablab-blue' ?>">
-                            Salle
+                            Salles
                         </a>
 
                         <a href="afficherCalendrierAdmin.php?estMateriel=true" 
                         class="btn btn-sm <?= !$isSalleMode ? 'd-none' : 'btn-outline-fablab-blue' ?>">
-                            Matériel
+                            Matériels
                         </a>
                     </label>
 

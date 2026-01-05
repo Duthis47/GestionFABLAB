@@ -1,5 +1,19 @@
-<?php if (!isset($_SESSION)) { session_start(); } ?>
+<?php
+ob_start();
 
+//Empeche l'affichage des potentiels erreurs
+error_reporting(1);
+ini_set('display_errors', 1);
+session_start();
+if (isset($_SESSION["isAdmin"])){
+    require_once './../commun/header.php';
+}
+else {
+    header("Location: ./../index.php");
+}
+
+require_once './../classesDAO/SalleDAO.php';
+?>
 <!DOCTYPE html>
 <!--
 Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -21,66 +35,105 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHPWebPage.php to 
         
     </head>
     <body>
-        <?php
-        session_start();
-        if (isset($_SESSION["isAdmin"])){
-
-            require_once './../commun/header.php';
-            
-        ?>
 <div class="container">
-            <form method="POST" action="#Ajout des réservables" class="row g-3 needs-validation" novalidate>
-
+            <form method="POST" action="" class="row g-3 needs-validation">
+                <h1>Ajouter une salle</h1>
                 <div class="col-md-4">
                     <label for="validationCustom01" class="form-label">Ajouter un nom</label>
-                    <input type="text" class="form-control" id="validationCustom01" value="" required placeholder="Exemple de nom">
-                    <div class="valid-feedback">
-                        Ca a l'air bon!
-                    </div>
-                </div>
-                <div class="col-md-12">
-                    <label for="validationCustom02" class="form-label">Ajouter un tuto : </label>
-                    <input type="text" class="form-control" id="validationCustom02" value="" required placeholder="Exemple de tuto">
-                    <div class="valid-feedback">
-                        Is ok
-                    </div>
-                </div>
-                <div class="col-md-12">
-                    <label for="validationCustomUsername" class="form-label">Ajouter des règles de sécurité</label>
-                    <div class="input-group has-validation">
-                    <input type="text" class="form-control" id="validationCustomUsername" aria-describedby="inputGroupPrepend" required placeholder="Exemple de règle">
+                    <input type="text" class="form-control" name="nomRes" id="validationNom" value="" required placeholder="Ex : Salle 201">
                     <div class="invalid-feedback">
-                        C PAS DE LA SÉCU ÇA!!
-                    </div>
+                        Saisissez un nom.
                     </div>
                 </div>
+
                 <div class="col-md-12">
-                    <label for="validationTextarea" class="form-label">Ajouter une description</label>
-                    <textarea class="form-control" id="validationTextarea" placeholder="Lorem ipsum dolor" required></textarea>
+                    <label for="validationCustom02" class="form-label">Ajouter une capacité d'accueil : </label>
+                    <input type="text" class="form-control" name="capaRes" id="validationCapaAccueil" required placeholder="Ex : 10">
                     <div class="invalid-feedback">
-                    Please enter a message in the textarea.
+                        Saisissez une capacité d'accueil.
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <label for="validationCustomUsername" class="form-label">Ajouter une description de la salle</label>
+                    <input type="text" class="form-control" name="descRes" id="validationDesc" required placeholder="Ex : Grande salle avec plans de travail">
+                    <div class="invalid-feedback">
+                        Saisissez une description de la salle.
                     </div>
                 </div>
                 
-
-
-
-                <div class="spinner-container">
-                                    <input type="number" class="form-control form-control-spinner" id="demo-simple" value="0" min="0" max="100">
-                                </div>
-                <div class="container">
-        
-            <input type="submit" name="btnValider" value="Valider" class="btn btn-primary"/>
-            <input type="submit" name="btnCancel" value="Annuler" class="btn btn-primary"/>
-
+                <br>
+                <div class="col-md-6">
+                    <input type="reset" name="btnCancel" value="Annuler" class="btn btn-outline-fablab-blue"/>
+                    <input type="submit" name="btnValider" value="Valider" class="btn btn-fablab-yellow"/>
+                </div>
             </form>
+            <br>
+            <?php
+                $leMsg = "";
+
+                if (isset($_SESSION['flash_message'])) {
+                    $leMsg = $_SESSION['flash_message'];
+                    unset($_SESSION['flash_message']);
+                }
+
+                if ((isset($_POST['btnValider']))) {
+
+                    if (!empty($_POST['nomRes']) && !empty($_POST['capaRes']) && !empty($_POST['descRes'])) {
+
+                        if (is_numeric($_POST['capaRes']) == false){
+                            $leMsg = "<div>La capacité doit être un chiffre (Ex: 10) !</div>";
+
+                        }else{
+                            $leNom = $_POST['nomRes'];
+                            $laDesc = $_POST['descRes'];
+                            $laCapa = $_POST['capaRes'];
+
+                            $res = SalleDAO::ajouterSalle($leNom, $laDesc, "disponible", $laCapa);
+
+                            if ($res) {
+                                $_SESSION['flash_message'] = "<div>Salle ajoutée avec succès !</div>";
+                                ob_end_clean();
+
+                                header("Location: " . $_SERVER['REQUEST_URI']);
+                                exit();
+                            } else {
+                                $leMsg = "<div>Erreur lors de l'ajout de la salle.</div>";
+                            }
+                            }
+                            echo $leMsg; 
+                        }
+                }
+                ob_end_flush();
+            ?>
+            <br>
         </div>   
         </div>
-        <?php 
-            }
-            else {
-                header("Location: ./../index.php");
-            }
-        ?>
+        <?php include_once './../commun/footer.php'; ?>
     </body>
+
+ <script>
+// Example starter JavaScript for disabling form submissions if there are invalid fields
+(() => {
+  'use strict'
+
+  // Fetch all the forms we want to apply custom Bootstrap validation styles to
+  const forms = document.querySelectorAll('.needs-validation')
+
+  // Loop over them and prevent submission
+  Array.from(forms).forEach(form => {
+    form.addEventListener('submit', event => {
+      if (!form.checkValidity()) {
+        event.preventDefault()
+        event.stopPropagation()
+      }
+
+      form.classList.add('was-validated')
+    }, false)
+  })
+})()
+if ( window.history.replaceState ) {
+            window.history.replaceState( null, null, window.location.href );
+        }
+</script>
 </html>
