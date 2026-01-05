@@ -1,17 +1,24 @@
 <?php 
-/*<input type="submit" name="btnSupprimer" value="Supprimer" class="btn btn-fablab-red"/>*/
+session_start();
+include_once './../classes/GestionConnexion.php';
 
-if (isset($_POST['btnSupprimer']){
-    $lId = ['idR']
-    $rsql = "DELETE FROM Reservables WHERE idR == $lId ";
+$lId = $_GET['idR'];
+
+try {
+    $connexion = GestionConnexion::getConnexion();
     
-    $connexion = GestionConnexionPDO::getConnexion();
-    $resReq = $connexion->query($rsql);
-    $leRes = $resReq->fetch();
-    if ($leRes==1){
-        echo "<div class='alert alert-danger mt-3'>Salle ajoutée avec succès !</div>":
-    }else{
-        echo "<div class='alert alert-danger mt-3'>Erreur lors de la suppression</div>";
+    $sql = "DELETE FROM Reservables WHERE idR = :idR";
+    $req = $connexion->prepare($sql);
+    $req->bindValue(":idR",$lId, PDO::PARAM_INT);
+    $req->execute();
+
+    if ($req->rowCount() > 0) {
+        header("Location: ./../admin/modif.php"); 
+        exit();
+    } else {
+        echo "<div class='alert alert-warning mt-3'>Aucun élément supprimé (ID introuvable ou erreur).</div>";
     }
+} catch (Exception $e) {
+    echo "<div class='alert alert-danger mt-3'>Erreur SQL : " . $e->getMessage() . "</div>";
 }
 ?>

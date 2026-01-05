@@ -1,8 +1,12 @@
-<?php if (!isset($_SESSION)) {
-    session_start();
-} 
-
+<?php
+if (isset($_SESSION["isAdmin"])){
+    require_once './../commun/header.php';
+}
+else {
+    header("Location: ./../index.php");
+}
 ?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -58,7 +62,7 @@
                     if ($isSalleMode) { ?>
                         <select class="form-select" id="salle" name="salle">
                             <?php 
-                                                    //Liste des salles
+                                //Liste des salles
                                 include_once './../classesDAO/SalleDAO.php';
                         
                                 $listeSalle = SalleDAO::getAllSalles();
@@ -119,163 +123,174 @@
          if ($isSalleMode == "true"){
          ?>
         <div id="formSalle">
-        <form>
-                    <h2 class="mb-4 fw-bold">Modifier une salle</h2>
+            <form method="POST" action="" class="row g-3 needs-validation" novalidate>
+                <div class="card shadow-sm border-0">
+                    <div class="card-body p-4">
+                        <div class="row g-3"> <div class="col-md-6">
+                                <label for="validationNom" class="form-label fw-semibold">Nom de la salle</label>
+                                <input type="textarea" class="form-control" name="nomRes" id="validationNom" value="" required placeholder="">
+                                <div class="invalid-feedback">Saisissez un nom.</div>
+                            </div>
 
-                    <div class="card shadow-sm border-0">
-                        <div class="card-body p-4">
+                            <div class="col-md-6">
+                                <label for="validationCapaAccueil" class="form-label fw-semibold">Capacité d'accueil</label>
+                                <input type="number" class="form-control" name="capaRes" id="validationCapaAccueil" required placeholder="" min="1">
+                                <div class="invalid-feedback">Saisissez une capacité valide.</div>
+                            </div>
 
-                            <form method="POST" action="" class="row g-3 needs-validation" novalidate>
-                                
-                                <div class="col-md-6">
-                                    <label for="validationNom" class="form-label fw-semibold">Nom de la salle</label>
-                                    <input type="textarea" class="form-control" name="nomRes" id="validationNom" value="" required placeholder="">
-                                    <div class="invalid-feedback">Saisissez un nom.</div>
-                                </div>
+                            <div class="col-md-12">
+                                <label for="validationDesc" class="form-label fw-semibold">Ajouter une description de la salle</label>
+                                <input type="textarea" class="form-control" name="descRes" id="validationDesc" required placeholder="">
+                                <div class="invalid-feedback">Saisissez une description de la salle.</div>
+                            </div>
 
-                                <div class="col-md-6">
-                                    <label for="validationCapaAccueil" class="form-label fw-semibold">Capacité d'accueil</label>
-                                    <input type="number" class="form-control" name="capaRes" id="validationCapaAccueil" required placeholder="" min="1">
-                                    <div class="invalid-feedback">Saisissez une capacité valide.</div>
-                                </div>
+                            <input type="hidden" name="idR" id="hiddenIdSalle" value=""/>
 
-                                <div class="col-md-12">
-                                    <label for="validationCustomUsername" class="form-label fw-semibold">Ajouter une description de la salle</label>
-                                    <input type="textarea" class="form-control" name="descRes" id="validationDesc" required placeholder="">
-                                    <div class="invalid-feedback">
-                                        Saisissez une description de la salle.
-                                    </div>
-                                </div>
-                                <input type="hidden" name="idR" value=""/>
-
-                                <div class="col-12 d-flex justify-content-end gap-2 mt-4">
-                                    <input type="reset" name="btnCancel" value="Annuler" class="btn btn-outline-fablab-blue"/>
-                                    <input type="submit" name="btnValider" value="Valider" class="btn btn-fablab-yellow"/>
-                                    <input type="submit" name="btnSupprimer" value="Supprimer" class="btn btn-fablab-red"/>
-                                </div>
-        </form>
+                            <div class="col-12 d-flex justify-content-end gap-2 mt-4">
+                                <input type="reset" name="btnCancel" value="Annuler" class="btn btn-outline-fablab-blue"/>
+                                <input type="submit" name="btnValider" value="Valider" class="btn btn-fablab-yellow"/>
+                                <input type="submit" name="btnSupprimer" value="Supprimer" class="btn btn-fablab-red" formnovalidate/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
         </div>
         <script>
-            laSalle = document.getElementById('salle')
-            var t = document.getElementById('capaSalle').value;
-            salle = laSalle.value;
-            documet.getElementById("idR").value = salle;
-            laSalle.addEventListener('change', function() {
-                lesElements = JSON.parse(document.getElementById('tableauElement').value);
-                salle = this.value;
-                documet.getElementById("idR").value = salle;
-                document.getElementById('numSalle').placeholder = ;
-                document.getElementById('capaSalle').value = lesElements[salle];
-                document.getElementById('placeRestante').value = 3;
-            }); 
+            var laSalle = document.getElementById('salle');
+
+            var inputHidden = document.getElementById("hiddenIdSalle"); 
+
+            // Fonction nommée pour éviter les conflits et initialiser au démarrage
+            function updateSalle() {
+                var lesElements = JSON.parse(document.getElementById('tableauElement').value);
+                var salleVal = laSalle.value;
+                
+                // MISE A JOUR DE L'ID CACHÉ
+                inputHidden.value = salleVal;
+
+                if (document.getElementById('capaSalle') && lesElements[salleVal]) {
+                     document.getElementById('capaSalle').value = lesElements[salleVal];
+                }
+            }
+
+            laSalle.addEventListener('change', updateSalle);
+            // On lance une fois au chargement
+            updateSalle();
         </script>
         <?php 
          }else {
             ?>
         <!-- TODO: Formulaire Materiel-->
         <div id="formMateriel">
-            <form>
-                                
-                                <div class="col-md-6">
-                                    <label for="validationNom" class="form-label fw-semibold">Nom du matériel</label>
-                                    <input type="textarea" class="form-control" name="nomMat" id="validationNom" required placeholder="">
-                                    <div class="invalid-feedback">Saisissez un nom.</div>
-                                </div>
+            <form method="POST" action="" class="row g-3 needs-validation" novalidate>
+                <div class="card shadow-sm border-0">
+                <div class="col-md-6">
+                    <label for="validationNom" class="form-label fw-semibold">Nom du matériel</label>
+                    <input type="textarea" class="form-control" name="nomMat" id="validationNom" required placeholder="">
+                    <div class="invalid-feedback">Saisissez un nom.</div>
+                </div>
 
-                                <div class="col-md-6">
-                                    <label for="validationDesc" class="form-label fw-semibold">Description</label>
-                                    <input type="textarea" class="form-control" name="nomDesc" id="validationDesc" required placeholder="">
-                                    <div class="invalid-feedback">Saisissez une description.</div>
-                                </div>
+                <div class="col-md-6">
+                    <label for="validationDesc" class="form-label fw-semibold">Description</label>
+                    <input type="textarea" class="form-control" name="nomDesc" id="validationDesc" required placeholder="">
+                    <div class="invalid-feedback">Saisissez une description.</div>
+                </div>
 
-                                <div class="col-md-6">
-                                    <label for="validationTuto" class="form-label fw-semibold">Lien Tutoriel</label>
-                                    <input type="textarea" class="form-control" name="nomTuto" id="validationTuto" required placeholder="">
-                                    <div class="invalid-feedback">Saisissez un tutoriel.</div>
-                                </div>
+                <div class="col-md-6">
+                    <label for="validationTuto" class="form-label fw-semibold">Lien Tutoriel</label>
+                    <input type="textarea" class="form-control" name="nomTuto" id="validationTuto" required placeholder="">
+                    <div class="invalid-feedback">Saisissez un tutoriel.</div>
+                </div>
 
-                                <div class="col-md-6">
-                                    <label for="validationSecu" class="form-label fw-semibold">Règle de sécurité</label>
-                                    <input type="textarea" class="form-control" name="nomSecu" id="validationSecu" required placeholder="">
-                                    <div class="invalid-feedback">Saisissez des règles de sécurité.</div>
-                                </div>
+                <div class="col-md-6">
+                    <label for="validationSecu" class="form-label fw-semibold">Règle de sécurité</label>
+                    <input type="textarea" class="form-control" name="nomSecu" id="validationSecu" required placeholder="">
+                    <div class="invalid-feedback">Saisissez des règles de sécurité.</div>
+                </div>
 
-                                <div class="col-md-6">
-                                    <label for="validationNombre" class="form-label fw-semibold">Ajouter un nombre d'exemplaires : </label>
-                                    <input type="number" class="form-control" name="nbMat" id="validationNombre" value="" required placeholder="">
-                                    <div class="invalid-feedback">
-                                        Saisissez un nombre valide.
-                                    </div>
-                                </div>
+                <div class="col-md-6">
+                    <label for="validationNombre" class="form-label fw-semibold">Ajouter un nombre d'exemplaires : </label>
+                    <input type="number" class="form-control" name="nbMat" id="validationNombre" value="" required placeholder="">
+                    <div class="invalid-feedback">Saisissez un nombre valide.</div>
+                </div>
 
-                                <div class="col-12">
-                                    <label for="validationFormMateriel" class="form-label fw-semibold">Formation obligatoire (ctrl+clic pour en selectionner plusieurs)</label>
-                                    <select class="form-select" aria-label="Multiple select example" name="formMat[]" id="formMat" multiple required>
-                                        <option value='0'>Aucune formation</option>
-                                        <?php
-                                            include_once './../classesDAO/FormationDAO.php';
-                                            $lesFormations = FormationDAO::recupTout();
-                                            foreach($lesFormations as $leTuple){
-                                                echo '<option value="'.$leTuple['idF'].'">'.$leTuple['Intitule'].'</option>';
-                                            }
-                                            ?>
-                                    </select>
-                                </div>
-                                <div class="col-md-12">
-                                    <label for="validationCustom02" class="form-label  fw-semibold">Ajouter une salle : </label>
-                                    <select class="form-select" aria-label="Default select example" name="salleMat" id="salleMat" required>
-                                        <?php 
-                                            include_once './../classesDAO/SalleDAO.php';
-                                            $listeSalle = SalleDAO::getAllSalles();
-                                            foreach ($listeSalle as $salle){
-                                                echo "<option value='".$salle['idR']."'>".$salle['Nom']."</option>";
-                                            }
-                                        ?>
-                                    </select>
-                                </div>
-                                <br/>
+                <div class="col-12">
+                    <label for="validationFormMateriel" class="form-label fw-semibold">Formation obligatoire (ctrl+clic pour en selectionner plusieurs)</label>
+                    <select class="form-select" aria-label="Multiple select example" name="formMat[]" id="formMat" multiple required>
+                        <option value='0'>Aucune formation</option>
+                        <?php
+                            include_once './../classesDAO/FormationDAO.php';
+                            $lesFormations = FormationDAO::recupTout();
+                            foreach($lesFormations as $leTuple){
+                                echo '<option value="'.$leTuple['idF'].'">'.$leTuple['Intitule'].'</option>';
+                            }
+                            ?>
+                    </select>
+                </div>
+                <div class="col-md-12">
+                    <label for="validationCustom02" class="form-label  fw-semibold">Ajouter une salle : </label>
+                    <select class="form-select" aria-label="Default select example" name="salleMat" id="salleMat" required>
+                        <?php 
+                            include_once './../classesDAO/SalleDAO.php';
+                            $listeSalle = SalleDAO::getAllSalles();
+                            foreach ($listeSalle as $salle){
+                                echo "<option value='".$salle['idR']."'>".$salle['Nom']."</option>";
+                            }
+                        ?>
+                    </select>
+                </div>
+                <br/>
+                
+                <input type="hidden" name="idR" id="hiddenIdMateriel" value=""/>
+                
+                <div class="col-12 d-flex justify-content-end gap-2 mt-4">
+                    <input type="reset" name="btnCancel" value="Annuler" class="btn btn-outline-fablab-blue"/>
+                    <input type="submit" name="btnValider" value="Valider" class="btn btn-fablab-yellow"/>
+                    <input type="submit" name="btnSupprimer" value="Supprimer" class="btn btn-fablab-red" formnovalidate/>
 
-                                <div class="col-12 d-flex justify-content-end gap-2 mt-4">
-                                    <input type="reset" name="btnCancel" value="Annuler" class="btn btn-outline-fablab-blue"/>
-                                    <input type="submit" name="btnValider" value="Valider" class="btn btn-fablab-yellow"/>
-                                    <input type="submit" name="btnSupprimer" value="Supprimer" class="btn btn-fablab-red"/>
-                                </div>
-
-         </form>
+                </div>
+                </div>
+                        
+            </form>
         </div>
         <script>            
-    let assocMatSalleData = JSON.parse(document.getElementById('assocMatSalle').value);
-    let assocMatFormData = JSON.parse(document.getElementById('assocMatForm').value);
-    let leMateriel = document.getElementById('materiel');
+            let assocMatSalleData = JSON.parse(document.getElementById('assocMatSalle').value);
+            let assocMatFormData = JSON.parse(document.getElementById('assocMatForm').value);
+            let leMateriel = document.getElementById('materiel');
+            
+            let hiddenInputMat = document.getElementById('hiddenIdMateriel');
 
-    // Fonction pour mettre à jour les champs
-    function rafraichirFormulaire() {
-        let materiel = leMateriel.value;
+            // Fonction pour mettre à jour les champs
+            function rafraichirFormulaire() {
+                let materiel = leMateriel.value;
+                
+                hiddenInputMat.value = materiel;
 
-        // 1. Mise à jour de la Salle (Simple)
-        let idSalleCible = assocMatSalleData[materiel];
-        document.getElementById('salleMat').value = idSalleCible;
+                // 1. Mise à jour de la Salle
+                if (assocMatSalleData[materiel]) {
+                    let idSalleCible = assocMatSalleData[materiel];
+                    document.getElementById('salleMat').value = idSalleCible;
+                }
 
-        // 2. Mise à jour des Formations (Multiple)
-        let idsCibles = assocMatFormData[materiel].map(f => f.idF.toString());
-        
-        // Si le matériel n'a aucune formation, on sélectionne l'option "0"
-        if (idsCibles.length === 0) {
-            idsCibles.push("0");
-        }
+                // 2. Mise à jour des Formations
+                if (assocMatFormData[materiel]) {
+                    let idsCibles = assocMatFormData[materiel].map(f => f.idF.toString());
+                    
+                    if (idsCibles.length === 0) {
+                        idsCibles.push("0");
+                    }
 
-        Array.from(document.getElementById('formMat').options).forEach(option => {
-            // On sélectionne l'option si sa valeur est dans notre liste d'IDs
-            option.selected = idsCibles.includes(option.value);
-        });
-    }
+                    Array.from(document.getElementById('formMat').options).forEach(option => {
+                        option.selected = idsCibles.includes(option.value);
+                    });
+                }
+            }
 
-    // Écouteur de changement
-    leMateriel.addEventListener('change', rafraichirFormulaire);
+            leMateriel.addEventListener('change', rafraichirFormulaire);
 
-    // Initialisation au chargement de la page
-    rafraichirFormulaire();
-</script>
+            rafraichirFormulaire();
+        </script>
         <?php 
          }
         ?>
