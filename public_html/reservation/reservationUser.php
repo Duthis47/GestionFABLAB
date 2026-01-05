@@ -123,7 +123,7 @@
                                 <input type="text" class="form-control" id="nom" name="nom" required>
                             </div>
                             <div class="mb-3">
-                                <label for="prenom" class="form-label">Prenom</label>
+                                <label for="prenom" class="form-label">Prénom</label>
                                 <input type="text" class="form-control" id="prenom" name="prenom" required>
                             </div>
                             <div class="mb-3">
@@ -135,7 +135,7 @@
                             <?php 
                             //if ($isSalleMode){ ?>
                                 <div class="mb-3">
-                                    <label for="nbOccupant" class="form-label">nombre d'occupant</label>
+                                    <label for="nbOccupant" class="form-label">Nombre d'occupants</label>
                                     <input type="number" min="1" max="" class="form-control" id="nbOccupant" name="nbOccupants" required>
                                     <input type="hidden" value="<?= $capaSalle ?>" id="capaSalle" name="capaSalle"/>
                                     <input type="hidden" value="" id="placeRestante" name="placeRestante"/>
