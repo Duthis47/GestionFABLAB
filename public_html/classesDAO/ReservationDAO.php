@@ -141,5 +141,4 @@ class ReservationDAO {
         $req->bindValue("idD", $dateDebut);
         return $req->execute();
     }
-
 }
