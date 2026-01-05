@@ -9,7 +9,7 @@ class MaterielsDAO {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public static function ajouterMateriel($nom, $description, ,$statut): bool|int {
+    public static function ajouterMateriel($nom, $description, $statut): bool|int {
         $connexion = GestionConnexion::getConnexion();
         $stmt = $connexion->prepare("INSERT INTO Reservables (Nom, Description, statut) VALUES (:nom, :description, :statut)");
         $stmt->bindParam(':nom', $nom, PDO::PARAM_STR);

@@ -1,7 +1,6 @@
 <?php 
 
 include_once './../classes/GestionConnexion.php';
-include_once './MaterielsDAO.php';
 
 class SalleDAO {
     public static function getAllSalles(): array {
