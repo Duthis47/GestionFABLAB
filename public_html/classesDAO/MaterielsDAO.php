@@ -18,4 +18,13 @@ class MaterielsDAO {
         $stmt->execute();
         return $connexion->lastInsertId();
     }
+
+    public static function getFormationAssocie($idMat){
+        $connexion = GestionConnexion::getConnexion();
+        $ordreSQL = "SELECT * FROM Formation NATURAL JOIN Necessiter WHERE idR_materiel = :idR";
+        $req = $connexion->prepare($ordreSQL);
+        $req->bindParam(":idR", $idMat, PDO::PARAM_INT);
+        $req->execute();
+        return $req->fetchAll();
+    }
 }

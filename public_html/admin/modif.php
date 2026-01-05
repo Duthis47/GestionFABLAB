@@ -54,6 +54,7 @@
                     <?php                         
                     $tableauElement = [];
                     $assocMatSalle = [];
+                    $assocMatForm = [];
                     if ($isSalleMode) { ?>
                         <select class="form-select" id="salle" name="salle">
                             <?php 
