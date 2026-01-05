@@ -28,22 +28,35 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHPWebPage.php to 
         <link rel="stylesheet" href="./../CSS/style.css"/>
         <script src="./../bootstrap/js/color-modes.js"></script>
         <meta name="theme-color" content="#712cf9" />
-        
     </head>
-    <body>
-<div class="container">
-                <h1>Ajouter une salle</h1>
-                <button type="submit"><a href = "ajoutSalle.php">Ajouter Salle</a> </button>
+<body>
+<div class="container py-5 mb-5 pb-5">
+            <div class="row justify-content-center">
+                <div class="col-md-8 col-lg-4">
+                    
+                    <h2 class="text-center mb-5 fw-bold">Gestion des Ajouts</h2>
 
-                <h1>Ajouter un matériel</h1>
-                <button type="submit"><a href = "ajoutMateriel.php">Ajouter Matériel</a> </button>
+                    <div class="d-flex flex-column">
+                        
+                        <div class="d-flex justify-content-between align-items-center py-4 border-bottom">
+                            <h4 class="h5 mb-0">Salles</h4>
+                            <a href="ajoutSalle.php" class="btn btn-fablab-blue">Ajouter</a>
+                        </div>
 
-                <h1>Ajouter une formation</h1>
-                <button type="submit"><a href = "ajoutFormation.php">Ajouter Formation</a> </button>
+                        <div class="d-flex justify-content-between align-items-center py-4 border-bottom">
+                            <h4 class="h5 mb-0">Matériel</h4>
+                            <a href="ajoutMateriel.php" class="btn btn-fablab-blue">Ajouter</a>
+                        </div>
 
-            <br>
-            <br>
-        </div>   
+                        <div class="d-flex justify-content-between align-items-center py-4">
+                            <h4 class="h5 mb-0">Formation</h4>
+                            <a href="ajoutFormation.php" class="btn btn-fablab-blue">Ajouter</a>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
         </div>
         <?php include_once './../commun/footer.php'; ?>
     </body>

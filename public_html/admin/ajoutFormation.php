@@ -14,10 +14,6 @@ else {
 require_once("./../classes/GestionConnexion.php");
 ?>
 <!DOCTYPE html>
-<!--
-Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
-Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHPWebPage.php to edit this template
--->
 <html>
     <head>
         <meta charset="UTF-8">
@@ -34,14 +30,24 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHPWebPage.php to 
         
     </head>
     <body>
-<div class="container">
-            <button type="submit"><a href = "ajout.php"><h3>Retour</h3></a></button>
+        <div class="container py-5 mb-5">
+            <div class="row justify-content-center">
+                <div class="col-md-10 col-lg-8">
+
+            <div class="mb-4">
+                <a href="ajout.php" class="btn btn-outline-fablab-blue btn-sm d-inline-flex align-items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
+                    </svg>
+                        Retour au menu
+                </a>
+            </div>
 
             <form method="POST" action="" class="row g-3 needs-validation">
                 <h1>Ajouter une formation</h1>
                 <div class="col-md-12">
                     <label for="validationCustom01" class="form-label">Ajouter un intitulé :</label>
-                    <input type="text" class="form-control" name="nomForm" id="validationNom" value="" required placeholder="Ex : Formation utilisation perceuse">
+                    <input type="textarea" class="form-control" name="nomForm" id="validationNom" value="" required placeholder="Ex : Formation utilisation perceuse">
                     <div class="invalid-feedback">
                         Saisissez un intitulé.
                     </div>
@@ -79,13 +85,17 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHPWebPage.php to 
                                 $leMsg = "<div>Erreur lors de l'ajout de formation.</div>";
                             }
                             
-                            echo $leMsg; 
                         }
                 }
+                echo $leMsg; 
                 ob_end_flush();
             ?>
             <br>
         </div>   
+        </div>
+        </div>
+                        </div>   
+            </div>
         </div>
         <?php include_once './../commun/footer.php'; ?>
     </body>
