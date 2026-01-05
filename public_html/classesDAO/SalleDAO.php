@@ -40,5 +40,35 @@ class SalleDAO {
             }
             return false;
         }
+
+    public static function modifierSalle($idR, $nom, $description, $statut, $capaAccueil): bool|int {
+
+       $connexion = GestionConnexion::getConnexion();
+
+       try{
+        $connexion->beginTransaction();
+
+        $stmt = $connexion->prepare("UPDATE Reservables (Nom, Description, statut) SET Nom=:nom, Description=:description, statut=:statut WHERE idR=:idR");
+        $stmt->bindParam(':nom', $nom, PDO::PARAM_STR);
+        $stmt->bindParam(':description', $description, PDO::PARAM_STR);
+        $stmt->bindParam(':statut', $statut, PDO::PARAM_STR);
+        $stmt->bindParam(':idR', $idR, PDO::PARAM_INT);
+        $stmt->execute();
+
+        $stmt2 = $connexion->prepare("UPDATE Salles (idR, nomSalles, CapaAccueil) SET nomSalles=:nomSalles, CapaAccueil=:CapaAccueil WHERE idR=:idR");
+        $stmt2->bindParam(':idR', $idR, PDO::PARAM_INT);
+        $stmt2->bindParam(':nomSalles', $nom, PDO::PARAM_STR);
+        $stmt2->bindParam(':CapaAccueil', $capaAccueil, PDO::PARAM_INT);
+        $stmt2->execute();
+
+        $connexion->commit();
+        return $idR;
+       }
+       catch (Exception $erreur) {
+            if ($connexion->inTransaction()) {
+                $connexion->rollBack();
+            }
+            return false;
+        }
     }
 }

@@ -19,6 +19,16 @@ class MaterielsDAO {
         return $connexion->lastInsertId();
     }
 
+    public static function modifierMateriel($idR, $nom, $description, $statut, $laConnexion): bool|int {
+        $stmt = $laConnexion->prepare("UPDATE Reservables SET Nom=:Nom, Description=:Description, statut=:statut WHERE idR=:idR" );
+        $stmt->bindParam(':Nom', $nom, PDO::PARAM_STR);
+        $stmt->bindParam(':Description', $description, PDO::PARAM_STR);
+        $stmt->bindParam(':statut', $statut, PDO::PARAM_STR);
+        $stmt->bindParam(':idR', $idR, PDO::PARAM_INT);
+        $stmt->execute();
+        return $idR;
+    }
+
     public static function getFormationAssocie($idMat){
         $connexion = GestionConnexion::getConnexion();
         $ordreSQL = "SELECT * FROM Formation NATURAL JOIN Necessiter WHERE idR_materiel = :idR";

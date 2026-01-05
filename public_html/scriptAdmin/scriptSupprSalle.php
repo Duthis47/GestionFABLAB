@@ -1,5 +1,11 @@
 <?php 
-session_start();
+if (!isset($_SESSION)) {
+    session_start();
+}
+if (!isset($_SESSION['isAdmin'])) {
+    header("Location: ./../index.php");
+    exit();
+}
 include_once './../classes/GestionConnexion.php';
 
 $lId = $_GET['idR'];

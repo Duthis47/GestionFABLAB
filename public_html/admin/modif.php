@@ -124,7 +124,7 @@ if (!isset($_SESSION['isAdmin'])) {
          if ($isSalleMode == "true"){
          ?>
         <div id="formSalle">
-            <form method="POST" action="" class="row g-3 needs-validation" novalidate>
+            <form method="POST" action="./../scriptAdmin/scriptModifSalle.php" class="row g-3 needs-validation" novalidate>
                 <div class="card shadow-sm border-0">
                     <div class="card-body p-4">
                         <div class="row g-3"> <div class="col-md-6">
@@ -184,77 +184,73 @@ if (!isset($_SESSION['isAdmin'])) {
             ?>
         <!-- TODO: Formulaire Materiel-->
         <div id="formMateriel">
-            <form method="POST" action="" class="row g-3 needs-validation" novalidate>
+            <form method="POST" action="./../scriptAdmin/scriptModifSalle.php" class="row g-3 needs-validation" novalidate>
                 <div class="card shadow-sm border-0">
-                <div class="col-md-6">
-                    <label for="validationNom" class="form-label fw-semibold">Nom du matériel</label>
-                    <input type="textarea" class="form-control" name="nomMat" id="validationNom" required placeholder="">
-                    <div class="invalid-feedback">Saisissez un nom.</div>
-                </div>
+                    <div class="card-body p-4">
+                        <div class="row g-3">
+                            
+                            <div class="col-md-6">
+                                <label for="validationNomMat" class="form-label fw-semibold">Nom du matériel</label>
+                                <input type="text" class="form-control" name="nomMat" id="validationNomMat" required>
+                            </div>
 
-                <div class="col-md-6">
-                    <label for="validationDesc" class="form-label fw-semibold">Description</label>
-                    <input type="textarea" class="form-control" name="nomDesc" id="validationDesc" required placeholder="">
-                    <div class="invalid-feedback">Saisissez une description.</div>
-                </div>
+                            <div class="col-md-6">
+                                <label for="validationNbMat" class="form-label fw-semibold">Nombre d'exemplaires</label>
+                                <input type="number" class="form-control" name="nbMat" id="validationNbMat" required min="1">
+                            </div>
 
-                <div class="col-md-6">
-                    <label for="validationTuto" class="form-label fw-semibold">Lien Tutoriel</label>
-                    <input type="textarea" class="form-control" name="nomTuto" id="validationTuto" required placeholder="">
-                    <div class="invalid-feedback">Saisissez un tutoriel.</div>
-                </div>
+                            <div class="col-md-12">
+                                <label for="validationDescMat" class="form-label fw-semibold">Description</label>
+                                <textarea class="form-control" name="nomDesc" id="validationDescMat" rows="2" required></textarea>
+                            </div>
 
-                <div class="col-md-6">
-                    <label for="validationSecu" class="form-label fw-semibold">Règle de sécurité</label>
-                    <input type="textarea" class="form-control" name="nomSecu" id="validationSecu" required placeholder="">
-                    <div class="invalid-feedback">Saisissez des règles de sécurité.</div>
-                </div>
+                            <div class="col-md-6">
+                                <label for="validationTuto" class="form-label fw-semibold">Lien Tutoriel</label>
+                                <input type="text" class="form-control" name="nomTuto" id="validationTuto">
+                            </div>
 
-                <div class="col-md-6">
-                    <label for="validationNombre" class="form-label fw-semibold">Ajouter un nombre d'exemplaires : </label>
-                    <input type="number" class="form-control" name="nbMat" id="validationNombre" value="" required placeholder="">
-                    <div class="invalid-feedback">Saisissez un nombre valide.</div>
-                </div>
+                            <div class="col-md-6">
+                                <label for="validationSecu" class="form-label fw-semibold">Règle de sécurité</label>
+                                <input type="text" class="form-control" name="nomSecu" id="validationSecu">
+                            </div>
 
-                <div class="col-12">
-                    <label for="validationFormMateriel" class="form-label fw-semibold">Formation obligatoire (ctrl+clic pour en selectionner plusieurs)</label>
-                    <select class="form-select" aria-label="Multiple select example" name="formMat[]" id="formMat" multiple required>
-                        <option value='0'>Aucune formation</option>
-                        <?php
-                            include_once './../classesDAO/FormationDAO.php';
-                            $lesFormations = FormationDAO::recupTout();
-                            foreach($lesFormations as $leTuple){
-                                echo '<option value="'.$leTuple['idF'].'">'.$leTuple['Intitule'].'</option>';
-                            }
-                            ?>
-                    </select>
-                </div>
-                <div class="col-md-12">
-                    <label for="validationCustom02" class="form-label  fw-semibold">Ajouter une salle : </label>
-                    <select class="form-select" aria-label="Default select example" name="salleMat" id="salleMat" required>
-                        <?php 
-                            include_once './../classesDAO/SalleDAO.php';
-                            $listeSalle = SalleDAO::getAllSalles();
-                            foreach ($listeSalle as $salle){
-                                echo "<option value='".$salle['idR']."'>".$salle['Nom']."</option>";
-                            }
-                        ?>
-                    </select>
-                </div>
-                <br/>
-                
-                <input type="hidden" name="idR" id="hiddenIdMateriel" value=""/>
-                
-                <div class="col-12 d-flex justify-content-end gap-2 mt-4">
-                    <input type="reset" name="btnCancel" value="Annuler" class="btn btn-outline-fablab-blue"/>
-                    <input type="submit" name="btnValider" value="Valider" class="btn btn-fablab-yellow"/>
-                    <input type="submit" name="btnSupprimer" value="Supprimer" class="btn btn-fablab-red" formnovalidate/>
+                            <div class="col-12">
+                                <label for="formMat" class="form-label fw-semibold">Formation obligatoire (Ctrl+clic pour multiples)</label>
+                                <select class="form-select" name="formMat[]" id="formMat" multiple size="4">
+                                    <option value='0'>Aucune formation</option>
+                                    <?php
+                                        include_once './../classesDAO/FormationDAO.php';
+                                        $lesFormations = FormationDAO::recupTout();
+                                        foreach($lesFormations as $leTuple){
+                                            echo '<option value="'.$leTuple['idF'].'">'.$leTuple['Intitule'].'</option>';
+                                        }
+                                    ?>
+                                </select>
+                            </div>
 
+                            <div class="col-md-12">
+                                <label for="salleMat" class="form-label fw-semibold">Salle de stockage :</label>
+                                <select class="form-select" name="salleMat" id="salleMat" required>
+                                    <?php 
+                                        include_once './../classesDAO/SalleDAO.php';
+                                        $listeAllSalles = SalleDAO::getAllSalles();
+                                        foreach ($listeAllSalles as $s) {
+                                            echo "<option value='".$s['idR']."'>".$s['Nom']."</option>";
+                                        }
+                                    ?>
+                                </select>
+                            </div>
+                            
+                            <input type="hidden" name="idR" id="hiddenIdMateriel" value=""/>
+                            
+                            <div class="col-12 d-flex justify-content-end gap-2 mt-4">
+                                <input type="reset" value="Annuler" class="btn btn-outline-fablab-blue"/>
+                                <input type="submit" name="btnValider" value="Valider" class="btn btn-fablab-yellow"/>
+                                <input type="submit" name="btnSupprimer" value="Supprimer" class="btn btn-fablab-red" formnovalidate onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce matériel ?');"/>
+                            </div>
+
+                        </div> </div> </div> </form>
                 </div>
-                </div>
-                        
-            </form>
-        </div>
         <script>            
             let assocMatSalleData = JSON.parse(document.getElementById('assocMatSalle').value);
             let assocMatFormData = JSON.parse(document.getElementById('assocMatForm').value);
