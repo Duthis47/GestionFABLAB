@@ -151,6 +151,7 @@
                                 <div class="col-12 d-flex justify-content-end gap-2 mt-4">
                                     <input type="reset" name="btnCancel" value="Annuler" class="btn btn-outline-fablab-blue"/>
                                     <input type="submit" name="btnValider" value="Valider" class="btn btn-fablab-yellow"/>
+                                    <input type="submit" name="btnSupprimer" value="Supprimer" class="btn btn-fablab-red"/>
                                 </div>
         </form>
         </div>
@@ -237,6 +238,7 @@
                                 <div class="col-12 d-flex justify-content-end gap-2 mt-4">
                                     <input type="reset" name="btnCancel" value="Annuler" class="btn btn-outline-fablab-blue"/>
                                     <input type="submit" name="btnValider" value="Valider" class="btn btn-fablab-yellow"/>
+                                    <input type="submit" name="btnSupprimer" value="Supprimer" class="btn btn-fablab-red"/>
                                 </div>
 
          </form>
