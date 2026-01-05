@@ -13,6 +13,9 @@ else {
 }
 
 require_once './../classesDAO/MaterielsDAO.php';
+
+require_once("./../classes/GestionConnexion.php");
+$connexion = GestionConnexion::getConnexion();
 ?>
 <!DOCTYPE html>
 <html>
@@ -53,38 +56,70 @@ require_once './../classesDAO/MaterielsDAO.php';
                                 
                                 <div class="col-md-6">
                                     <label for="validationNom" class="form-label fw-semibold">Nom du matériel</label>
-                                    <input type="text" class="form-control" name="nomMat" id="validationNom" required placeholder="Ex : Accélérateur de particules">
+                                    <input type="textarea" class="form-control" name="nomMat" id="validationNom" required placeholder="Ex : Accélérateur de particules">
                                     <div class="invalid-feedback">Saisissez un nom.</div>
                                 </div>
 
                                 <div class="col-md-6">
                                     <label for="validationDesc" class="form-label fw-semibold">Description</label>
-                                    <input type="text" class="form-control" name="nomDesc" id="validationDesc" required placeholder="Ex : 2 parties imbricables">
+                                    <input type="textarea" class="form-control" name="nomDesc" id="validationDesc" required placeholder="Ex : 2 parties imbricables">
                                     <div class="invalid-feedback">Saisissez une description.</div>
                                 </div>
 
                                 <div class="col-md-6">
                                     <label for="validationTuto" class="form-label fw-semibold">Lien Tutoriel</label>
-                                    <input type="text" class="form-control" name="nomTuto" id="validationTuto" required placeholder="Ex : Rincer avant usage">
+                                    <input type="textarea" class="form-control" name="nomTuto" id="validationTuto" required placeholder="Ex : Rincer avant usage">
                                     <div class="invalid-feedback">Saisissez un tutoriel.</div>
                                 </div>
 
                                 <div class="col-md-6">
                                     <label for="validationSecu" class="form-label fw-semibold">Règle de sécurité</label>
-                                    <input type="text" class="form-control" name="nomSecu" id="validationSecu" required placeholder="Ex : Lunettes obligatoires">
+                                    <input type="textarea" class="form-control" name="nomSecu" id="validationSecu" required placeholder="Ex : Lunettes obligatoires">
                                     <div class="invalid-feedback">Saisissez des règles de sécurité.</div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label for="validationNombre" class="form-label fw-semibold">Ajouter un nombre d'exemplaires : </label>
+                                    <input type="number" class="form-control" name="nbMat" id="validationNombre" value="" required placeholder="Ex : 2">
+                                    <div class="invalid-feedback">
+                                        Saisissez un nombre valide.
+                                    </div>
                                 </div>
 
                                 <div class="col-12">
                                     <label for="validationFormMateriel" class="form-label fw-semibold">Formation obligatoire</label>
-                                    <select class="form-select" name="formMat" id="validationFormMateriel">
-                                        <option selected value="0">Aucune formation requise</option>
-                                        <option value="1">Blabla</option>
+                                    <select class="form-select" aria-label="Default select example" name="formMat" id="validationFormMateriel" required>
+                                        <option value='0' selected>Aucune formation</option>
+                                        <?php
+                                            $rsql = "SELECT * FROM Formation;";
+                                            $resReq = $connexion->query($rsql);
+                                            $leTuple = $resReq->fetch();
+                                            while ($leTuple != NULL){
+                                                echo '<option value="'.$leTuple['idF'].'">'.$leTuple['Intitule'].'</option>';
+                                                $leTuple=$resReq->fetch();
+                                            }
+                                            ?>
                                     </select>
                                 </div>
 
+                                <div class="col-md-12">
+                                    <label for="validationCustom02" class="form-label  fw-semibold">Ajouter une salle : </label>
+                                    <select class="form-select" aria-label="Default select example" name="salleMat" id="validationFormMateriel" required>
+                                        <?php
+                                            $rsql2 = "SELECT * FROM Salles;";
+                                            $resReq2 = $connexion->query($rsql2);
+                                            $leTuple2 = $resReq2->fetch();
+                                            while ($leTuple2 != NULL){
+                                                echo '<option value="'.$leTuple2['idR'].'">'.$leTuple2['nomSalles'].'</option>';
+                                                $leTuple2=$resReq2->fetch();
+                                            }
+                                        ?>
+                                    </select>
+                                </div>
+                                <br>
+
                                 <div class="col-12 d-flex justify-content-end gap-2 mt-4">
-                                    <a href="ajout.php" class="btn btn-outline-fablab-blue">Annuler</a>
+                                    <input type="reset" name="btnCancel" value="Annuler" class="btn btn-outline-fablab-blue"/>
                                     <input type="submit" name="btnValider" value="Valider" class="btn btn-fablab-yellow"/>
                                 </div>
                             </form>
@@ -95,11 +130,6 @@ require_once './../classesDAO/MaterielsDAO.php';
                     <?php
                         $leMsg = "";
 
-                        if (isset($_SESSION['flash_message'])) {
-                            $leMsg = $_SESSION['flash_message'];
-                            unset($_SESSION['flash_message']);
-                        }
-
                         if ((isset($_POST['btnValider']))) {
 
                             if (!empty($_POST['nomMat']) && !empty($_POST['nomTuto']) && !empty($_POST['nomSecu']) && !empty($_POST['nomDesc'])) {
@@ -109,20 +139,53 @@ require_once './../classesDAO/MaterielsDAO.php';
                                     $laSecu = $_POST['nomSecu'];
                                     $laDesc = $_POST['nomDesc'];
                                     $laFormation = $_POST['formMat'];
+                                    $laSalle = $_POST['salleMat'];
+                                    $leNombre = $_POST['nbMat'];
 
-                                    // Gestion si "Aucune" est sélectionnée (valeur 0 ou vide)
+                                    $leStatut = "disponible";
+
                                     if ($laFormation == "0") {
                                         $laFormation = null; 
                                     }
 
-                                    $res = MaterielsDAO::ajouterMateriel($leNom, $leTuto, $laSecu, $laDesc, $laFormation);
+                                    $res = MaterielsDAO::ajouterMateriel($leNom, $laDesc, $leStatut);
 
-                                    if ($res) {
+
+
+
+                                    if ($res!=NULL) {
+
+                                        
+
+                                $stmt2 = $connexion->prepare("INSERT INTO Materiels (idR, Tuto, Regle_securite, Nombre, idS) VALUES (:idR, :Tuto, :Regle_securite, :Nombre, :idS)");
+                                $stmt2->bindParam(':idR', $res, PDO::PARAM_INT);
+                                $stmt2->bindParam(':Tuto', $leTuto, PDO::PARAM_STR);
+                                $stmt2->bindParam(':Regle_securite', $laSecu, PDO::PARAM_STR);
+                                $stmt2->bindParam(':Nombre', $leNombre, PDO::PARAM_INT);
+                                $stmt2->bindParam(':idS', $laSalle, PDO::PARAM_INT);
+
+                                $res2 = $stmt2->execute();
+
+
+                                        if ($res2){
+
+
+                                            $_SESSION['flash_message'] = "<div class='alert alert-success mt-3'>Matériel ajouté avec succès !</div>";
+                                            ob_end_clean();
+                                            header("Location: " . $_SERVER['REQUEST_URI']);
+                                            exit();
+
+                                        }else {
+                                        $leMsg = "<div class='alert alert-danger mt-3'>Erreur lors de l'ajout de matériel.</div>";
+                                        }   
+
+
+
                                         $_SESSION['flash_message'] = "<div class='alert alert-success mt-3'>Matériel ajouté avec succès !</div>";
-                                        ob_end_clean(); // Nettoie le tampon pour permettre le header
+                                        ob_end_clean();
                                         header("Location: " . $_SERVER['REQUEST_URI']);
                                         exit();
-                                    } else {
+                                    }else {
                                         $leMsg = "<div class='alert alert-danger mt-3'>Erreur lors de l'ajout de matériel.</div>";
                                     }
                                 } else {

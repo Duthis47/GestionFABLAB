@@ -50,7 +50,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHPWebPage.php to 
 
                         <div class="d-flex justify-content-between align-items-center py-4">
                             <h4 class="h5 mb-0">Formation</h4>
-                            <a href="ajoutFormation.php" class="btn btn-fablab-yellow">Ajouter</a>
+                            <a href="ajoutFormation.php" class="btn btn-fablab-blue">Ajouter</a>
                         </div>
 
                     </div>
