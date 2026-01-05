@@ -150,5 +150,32 @@ class ReservationDAO {
         $req->bindValue("idD", $dateDebut);
         return $req->execute();
     }
+
+    public static function chevauchementResa($type, $idR, $dateDebut, $dateFin){
+        $connexion = GestionConnexion::getConnexion();
+        $sql = "SELECT COUNT(*) as nbConflits 
+                FROM ReserverMateriels 
+                WHERE idR_materiel = :idR 
+                AND DateTime_debut < :fin 
+                AND DateTime_fin > :debut";
+                
+        if ($type == "true"){
+            $sql = "SELECT COUNT(*) as nbConflits 
+                    FROM ReserverSalles 
+                    WHERE idR_salle = :idR 
+                    AND DateTime_debut < :fin 
+                    AND DateTime_fin > :debut";
+        }
+
+        $req = $connexion->prepare($sql);
+        $req->execute([
+            ':idR' => $idR,
+            ':debut'   => $dateDebut, // Format 'YYYY-MM-DD HH:mm:ss'
+            ':fin'     => $dateFin
+        ]);
+        $res = $req->fetch(PDO::FETCH_ASSOC);
+
+        return $res['nbConflits'] > 0;
+    }
 }
 ?>

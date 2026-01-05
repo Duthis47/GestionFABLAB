@@ -33,22 +33,32 @@ $idAdmin = $admin["idU"];
 
 if ($typeModif == "Bloquer"){
     if($isSalle == "true"){
-        $r = ReservationDAO::ajouterReservationSalle($idR, $dateDebut, $dateFin, true) ;
-        if ($r== 1){
-            //reussite
-            header("Location: ./../admin/afficherCalendrierAdmin.php");
+        $x = ReservationDAO::chevauchementResa("true", $idR, $dateDebut, $dateFin);
+        if (!$x){
+            $r = ReservationDAO::ajouterReservationSalle($idR, $dateDebut, $dateFin, true) ;
+            if ($r== 1){
+                //reussite
+                header("Location: ./../admin/afficherCalendrierAdmin.php");
+            }else {
+                //echec
+                echo ("non1");
+            }
         }else {
-            //echec
-            echo ("non1");
+            header("Location: ./../admin/afficherCalendrierAdmin.php?chevauchement=true");
         }
     }else {
-        $r = ReservationDAO::ajouterReservationMateriel($idR, $dateDebut, $dateFin, true);
-        if ($r== 1){
-            //reussite
-            header("Location: ./../admin/afficherCalendrierAdmin.php?estMateriel=true");
+        $x = ReservationDAO::chevauchementResa("true", $idR, $dateDebut, $dateFin);
+        if (!$x){
+            $r = ReservationDAO::ajouterReservationMateriel($idR, $dateDebut, $dateFin, true);
+            if ($r== 1){
+                //reussite
+                header("Location: ./../admin/afficherCalendrierAdmin.php?estMateriel=true");
+            }else {
+                //echec
+                echo ("non2");
+            }
         }else {
-            //echec
-            echo ("non2");
+            header("Location: ./../admin/afficherCalendrierAdmin.php?estMateriel=true&chevauchement=true");
         }
     }
 }else if ($typeModif == "Debloquer"){
