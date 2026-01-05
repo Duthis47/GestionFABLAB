@@ -1,4 +1,9 @@
 <?php
+ob_start();
+
+//Empeche l'affichage des potentiels erreurs
+error_reporting(1);
+ini_set('display_errors', 1);
 session_start();
 if (isset($_SESSION["isAdmin"])){
     require_once './../commun/header.php';
@@ -7,31 +12,7 @@ else {
     header("Location: ./../index.php");
 }
 
-//Empeche l'affichage des potentiels erreurs
-error_reporting(1);
-ini_set('display_errors', 1);
-
 require_once './../classesDAO/SalleDAO.php';
-
-$leMsg = "";
-
-if ((isset($_POST['btnValider']))) {
-
-    if (!empty($_POST['nomRes']) && !empty($_POST['capaRes']) && !empty($_POST['descRes'])) {
-       $leNom = $_POST['nomRes'];
-       $laDesc = $_POST['descRes'];
-      $laCapa = $_POST['capaRes'];
-
-      $res = SalleDAO::ajouterSalle($leNom, $laDesc, "disponible", $laCapa);
-
-      if ($res) {
-          $leMsg = "<div>Salle ajoutée avec succès !</div>";
-      } else {
-          $leMsg = "<div>Erreur lors de l'ajout de la salle.</div>";
-      }
-    }
-    echo $leMsg; 
-}
 ?>
 <!DOCTYPE html>
 <!--
@@ -88,6 +69,44 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHPWebPage.php to 
                 </div>
             </form>
             <br>
+            <?php
+                $leMsg = "";
+
+                if (isset($_SESSION['flash_message'])) {
+                    $leMsg = $_SESSION['flash_message'];
+                    unset($_SESSION['flash_message']);
+                }
+
+                if ((isset($_POST['btnValider']))) {
+
+                    if (!empty($_POST['nomRes']) && !empty($_POST['capaRes']) && !empty($_POST['descRes'])) {
+
+                        if (is_numeric($_POST['capaRes']) == false){
+                            $leMsg = "<div>La capacité doit être un chiffre (Ex: 10) !</div>";
+
+                        }else{
+                            $leNom = $_POST['nomRes'];
+                            $laDesc = $_POST['descRes'];
+                            $laCapa = $_POST['capaRes'];
+
+                            $res = SalleDAO::ajouterSalle($leNom, $laDesc, "disponible", $laCapa);
+
+                            if ($res) {
+                                $_SESSION['flash_message'] = "<div>Salle ajoutée avec succès !</div>";
+                                ob_end_clean();
+
+                                header("Location: " . $_SERVER['REQUEST_URI']);
+                                exit();
+                            } else {
+                                $leMsg = "<div>Erreur lors de l'ajout de la salle.</div>";
+                            }
+                            }
+                            echo $leMsg; 
+                        }
+                }
+                ob_end_flush();
+            ?>
+            <br>
         </div>   
         </div>
         <?php include_once './../commun/footer.php'; ?>
@@ -113,5 +132,8 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHPWebPage.php to 
     }, false)
   })
 })()
+if ( window.history.replaceState ) {
+            window.history.replaceState( null, null, window.location.href );
+        }
 </script>
 </html>

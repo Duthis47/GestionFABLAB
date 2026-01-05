@@ -19,7 +19,7 @@ class SalleDAO {
 
         $stmt = $connexion->prepare("INSERT INTO Reservables (Nom, Description, statut) VALUES (:nom, :description, :statut)");
         $stmt->bindParam(':nom', $nom, PDO::PARAM_STR);
-        $stmt->bindParam(':Description', $description, PDO::PARAM_STR);
+        $stmt->bindParam(':description', $description, PDO::PARAM_STR);
         $stmt->bindParam(':statut', $statut, PDO::PARAM_STR);
         $stmt->execute();
        
@@ -32,7 +32,7 @@ class SalleDAO {
         $stmt2->execute();
 
         $connexion->commit();
-        return $connexion->lastInsertId();
+        return $idR;
        }
        catch (Exception $erreur) {
             if ($connexion->inTransaction()) {
