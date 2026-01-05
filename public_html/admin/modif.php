@@ -210,6 +210,7 @@
                                             $resReq = $connexion->query($rsql);
                                             $leTuple = $resReq->fetch();
                                             while ($leTuple != NULL){
+
                                                 echo '<option value="'.$leTuple['idF'].'">'.$leTuple['Intitule'].'</option>';
                                                 $leTuple=$resReq->fetch();
                                             }
