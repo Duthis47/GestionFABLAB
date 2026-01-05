@@ -19,7 +19,7 @@ function ajouterResaMatos(){
         if($isSalle == "true"){
             ajouterResaSalle();
         }else {
-            header("Location: ./../admin/afficherCalendrierAdmin.php");
+            header("Location: ./../reservation/reservationUser.php");
         }
     } else {
         echo "Erreur lors de la réservation.";
