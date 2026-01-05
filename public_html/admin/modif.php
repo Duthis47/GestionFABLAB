@@ -43,7 +43,7 @@
         <div id="filtre">
             <form>
                 <div class="mb-3">
-                    <label class="form-label me-3">Choisir
+                    <label class="form-label me-3">Choisissez ce que vous voulez modifier/supprimer
                         <a href="modif.php" class="btn btn-sm <?= $isSalleMode ? 'btn-fablab-blue' : 'btn-outline-fablab-blue' ?>" >
                             Salle
                         </a>
@@ -109,8 +109,39 @@
          if ($isSalleMode == "true"){
          ?>
         <div id="formSalle">
-            <form>
-         </form>
+        <form>
+                    <h2 class="mb-4 fw-bold">Modifier une salle</h2>
+
+                    <div class="card shadow-sm border-0">
+                        <div class="card-body p-4">
+
+                            <form method="POST" action="" class="row g-3 needs-validation" novalidate>
+                                
+                                <div class="col-md-6">
+                                    <label for="validationNom" class="form-label fw-semibold">Nom de la salle</label>
+                                    <input type="textarea" class="form-control" name="nomRes" id="validationNom" value="" required placeholder="">
+                                    <div class="invalid-feedback">Saisissez un nom.</div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label for="validationCapaAccueil" class="form-label fw-semibold">Capacité d'accueil</label>
+                                    <input type="number" class="form-control" name="capaRes" id="validationCapaAccueil" required placeholder="" min="1">
+                                    <div class="invalid-feedback">Saisissez une capacité valide.</div>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <label for="validationCustomUsername" class="form-label fw-semibold">Ajouter une description de la salle</label>
+                                    <input type="textarea" class="form-control" name="descRes" id="validationDesc" required placeholder="">
+                                    <div class="invalid-feedback">
+                                        Saisissez une description de la salle.
+                                    </div>
+                                </div>
+
+                                                <div class="col-12 d-flex justify-content-end gap-2 mt-4">
+                                    <input type="reset" name="btnCancel" value="Annuler" class="btn btn-outline-fablab-blue"/>
+                                    <input type="submit" name="btnValider" value="Valider" class="btn btn-fablab-yellow"/>
+                                </div>
+        </form>
         </div>
         <script>
             laSalle = document.getElementById('salle')
@@ -133,6 +164,73 @@
         <!-- TODO: Formulaire Materiel-->
         <div id="formMateriel">
             <form>
+                                
+                                <div class="col-md-6">
+                                    <label for="validationNom" class="form-label fw-semibold">Nom du matériel</label>
+                                    <input type="textarea" class="form-control" name="nomMat" id="validationNom" required placeholder="">
+                                    <div class="invalid-feedback">Saisissez un nom.</div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label for="validationDesc" class="form-label fw-semibold">Description</label>
+                                    <input type="textarea" class="form-control" name="nomDesc" id="validationDesc" required placeholder="">
+                                    <div class="invalid-feedback">Saisissez une description.</div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label for="validationTuto" class="form-label fw-semibold">Lien Tutoriel</label>
+                                    <input type="textarea" class="form-control" name="nomTuto" id="validationTuto" required placeholder="">
+                                    <div class="invalid-feedback">Saisissez un tutoriel.</div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label for="validationSecu" class="form-label fw-semibold">Règle de sécurité</label>
+                                    <input type="textarea" class="form-control" name="nomSecu" id="validationSecu" required placeholder="">
+                                    <div class="invalid-feedback">Saisissez des règles de sécurité.</div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label for="validationNombre" class="form-label fw-semibold">Ajouter un nombre d'exemplaires : </label>
+                                    <input type="number" class="form-control" name="nbMat" id="validationNombre" value="" required placeholder="">
+                                    <div class="invalid-feedback">
+                                        Saisissez un nombre valide.
+                                    </div>
+                                </div>
+
+                                <div class="col-12">
+                                    <label for="validationFormMateriel" class="form-label fw-semibold">Formation obligatoire</label>
+                                    <select class="form-select" aria-label="Default select example" name="formMat" id="validationFormMateriel" required>
+                                        <?php
+                                            $rsql = "SELECT * FROM Formation;";
+                                            $resReq = $connexion->query($rsql);
+                                            $leTuple = $resReq->fetch();
+                                            while ($leTuple != NULL){
+                                                
+                                                echo '<option value="'.$leTuple['idF'].'">'.$leTuple['Intitule'].'</option>';
+                                                $leTuple=$resReq->fetch();
+                                            }
+                                            ?>
+                                    </select>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <label for="validationCustom02" class="form-label  fw-semibold">Ajouter une salle : </label>
+                                    <select class="form-select" aria-label="Default select example" name="salleMat" id="validationFormMateriel" required>
+                                        <?php require_once("./../classesDAO/SalleDAO");
+                                            $Salle = SalleDAO::getAllSalles();
+                                            foreach ($Salle as $salle){
+                                                echo "<option value='".$salle['idR']."'>".$salle['nomSalles']."</option>";
+                                            }
+                                        ?>
+                                    </select>
+                                </div>
+                                <br>
+
+                                <div class="col-12 d-flex justify-content-end gap-2 mt-4">
+                                    <input type="reset" name="btnCancel" value="Annuler" class="btn btn-outline-fablab-blue"/>
+                                    <input type="submit" name="btnValider" value="Valider" class="btn btn-fablab-yellow"/>
+                                </div>
+
          </form>
         </div>
         <script>

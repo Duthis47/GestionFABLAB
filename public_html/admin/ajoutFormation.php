@@ -45,6 +45,8 @@ require_once("./../classes/GestionConnexion.php");
 
             <form method="POST" action="" class="row g-3 needs-validation">
                 <h1>Ajouter une formation</h1>
+
+                <div class="card shadow-sm border-0">
                 <div class="col-md-12">
                     <label for="validationCustom01" class="form-label">Ajouter un intitulé :</label>
                     <input type="textarea" class="form-control" name="nomForm" id="validationNom" value="" required placeholder="Ex : Formation utilisation perceuse">
@@ -52,6 +54,7 @@ require_once("./../classes/GestionConnexion.php");
                         Saisissez un intitulé.
                     </div>
                 </div>
+                <br>
                 <div class="col-md-12">
                     <input type="reset" name="btnCancel" value="Annuler" class="btn btn-outline-fablab-blue"/>
                     <input type="submit" name="btnValider" value="Valider" class="btn btn-fablab-yellow"/>
@@ -91,6 +94,7 @@ require_once("./../classes/GestionConnexion.php");
                 ob_end_flush();
             ?>
             <br>
+            </div>
         </div>   
         </div>
         </div>
