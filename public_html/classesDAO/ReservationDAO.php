@@ -3,11 +3,11 @@ include_once './../classesDAO/UtilisateurDAO.php';
 include_once './../classes/GestionConnexion.php';
 
 class ReservationDAO {
+    
     public static function getReservationsBySalle(int $salleId, string $type): array {
         $ajoutAttribut = "";
         $ajoutJoin ="";
         if($type === 'admin'){
-            //SI ADMIN, ON RECUPERE AUSSI LES INFOS UTILISATEUR
             $ajoutAttribut = ", mailU, nomU, prenomU ";
             $ajoutJoin = " JOIN Utilisateur ON Utilisateur.idU = ReserverSalles.idU ";
         }
@@ -21,7 +21,6 @@ class ReservationDAO {
     public static function getReservationsByMateriel(int $materielId, string $type): array {
         $ajoutJoin ="";
         if($type === 'admin'){
-            //SI ADMIN, ON RECUPERE AUSSI LES INFOS UTILISATEUR
             $ajoutJoin = " JOIN Utilisateur ON Utilisateur.idU = ReserverMateriels.idU ";
         }
         $connexion = GestionConnexion::getConnexion();
@@ -31,6 +30,7 @@ class ReservationDAO {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    // Fonction pour lister les blocages dans le tableau admin
     public static function getBlocagesFuturs($isSalle) {
         $connexion = GestionConnexion::getConnexion();
         $mailAdmin = "admin@etud.univ-pau.fr"; 
@@ -49,9 +49,10 @@ class ReservationDAO {
                     JOIN Materiels m ON rm.idR_materiel = m.idR
                     JOIN Utilisateur u ON rm.idU = u.idU
                     JOIN Reservables r ON r.idR = rm.idR_materiel
-                    WHERE u.mailU = :mail 
+                    WHERE u.mailU = :mail
                     AND rm.DateTime_fin > NOW()
                     ORDER BY rm.DateTime_debut ASC";
+
         }
 
         $stmt = $connexion->prepare($sql);
@@ -69,17 +70,20 @@ class ReservationDAO {
         }else {
             $utilisateurId = UtilisateurDAO::ajouterUtilisateur($nomU, $prenomU, $mailUtilisateur);
         }
+        
         $ordreSQL = "INSERT INTO ReserverSalles (idU, idR_salle, DateTime_debut, DateTime_fin, Nb_occupant, AutorisationFinal, Raison) VALUES (:utilisateurId, :salleId, :dateDebut, :dateFin, :nbOccupants, 0, :raison)";
+        
         if ($blocage){
             $ordreSQL = "INSERT INTO ReserverSalles (idU, idR_salle, DateTime_debut, DateTime_fin, Nb_occupant, AutorisationFinal, Blocage, Raison) VALUES (:utilisateurId, :salleId, :dateDebut, :dateFin, :nbOccupants, 0, 1, :raison)";
         }
+        
         $stmt = $connexion->prepare($ordreSQL);
         $stmt->bindParam(':utilisateurId', $utilisateurId, PDO::PARAM_INT);
         $stmt->bindParam(':salleId', $salleId, PDO::PARAM_INT);
         $stmt->bindParam(':dateDebut', $dateDebut);
         $stmt->bindParam(':dateFin', $dateFin);
         $stmt->bindParam(':nbOccupants', $nbOccupants, PDO::PARAM_INT);
-        $stmt->bindParam(':raison', $raison, type: PDO::PARAM_STR);
+        $stmt->bindParam(':raison', $raison, PDO::PARAM_STR);
         return $stmt->execute();
     }
 
@@ -101,22 +105,23 @@ class ReservationDAO {
         $stmt->bindParam(':materielId', $materielId, PDO::PARAM_INT);
         $stmt->bindParam(':dateDebut', $dateDebut);
         $stmt->bindParam(':dateFin', $dateFin);
-        $stmt->bindParam(':raison', $raison, type: PDO::PARAM_STR);
+        $stmt->bindParam(':raison', $raison, PDO::PARAM_STR);
         return $stmt->execute();
     }
-
 
     public static function accepterReservation($type, $idU, $idR, $dateDebut){
         try {
             $connexion = GestionConnexion::getConnexion();
             $table = "ReserverMateriels";
             $clause = "idR_materiel = :envoi ";
-            $envoi = $idR;
+            $envoi = $idR; 
+
             if ($type == "true"){
-                $table="ReserverSalles";
-                $clause = "idU = :envoi ";
-                $envoi = $idU;
+                $table = "ReserverSalles";
+                $clause = "idR_salle = :envoi "; 
+                $envoi = $idR; 
             }
+            
             $ordreSQL = "UPDATE ".$table." SET AutorisationFinal = 1 WHERE ".$clause."AND DateTime_debut = :idD";
             $req = $connexion->prepare($ordreSQL);
             $req->bindValue("envoi", $envoi, PDO::PARAM_INT);
@@ -131,12 +136,14 @@ class ReservationDAO {
         $connexion = GestionConnexion::getConnexion();
         $table = "ReserverMateriels";
         $clause = "idR_materiel = :envoi ";
-        $envoi = $idR;
+        $envoi = $idR; 
+
         if ($type == "true"){
-            $table="ReserverSalles";
-            $clause = "idU = :envoi ";
-            $envoi = $idU;
+            $table = "ReserverSalles";
+            $clause = "idR_salle = :envoi "; 
+            $envoi = $idR; 
         }
+        
         $ordreSQL = "DELETE FROM ".$table." WHERE ".$clause." AND DateTime_debut = :idD";
         $req = $connexion->prepare($ordreSQL);
         $req->bindValue("envoi", $envoi, PDO::PARAM_INT);
@@ -144,3 +151,4 @@ class ReservationDAO {
         return $req->execute();
     }
 }
+?>

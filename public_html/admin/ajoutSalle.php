@@ -46,13 +46,6 @@ require_once './../classesDAO/SalleDAO.php';
             </div>
 
             <form method="POST" action="" class="row g-3 needs-validation">
-                <h1>Ajouter une salle</h1>
-                <div class="col-md-4">
-                    <label for="validationCustom01" class="form-label">Ajouter un nom</label>
-                    <input type="textarea" class="form-control" name="nomRes" id="validationNom" value="" required placeholder="Ex : Salle 201">
-                    <div class="invalid-feedback">
-                        Saisissez un nom.
-                    </div>
 
                     <h2 class="mb-4 fw-bold">Ajouter une salle</h2>
 
