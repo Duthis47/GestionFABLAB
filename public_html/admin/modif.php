@@ -109,7 +109,8 @@
          if ($isSalleMode == "true"){
          ?>
         <div id="formSalle">
-
+            <form>
+         </form>
         </div>
         <script>
             laSalle = document.getElementById('salle')
@@ -131,7 +132,8 @@
         ?>
         <!-- TODO: Formulaire Materiel-->
         <div id="formMateriel">
-            
+            <form>
+         </form>
         </div>
         <script>
             let tableauElement = document.getElementById('tableauElement');
