@@ -41,7 +41,7 @@ if ($typeModif == "Bloquer"){
                 header("Location: ./../admin/afficherCalendrierAdmin.php");
             }else {
                 //echec
-                echo ("non1");
+                header("Location: ./../admin/afficherCalendrierAdmin.php?echec=true");
             }
         }else {
             header("Location: ./../admin/afficherCalendrierAdmin.php?chevauchement=true");
@@ -55,7 +55,7 @@ if ($typeModif == "Bloquer"){
                 header("Location: ./../admin/afficherCalendrierAdmin.php?estMateriel=true");
             }else {
                 //echec
-                echo ("non2");
+                header("Location: ./../admin/afficherCalendrierAdmin.php?estMateriel=true&echec=true");
             }
         }else {
             header("Location: ./../admin/afficherCalendrierAdmin.php?estMateriel=true&chevauchement=true");
@@ -65,7 +65,7 @@ if ($typeModif == "Bloquer"){
     if ($isSalle == "true"){
         $append = "";
     }else {
-        $append = "?estMateriel=true";
+        $append = "?estMateriel=true&";
     }
     $r = ReservationDAO::refuserReservation($isSalle, $idAdmin, $idR, $dateDebut);
     if ($r== 1){
@@ -73,7 +73,7 @@ if ($typeModif == "Bloquer"){
             header("Location: ./../admin/afficherCalendrierAdmin.php".$append);
         }else {
             //echec
-            echo ("non3");
+            header("Location: ./../admin/afficherCalendrierAdmin.php".$append."echec=true");
         }
 }else {
 

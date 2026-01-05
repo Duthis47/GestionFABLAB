@@ -150,6 +150,16 @@ $tableauElementJson = json_encode($tableauElement);
                 <input type="hidden" id="idR2" name="idR" value=""/>
             </form>
         </main>
+        <div class="alert alert-danger" role="alert">
+        <?php 
+            if(isset($_GET["echec"]) && $_GET["echec"]=="true"){
+                echo "Erreur de BDD, attendre avant de reessayer (si l'erreur persiste, contacter les developpeurs)";
+            }else if (isset($_GET["chevauchement"]) && $_GET["chevauchement"]=="true"){
+                echo "Vous ne pouvez pas bloquer une période sur laquele il y a des reservations";
+            }
+        ?>
+        </div>
+
     </div>
     
     <script>
