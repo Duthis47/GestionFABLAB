@@ -194,7 +194,7 @@ $tableauElementJson = json_encode($tableauElement);
 
                 // On réinitialise si l'utilisateur n'a pas confirmé après 4s
                 setTimeout(() => {
-                    estPret = false;
+                    confirme = false;
                     this.textContent = "Valider la réservation";
                     this.classList.remove('btn-danger');
                 }, 4000);

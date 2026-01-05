@@ -221,9 +221,11 @@ function afficherCalendrierSalle(type, toutesLesResa, placeTotalSalle) {
             colorBack = "#333333";
             colorDisplay = "block";
             title = "Bloqué";
-        }else {
+        }else if (type == "etudiant"){
+            
             colorDisplay = "background"
         }
+
         let eventData = {
             title: title,
 

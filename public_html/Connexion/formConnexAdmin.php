@@ -15,7 +15,6 @@
     <link href="./../CSS/style.css" rel="stylesheet"/>
     <script src="./../bootstrap/js/color-modes.js"></script>
     <meta name="theme-color" content="#712cf9" />
-    
 </head>
 
 <body>
@@ -69,5 +68,8 @@
             </form>
         </div>
     </div>
+    <?php
+        include_once './../commun/footer.php';
+    ?>
 </body>
 </html>
