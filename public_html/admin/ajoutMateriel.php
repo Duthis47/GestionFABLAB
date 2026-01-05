@@ -11,8 +11,8 @@ if (isset($_SESSION["isAdmin"])){
 else {
     header("Location: ./../index.php");
 }
-
-require_once './../classesDAO/SalleDAO.php';
+require_once("./../classes/GestionConnexion.php");
+$connexion = GestionConnexion::getConnexion();
 ?>
 <!DOCTYPE html>
 <!--
@@ -40,43 +40,73 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHPWebPage.php to 
 
             <form method="POST" action="" class="row g-3 needs-validation">
                 <h1>Ajouter un matériel</h1>
-                <div class="col-md-4">
-                    <label for="validationCustom01" class="form-label">Ajouter un nom</label>
+                <div class="col-md-6">
+                    <label for="validationCustom01" class="form-label">Ajouter un nom : </label>
                     <input type="text" class="form-control" name="nomMat" id="validationNom" value="" required placeholder="Ex : Accélérateur de particules">
                     <div class="invalid-feedback">
                         Saisissez un nom.
                     </div>
                 </div>
 
-                <div class="col-md-4">
-                    <label for="validationCustom01" class="form-label">Ajouter un tutoriel</label>
+                <div class="col-md-6">
+                    <label for="validationCustom01" class="form-label">Ajouter un tutoriel : </label>
                     <input type="text" class="form-control" name="nomTuto" id="validationTuto" value="" required placeholder="Ex : Rincer avant usage">
                     <div class="invalid-feedback">
                         Saisissez un tutoriel.
                     </div>
                 </div>
 
-                <div class="col-md-4">
-                    <label for="validationCustom01" class="form-label">Ajouter une règle de sécurité</label>
+                <div class="col-md-6">
+                    <label for="validationCustom01" class="form-label">Ajouter une règle de sécurité : </label>
                     <input type="text" class="form-control" name="nomSecu" id="validationSecu" value="" required placeholder="Ex : Gants et lunettes de protection obligatoires">
                     <div class="invalid-feedback">
                         Saisissez des règles de sécurité.
                     </div>
                 </div>
 
-                <div class="col-md-4">
-                    <label for="validationCustom01" class="form-label">Ajouter une description du matériel</label>
+                <div class="col-md-6">
+                    <label for="validationCustom01" class="form-label">Ajouter une description du matériel : </label>
                     <input type="text" class="form-control" name="nomDesc" id="validationDesc" value="" required placeholder="Ex : 2 parties imbricables">
                     <div class="invalid-feedback">
                         Saisissez une description du matériel.
                     </div>
                 </div>
 
+                <div class="col-md-6">
+                    <label for="validationCustom01" class="form-label">Ajouter un nombre d'exemplaires : </label>
+                    <input type="number" class="form-control" name="nbMat" id="validationDesc" value="" required placeholder="Ex : 2">
+                    <div class="invalid-feedback">
+                        Saisissez un nombre valide.
+                    </div>
+                </div>
+
                 <div class="col-md-12">
-                    <label for="validationCustom02" class="form-label">Ajouter une formation obligatoire : </label>
+                    <label for="validationCustom02" class="form-label">Ajouter une formation (pas de formation par défaut) : </label>
                     <select class="form-select" aria-label="Default select example" name="formMat" id="validationFormMateriel">
-                        <option selected>Sélectionner une formation</option>
-                        <option value="1">Blabla</option>
+                        <option value='0' selected>Aucune formation</option>
+                        <?php
+                            $rsql = "SELECT * FROM Formation;";
+                            $resReq = $connexion->query($rsql);
+                            $leTuple = $resReq->fetch();
+                            while ($leTuple != NULL){
+                                echo '<option value="'.$leTuple['idF'].'">'.$leTuple['Intitule'].'</option>';
+                                $leTuple=$resReq->fetch();
+                            }
+                            ?>
+                    </select>
+
+                <div class="col-md-12">
+                    <label for="validationCustom02" class="form-label">Ajouter une salle : </label>
+                    <select class="form-select" aria-label="Default select example" name="salleMat" id="validationFormMateriel" required>
+                            <?php
+                                $rsql2 = "SELECT * FROM Salles;";
+                                $resReq2 = $connexion->query($rsql2);
+                                $leTuple2 = $resReq2->fetch();
+                                while ($leTuple2 != NULL){
+                                    echo '<option value="'.$leTuple2['idR'].'">'.$leTuple2['nomSalles'].'</option>';
+                                    $leTuple2=$resReq2->fetch();
+                                }
+                            ?>
                     </select>
                 <br>
                 <div class="col-md-6">
@@ -88,33 +118,48 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHPWebPage.php to 
             <?php
                 $leMsg = "";
 
-                if (isset($_SESSION['flash_message'])) {
-                    $leMsg = $_SESSION['flash_message'];
-                    unset($_SESSION['flash_message']);
-                }
-
                 if ((isset($_POST['btnValider']))) {
 
-                    if (!empty($_POST['nomMat']) && !empty($_POST['nomTuto']) && !empty($_POST['nomSecu']) && !empty($_POST['nomDesc'])) {
+                    if (!empty($_POST['nomMat']) && !empty($_POST['nomTuto']) && !empty($_POST['nomSecu']) && !empty($_POST['nomDesc']) && !empty($_POST['formMat'])){
 
                             $leNom = $_POST['nomMat'];
                             $leTuto = $_POST['nomTuto'];
                             $laSecu = $_POST['nomSecu'];
                             $laDesc = $_POST['nomDesc'];
+                            $leNb = $_POST['nbMat'];
                             $laFormation = $_POST['formMat'];
+                            $laSalle = $_POST['salleMat'];
 
-                            $res = MaterielsDAO::ajouterMateriel($leNom, $leTuto, $laSecu, $laDesc, $laFormation);
+                            $leStatut = "disponible";
 
-                            if ($res) {
-                                $_SESSION['flash_message'] = "<div>Matériel ajouté avec succès !</div>";
-                                ob_end_clean();
+                            $stmt = $connexion->prepare("INSERT INTO Reservables (Nom, Description, statut) VALUES (:Nom, :Description, :statut)");
+                            $stmt->bindParam(':Nom', $leNom, PDO::PARAM_STR);
+                            $stmt->bindParam(':Description', $laDesc, PDO::PARAM_STR);
+                            $stmt->bindParam(':statut', $leStatut, PDO::PARAM_STR);
 
-                                header("Location: " . $_SERVER['REQUEST_URI']);
-                                exit();
-                            } else {
+                            $res = $stmt->execute();
+
+                            if ($res!=NULL){
+                                $lId =  $connexion->lastInsertId();
+
+                                $stmt2 = $connexion->prepare("INSERT INTO Materiels (idR, Tuto, Regle_securite, Nombre, idS) VALUES (:idR, :Tuto, :Regle_securite, :Nombre, :idS)");
+                                $stmt2->bindParam(':idR', $lId, PDO::PARAM_INT);
+                                $stmt2->bindParam(':Tuto', $leTuto, PDO::PARAM_STR);
+                                $stmt2->bindParam(':Regle_securite', $laSecu, PDO::PARAM_STR);
+                                $stmt2->bindParam(':Nombre', $leNb, PDO::PARAM_INT);
+                                $stmt2->bindParam(':idS', $laSalle, PDO::PARAM_INT);
+
+                                $res2 = $stmt2->execute();
+
+                                if ($res2) {
+                                    ob_end_clean();
+                                    header("Location: ./ajout.php");
+                                    ob_end_flush();
+                                    exit();
+                                }
+                            }else {
                                 $leMsg = "<div>Erreur lors de l'ajout de matériel.</div>";
-                            }
-                            
+                            }  
                             echo $leMsg; 
                         }
                 }
@@ -123,6 +168,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHPWebPage.php to 
             <br>
         </div>   
         </div>
+            </div>
         <?php include_once './../commun/footer.php'; ?>
     </body>
 

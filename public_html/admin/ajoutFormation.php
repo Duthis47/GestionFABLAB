@@ -11,8 +11,7 @@ if (isset($_SESSION["isAdmin"])){
 else {
     header("Location: ./../index.php");
 }
-
-require_once './../classesDAO/SalleDAO.php';
+require_once("./../classes/GestionConnexion.php");
 ?>
 <!DOCTYPE html>
 <!--
@@ -40,14 +39,14 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHPWebPage.php to 
 
             <form method="POST" action="" class="row g-3 needs-validation">
                 <h1>Ajouter une formation</h1>
-                <div class="col-md-4">
-                    <label for="validationCustom01" class="form-label">Ajouter un intitulé</label>
+                <div class="col-md-12">
+                    <label for="validationCustom01" class="form-label">Ajouter un intitulé :</label>
                     <input type="text" class="form-control" name="nomForm" id="validationNom" value="" required placeholder="Ex : Formation utilisation perceuse">
                     <div class="invalid-feedback">
                         Saisissez un intitulé.
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-12">
                     <input type="reset" name="btnCancel" value="Annuler" class="btn btn-outline-fablab-blue"/>
                     <input type="submit" name="btnValider" value="Valider" class="btn btn-fablab-yellow"/>
                 </div>
@@ -56,11 +55,6 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHPWebPage.php to 
             <?php
                 $leMsg = "";
 
-                if (isset($_SESSION['flash_message'])) {
-                    $leMsg = $_SESSION['flash_message'];
-                    unset($_SESSION['flash_message']);
-                }
-
                 if ((isset($_POST['btnValider']))) {
 
                     if (!empty($_POST['nomForm'])) {
@@ -68,22 +62,21 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHPWebPage.php to 
                             $lIntitule = $_POST['nomForm'];
 
                             $rsql = "INSERT INTO Formation(Intitule) VALUES(:lIntitule)";
-
                             $connexion = GestionConnexion::getConnexion();
 
-                            
-                            $connexion->beginTransaction();
+                            $rPrep = $connexion->prepare($rsql);
+                            $rPrep->bindParam(':lIntitule', $lIntitule, PDO::PARAM_STR);
 
-                            $stmt->bindParam(':lIntitule', $lIntitule, PDO::PARAM_STR);
+                            $res = $rPrep->execute();
 
                             if ($res) {
-                                $_SESSION['flash_message'] = "<div>Matériel ajouté avec succès !</div>";
                                 ob_end_clean();
 
-                                header("Location: " . $_SERVER['REQUEST_URI']);
+                                header("Location: ./ajout.php");
+                                ob_end_flush();
                                 exit();
                             } else {
-                                $leMsg = "<div>Erreur lors de l'ajout de matériel.</div>";
+                                $leMsg = "<div>Erreur lors de l'ajout de formation.</div>";
                             }
                             
                             echo $leMsg; 

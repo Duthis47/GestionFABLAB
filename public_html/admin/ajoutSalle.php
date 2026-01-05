@@ -41,7 +41,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHPWebPage.php to 
             <form method="POST" action="" class="row g-3 needs-validation">
                 <h1>Ajouter une salle</h1>
                 <div class="col-md-4">
-                    <label for="validationCustom01" class="form-label">Ajouter un nom</label>
+                    <label for="validationCustom01" class="form-label">Ajouter un nom : </label>
                     <input type="text" class="form-control" name="nomRes" id="validationNom" value="" required placeholder="Ex : Salle 201">
                     <div class="invalid-feedback">
                         Saisissez un nom.
@@ -57,7 +57,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHPWebPage.php to 
                 </div>
 
                 <div class="col-md-12">
-                    <label for="validationCustomUsername" class="form-label">Ajouter une description de la salle</label>
+                    <label for="validationCustomUsername" class="form-label">Ajouter une description de la salle : </label>
                     <input type="text" class="form-control" name="descRes" id="validationDesc" required placeholder="Ex : Grande salle avec plans de travail">
                     <div class="invalid-feedback">
                         Saisissez une description de la salle.
@@ -74,19 +74,10 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHPWebPage.php to 
             <?php
                 $leMsg = "";
 
-                if (isset($_SESSION['flash_message'])) {
-                    $leMsg = $_SESSION['flash_message'];
-                    unset($_SESSION['flash_message']);
-                }
-
                 if ((isset($_POST['btnValider']))) {
 
                     if (!empty($_POST['nomRes']) && !empty($_POST['capaRes']) && !empty($_POST['descRes'])) {
 
-                        if (is_numeric($_POST['capaRes']) == false){
-                            $leMsg = "<div>La capacité doit être un chiffre (Ex: 10) !</div>";
-
-                        }else{
                             $leNom = $_POST['nomRes'];
                             $laDesc = $_POST['descRes'];
                             $laCapa = $_POST['capaRes'];
@@ -94,17 +85,16 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHPWebPage.php to 
                             $res = SalleDAO::ajouterSalle($leNom, $laDesc, "disponible", $laCapa);
 
                             if ($res) {
-                                $_SESSION['flash_message'] = "<div>Salle ajoutée avec succès !</div>";
                                 ob_end_clean();
 
-                                header("Location: " . $_SERVER['REQUEST_URI']);
+                                header("Location: ./ajout.php");
+                                ob_end_flush();
                                 exit();
                             } else {
                                 $leMsg = "<div>Erreur lors de l'ajout de la salle.</div>";
                             }
                             }
                             echo $leMsg; 
-                        }
                 }
                 ob_end_flush();
             ?>
