@@ -1,3 +1,18 @@
+function getCookie(name) {
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2){
+    return parts.pop().split(';').shift();
+  }
+}
+
+function getColor(theme){
+    const color = {
+        "light": [],
+        "dark": []
+    };
+}
+
 function toDatetimeLocal(date) {
     //Conversion en format utilisable par FullCalendar
     const dateLocal = new Date(date);
@@ -51,13 +66,9 @@ function verifierBlocage(calendar, start, end) {
 function afficherCalendrierSalle(type, toutesLesResa, placeTotalSalle) {
     //type peut etre 'etudiant' ou 'admin'
     //salle est l'id de la salle a afficher
-    let allDay;
-    if (type == 'etudiant') {
-        allDay = false;
-    }
-    else {
-        allDay = true;
-    }
+    const theme = getCookie('user_theme');
+
+    let allDay = type != 'etudiant';
 
     debutsem = new Date();
     debutsem = debutsem.setUTCDate(debutsem.getUTCDate() - debutsem.getUTCDay() + 1);
@@ -82,6 +93,7 @@ function afficherCalendrierSalle(type, toutesLesResa, placeTotalSalle) {
         aspectRatio: 1.5,
         expandRows: true,
         editable: false,
+        allDayText: 'Toute la journée',
         dateClick: function (info) {
             //Script a effectuer lorsque je clic sur une date (info est relatif au jour du clic)
 
@@ -141,7 +153,7 @@ function afficherCalendrierSalle(type, toutesLesResa, placeTotalSalle) {
                 document.getElementById('startBloc').value = toSqlDateTime(info.start);
                 document.getElementById('endBloc').value = toSqlDateTime(info.end);
                 document.getElementById("typeM").value = "Bloquer";
-
+                document.getElementById("saveEventBtn").innerText = "Bloquer";
                 var monPopup = new bootstrap.Modal(document.getElementById('popupBlocage'));
                 monPopup.show();
             }
@@ -168,7 +180,6 @@ function afficherCalendrierSalle(type, toutesLesResa, placeTotalSalle) {
                     var monPopup = new bootstrap.Modal(document.getElementById('popupAdmin'));
                     monPopup.show();
                 }else {
-                    console.log("test");
                     document.getElementById('startBloc').ariaPlaceholder = toDatetimeLocal(info.event.start);
                     document.getElementById('endBloc').ariaPlaceholder = toDatetimeLocal(info.event.end);
                     document.getElementById('startBloc').value = toSqlDateTime(info.event.start);
@@ -176,6 +187,7 @@ function afficherCalendrierSalle(type, toutesLesResa, placeTotalSalle) {
                     document.getElementById('startBloc').readOnly = true;
                     document.getElementById('endBloc').readOnly = true;
                     document.getElementById("typeM").value = "Debloquer";
+                    document.getElementById("saveEventBtn").innerText = "Debloquer";
 
                     var monPopup = new bootstrap.Modal(document.getElementById('popupBlocage'));
                     monPopup.show();
@@ -208,7 +220,6 @@ function afficherCalendrierSalle(type, toutesLesResa, placeTotalSalle) {
     }
 
 
-    console.log(toutesLesResa);
     toutesLesResa.forEach(function (resa) {
         var title = "Réservé (" + resa.Nb_occupant + "pers.)";
         var colorBack = "#ffa500";
@@ -290,6 +301,9 @@ function afficherCalendrierSalle(type, toutesLesResa, placeTotalSalle) {
 function afficherCalendrierMateriel(type, toutesLesResa, nbExemplaireTotal = 100) {
     //type peut etre 'etudiant' ou 'admin'
     //salle est l'id de la salle a afficher
+    const theme = getCookie('user_theme');
+    console.log(theme);
+
     let allDay;
     if (type == 'etudiant') {
         allDay = false;

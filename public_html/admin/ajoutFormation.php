@@ -11,8 +11,7 @@ if (isset($_SESSION["isAdmin"])){
 else {
     header("Location: ./../index.php");
 }
-
-require_once './../classesDAO/SalleDAO.php';
+require_once("./../classes/GestionConnexion.php");
 ?>
 <!DOCTYPE html>
 <html>
@@ -31,48 +30,26 @@ require_once './../classesDAO/SalleDAO.php';
         
     </head>
     <body>
-<div class="container py-5 mb-5">
-            
-            <div class="row justify-content-center">
-                <div class="col-md-8">
-                    <div class="mb-4">
-                        <a href="ajout.php" class="btn btn-outline-fablab-blue btn-sm d-inline-flex align-items-center gap-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                                <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
-                            </svg>
-                            Retour au menu
-                        </a>
+<div class="container">
+            <button type="submit"><a href = "ajout.php"><h3>Retour</h3></a></button>
+
+            <form method="POST" action="" class="row g-3 needs-validation">
+                <h1>Ajouter une formation</h1>
+                <div class="col-md-12">
+                    <label for="validationCustom01" class="form-label">Ajouter un intitulé :</label>
+                    <input type="text" class="form-control" name="nomForm" id="validationNom" value="" required placeholder="Ex : Formation utilisation perceuse">
+                    <div class="invalid-feedback">
+                        Saisissez un intitulé.
                     </div>
-
-                    <h2 class="mb-4 fw-bold">Ajouter une formation</h2>
-
-                    <div class="card shadow-sm border-0">
-                        <div class="card-body p-4">
-
-                            <form method="POST" action="" class="row g-3 needs-validation" novalidate>
-                                <div class="col-12">
-                                    <label for="validationNom" class="form-label fw-semibold">Intitulé de la formation</label>
-                                    <input type="text" class="form-control" name="nomForm" id="validationNom" value="" required placeholder="Ex : Formation utilisation perceuse">
-                                    <div class="invalid-feedback">
-                                        Saisissez un intitulé.
-                                    </div>
-                                </div>
-                                <div class="col-12 d-flex justify-content-end gap-2 mt-4">
-                                    <a href="ajout.php" class="btn btn-outline-fablab-blue">Annuler</a>
-                                    <input type="submit" name="btnValider" value="Valider" class="btn btn-fablab-yellow"/>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-
+                </div>
+                <div class="col-md-12">
+                    <input type="reset" name="btnCancel" value="Annuler" class="btn btn-outline-fablab-blue"/>
+                    <input type="submit" name="btnValider" value="Valider" class="btn btn-fablab-yellow"/>
+                </div>
+            </form>
             <br>
             <?php
                 $leMsg = "";
-
-                if (isset($_SESSION['flash_message'])) {
-                    $leMsg = $_SESSION['flash_message'];
-                    unset($_SESSION['flash_message']);
-                }
 
                 if ((isset($_POST['btnValider']))) {
 
@@ -81,23 +58,21 @@ require_once './../classesDAO/SalleDAO.php';
                             $lIntitule = $_POST['nomForm'];
 
                             $rsql = "INSERT INTO Formation(Intitule) VALUES(:lIntitule)";
-
                             $connexion = GestionConnexion::getConnexion();
 
-                            $stmt = $connexion->prepare($rsql);
+                            $rPrep = $connexion->prepare($rsql);
+                            $rPrep->bindParam(':lIntitule', $lIntitule, PDO::PARAM_STR);
 
-                            $stmt->bindParam(':lIntitule', $lIntitule, PDO::PARAM_STR);
-                            
-                            $res = $stmt->execute();
+                            $res = $rPrep->execute();
 
                             if ($res) {
-                                $_SESSION['flash_message'] = "<div class='alert alert-success mt-3'>Formation ajoutée avec succès !</div>";
                                 ob_end_clean();
 
-                                header("Location: " . $_SERVER['REQUEST_URI']);
+                                header("Location: ./ajout.php");
+                                ob_end_flush();
                                 exit();
                             } else {
-                                $leMsg = "<div class='alert alert-danger mt-3'>Erreur lors de l'ajout de la formation.</div>";
+                                $leMsg = "<div>Erreur lors de l'ajout de formation.</div>";
                             }
                             
                         }
