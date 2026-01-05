@@ -8,6 +8,9 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this t
 */
 body {
     font-family: 'Roboto Condensed', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
 .logo-image {
@@ -116,6 +119,7 @@ body {
 footer{
     font-size:12px;
     font-family: Anonymous Pro;
+    margin-top: auto;
 }
 .footer-a:link {
   text-decoration: none;

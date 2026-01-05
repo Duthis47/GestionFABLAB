@@ -1,6 +1,6 @@
 <?php 
 
-include_once './../classes/GestionConnexion.php';
+include_once __DIR__ . '/../classes/GestionConnexion.php';
 class MaterielsDAO {
     public static function getAllMateriels(): array {
         $connexion = GestionConnexion::getConnexion();

@@ -45,6 +45,9 @@ if (!isset($_SESSION['isAdmin'])) {
     <div class="container mb-5">
         <h1 class="text-wrapper-4">Modifier les réservables</h1>
         <br /><br />
+        
+        <?php if (isset($_SESSION['flash_message'])) { echo $_SESSION['flash_message']; unset($_SESSION['flash_message']); } ?>
+
         <div id="filtre">
             <form>
                 <div class="mb-3">
@@ -119,8 +122,7 @@ if (!isset($_SESSION['isAdmin'])) {
                 <input type="hidden" name="assocMatForm[]" id="assocMatForm" value="<?= htmlspecialchars($assocMatFormTxt, ENT_QUOTES, 'UTF-8')?>"/>
             </form>
         </div>
-        <!-- TODO: Formulaire Salle-->
-         <?php 
+        <?php 
          if ($isSalleMode == "true"){
          ?>
         <div id="formSalle">
@@ -129,8 +131,7 @@ if (!isset($_SESSION['isAdmin'])) {
                     <div class="card-body p-4">
                         <div class="row g-3"> <div class="col-md-6">
                                 <label for="validationNom" class="form-label fw-semibold">Nom de la salle</label>
-                                <input type="textarea" class="form-control" name="nomRes" id="validationNom" value="" required placeholder="">
-                                <div class="invalid-feedback">Saisissez un nom.</div>
+                                <input type="text" class="form-control" name="nomRes" id="validationNom" value="" required placeholder=""> <div class="invalid-feedback">Saisissez un nom.</div>
                             </div>
 
                             <div class="col-md-6">
@@ -141,8 +142,7 @@ if (!isset($_SESSION['isAdmin'])) {
 
                             <div class="col-md-12">
                                 <label for="validationDesc" class="form-label fw-semibold">Ajouter une description de la salle</label>
-                                <input type="textarea" class="form-control" name="descRes" id="validationDesc" required placeholder="">
-                                <div class="invalid-feedback">Saisissez une description de la salle.</div>
+                                <textarea class="form-control" name="descRes" id="validationDesc" required rows="3"></textarea> <div class="invalid-feedback">Saisissez une description de la salle.</div>
                             </div>
 
                             <input type="hidden" name="idR" id="hiddenIdSalle" value=""/>
@@ -150,8 +150,7 @@ if (!isset($_SESSION['isAdmin'])) {
                             <div class="col-12 d-flex justify-content-end gap-2 mt-4">
                                 <input type="reset" name="btnCancel" value="Annuler" class="btn btn-outline-fablab-blue"/>
                                 <input type="submit" name="btnValider" value="Valider" class="btn btn-fablab-yellow"/>
-                                <input type="submit" name="btnSupprimer" value="Supprimer" class="btn btn-fablab-red" formnovalidate/>
-                            </div>
+                                <input type="submit" name="btnSupprimer" value="Supprimer" class="btn btn-fablab-red" formnovalidate onclick="return confirm('Supprimer cette salle ?');"/> </div>
                         </div>
                     </div>
                 </div>
@@ -167,7 +166,6 @@ if (!isset($_SESSION['isAdmin'])) {
                 var lesElements = JSON.parse(document.getElementById('tableauElement').value);
                 var salleVal = laSalle.value;
                 
-                // MISE A JOUR DE L'ID CACHÉ
                 inputHidden.value = salleVal;
 
                 if (document.getElementById('capaSalle') && lesElements[salleVal]) {
@@ -175,14 +173,15 @@ if (!isset($_SESSION['isAdmin'])) {
                 }
             }
 
-            laSalle.addEventListener('change', updateSalle);
-            // On lance une fois au chargement
-            updateSalle();
+            if(laSalle) {
+                laSalle.addEventListener('change', updateSalle);
+                // On lance une fois au chargement
+                updateSalle();
+            }
         </script>
         <?php 
          }else {
             ?>
-        <!-- TODO: Formulaire Materiel-->
         <div id="formMateriel">
             <form method="POST" action="./../scriptAdmin/scriptModifSalle.php" class="row g-3 needs-validation" novalidate>
                 <div class="card shadow-sm border-0">
@@ -205,14 +204,12 @@ if (!isset($_SESSION['isAdmin'])) {
                             </div>
 
                             <div class="col-md-6">
-                                <label for="validationTuto" class="form-label fw-semibold">Lien Tutoriel</label>
-                                <input type="text" class="form-control" name="nomTuto" id="validationTuto">
-                            </div>
+                                <label for="validationTuto" class="form-label fw-semibold">Tutoriel</label>
+                                <input type="text" class="form-control" name="nomTuto" id="validationTuto" required> <div class="invalid-feedback">Saisissez un tutoriel.</div> </div>
 
                             <div class="col-md-6">
                                 <label for="validationSecu" class="form-label fw-semibold">Règle de sécurité</label>
-                                <input type="text" class="form-control" name="nomSecu" id="validationSecu">
-                            </div>
+                                <input type="text" class="form-control" name="nomSecu" id="validationSecu" required> <div class="invalid-feedback">Saisissez une règle de sécurité.</div> </div>
 
                             <div class="col-12">
                                 <label for="formMat" class="form-label fw-semibold">Formation obligatoire (Ctrl+clic pour multiples)</label>
@@ -284,9 +281,10 @@ if (!isset($_SESSION['isAdmin'])) {
                 }
             }
 
-            leMateriel.addEventListener('change', rafraichirFormulaire);
-
-            rafraichirFormulaire();
+            if(leMateriel){
+                leMateriel.addEventListener('change', rafraichirFormulaire);
+                rafraichirFormulaire();
+            }
         </script>
         <?php 
          }
@@ -295,5 +293,26 @@ if (!isset($_SESSION['isAdmin'])) {
     <?php
     include_once './../commun/footer.php';
     ?>
+
+<script>
+    (() => {
+      'use strict'
+      const forms = document.querySelectorAll('.needs-validation')
+
+      Array.from(forms).forEach(form => {
+        form.addEventListener('submit', event => {
+          if (event.submitter && event.submitter.hasAttribute('formnovalidate')) {
+              return; 
+          }
+
+          if (!form.checkValidity()) {
+            event.preventDefault()
+            event.stopPropagation()
+          }
+          form.classList.add('was-validated')
+        }, false)
+      })
+    })()
+    </script>
 </body>
 </html>
