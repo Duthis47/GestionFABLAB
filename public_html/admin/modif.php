@@ -53,6 +53,7 @@
                     </label>
                     <?php                         
                     $tableauElement = [];
+                    $assocMatSalle = [];
                     if ($isSalleMode) { ?>
                         <select class="form-select" id="salle" name="salle">
                             <?php 
@@ -85,6 +86,7 @@
                         $i = 1;
                         foreach ($listeMateriel as $materiel) {
                             $tableauElement[$materiel['idR']] = $materiel['Nombre'];
+                            $assocMatSalle[$materiel['idR']] = $materiel['idS'];
                             if ($i==1){
                                 $capaSalle = $materiel['Nombre'];
                             }
@@ -98,9 +100,12 @@
                             $i++;
                         }
                         }
-                        $tableauElement = json_encode($tableauElement) ?>
+                        $tableauElement = json_encode($tableauElement) ;
+                        $assocMatSalle = json_encode($assocMatSalle);
+                        ?>
                     </select>
                 </div>
+                <input type="hidden" name="assocMatSalle[]" id="assocMatSalle" value="<?= htmlspecialchars($assocMatSalle, ENT_QUOTES, 'UTF-8')?>"/>
                 <input type="hidden" name="tableauElement[]" id="tableauElement" value="<?= htmlspecialchars($tableauElement, ENT_QUOTES, 'UTF-8')?>"/>
             </form>
         </div>
@@ -137,7 +142,7 @@
                                     </div>
                                 </div>
 
-                                                <div class="col-12 d-flex justify-content-end gap-2 mt-4">
+                                <div class="col-12 d-flex justify-content-end gap-2 mt-4">
                                     <input type="reset" name="btnCancel" value="Annuler" class="btn btn-outline-fablab-blue"/>
                                     <input type="submit" name="btnValider" value="Valider" class="btn btn-fablab-yellow"/>
                                 </div>
@@ -199,13 +204,12 @@
 
                                 <div class="col-12">
                                     <label for="validationFormMateriel" class="form-label fw-semibold">Formation obligatoire</label>
-                                    <select class="form-select" aria-label="Default select example" name="formMat" id="validationFormMateriel" required>
+                                    <select class="form-select" aria-label="Default select example" name="formMat" id="formMat" required>
                                         <?php
                                             $rsql = "SELECT * FROM Formation;";
                                             $resReq = $connexion->query($rsql);
                                             $leTuple = $resReq->fetch();
                                             while ($leTuple != NULL){
-                                                
                                                 echo '<option value="'.$leTuple['idF'].'">'.$leTuple['Intitule'].'</option>';
                                                 $leTuple=$resReq->fetch();
                                             }
@@ -215,7 +219,7 @@
 
                                 <div class="col-md-12">
                                     <label for="validationCustom02" class="form-label  fw-semibold">Ajouter une salle : </label>
-                                    <select class="form-select" aria-label="Default select example" name="salleMat" id="validationFormMateriel" required>
+                                    <select class="form-select" aria-label="Default select example" name="salleMat" id="salleMat" required>
                                         <?php require_once("./../classesDAO/SalleDAO");
                                             $Salle = SalleDAO::getAllSalles();
                                             foreach ($Salle as $salle){
@@ -233,11 +237,18 @@
 
          </form>
         </div>
-        <script>
+        <script>            
             let tableauElement = document.getElementById('tableauElement');
+            let assocData = JSON.parse(document.getElementById('assocMatSalle').value);
+
             leMateriel = document.getElementById('materiel');
             var t = document.getElementById('capaSalle').value;
             materiel = leMateriel.value;
+
+            // Ajouter le selected 
+            let idSalleCible = assocData[document.getElementById('materiel').value];
+            document.getElementById('salleMat').value = idSalleCible;
+
             document.getElementById('numMateriel').value = materiel;
             document.getElementById('numSalle').value = leMateriel.selectedOptions[0].getAttribute('data-salle');
             recupMateriels("etudiant", materiel, t);
@@ -245,6 +256,9 @@
             leMateriel.addEventListener('change', function() {
                 lesElements = JSON.parse(document.getElementById('tableauElement').value);
                 materiel = this.value;
+                let idSalleCible = assocData[materiel];
+                document.getElementById('salleMat').value = idSalleCible;
+                
                 document.getElementById('numMateriel').value = materiel;
                 document.getElementById('capaSalle').value = lesElements[materiel];
                 var t = document.getElementById('capaSalle').value;
