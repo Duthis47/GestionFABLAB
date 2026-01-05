@@ -1,9 +1,10 @@
 <?php
-if (isset($_SESSION["isAdmin"])){
-    require_once './../commun/header.php';
+if (!isset($_SESSION)) {
+    session_start();
 }
-else {
+if (!isset($_SESSION['isAdmin'])) {
     header("Location: ./../index.php");
+    exit();
 }
 ?>
 
@@ -299,5 +300,4 @@ else {
     include_once './../commun/footer.php';
     ?>
 </body>
-
 </html>
