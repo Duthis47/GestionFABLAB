@@ -11,9 +11,16 @@ function ajouterResaMatos(){
     $mailUtilisateur = $_POST['mail'];
     $nomUtilisateur = $_POST['nom'];
     $prenomUtilisateur = $_POST['prenom'];
+    $raison = $_POST["raison"];
+    $isSalle = $_POST["chkSalle"];
+
     $success = ReservationDAO::ajouterReservationMateriel($idMateriel, $dateDebut, $dateFin, false, $nomUtilisateur, $prenomUtilisateur, $mailUtilisateur);
     if ($success) {
-        ajouterResaSalle();
+        if($isSalle == "true"){
+            ajouterResaSalle();
+        }else {
+            header("Location: ./../admin/afficherCalendrierAdmin.php");
+        }
     } else {
         echo "Erreur lors de la réservation.";
     }

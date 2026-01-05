@@ -61,7 +61,7 @@ class ReservationDAO {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public static function ajouterReservationSalle($salleId, $dateDebut, $dateFin, $blocage=false, $nomU="admin", $prenomU="admin", $mailUtilisateur="admin@etud.univ-pau.fr", $nbOccupants=0) {
+    public static function ajouterReservationSalle($salleId, $dateDebut, $dateFin, $blocage=false, $nomU="admin", $prenomU="admin", $mailUtilisateur="admin@etud.univ-pau.fr", $nbOccupants=0, $raison="") {
         $connexion = GestionConnexion::getConnexion();
         $user = UtilisateurDAO::getUtilisateurByMail($mailUtilisateur);
         if ($user){
@@ -69,9 +69,9 @@ class ReservationDAO {
         }else {
             $utilisateurId = UtilisateurDAO::ajouterUtilisateur($nomU, $prenomU, $mailUtilisateur);
         }
-        $ordreSQL = "INSERT INTO ReserverSalles (idU, idR_salle, DateTime_debut, DateTime_fin, Nb_occupant, AutorisationFinal) VALUES (:utilisateurId, :salleId, :dateDebut, :dateFin, :nbOccupants, 0)";
+        $ordreSQL = "INSERT INTO ReserverSalles (idU, idR_salle, DateTime_debut, DateTime_fin, Nb_occupant, AutorisationFinal, Raison) VALUES (:utilisateurId, :salleId, :dateDebut, :dateFin, :nbOccupants, 0, :raison)";
         if ($blocage){
-            $ordreSQL = "INSERT INTO ReserverSalles (idU, idR_salle, DateTime_debut, DateTime_fin, Nb_occupant, AutorisationFinal, Blocage) VALUES (:utilisateurId, :salleId, :dateDebut, :dateFin, :nbOccupants, 0, 1)";
+            $ordreSQL = "INSERT INTO ReserverSalles (idU, idR_salle, DateTime_debut, DateTime_fin, Nb_occupant, AutorisationFinal, Blocage, Raison) VALUES (:utilisateurId, :salleId, :dateDebut, :dateFin, :nbOccupants, 0, 1, :raison)";
         }
         $stmt = $connexion->prepare($ordreSQL);
         $stmt->bindParam(':utilisateurId', $utilisateurId, PDO::PARAM_INT);
@@ -79,10 +79,11 @@ class ReservationDAO {
         $stmt->bindParam(':dateDebut', $dateDebut);
         $stmt->bindParam(':dateFin', $dateFin);
         $stmt->bindParam(':nbOccupants', $nbOccupants, PDO::PARAM_INT);
+        $stmt->bindParam(':raison', $raison, type: PDO::PARAM_STR);
         return $stmt->execute();
     }
 
-    public static function ajouterReservationMateriel($materielId, $dateDebut, $dateFin, $blocage=false, $nomU="admin", $prenomU="admin", $mailUtilisateur="admin@etud.univ-pau.fr") {
+    public static function ajouterReservationMateriel($materielId, $dateDebut, $dateFin, $blocage=false, $nomU="admin", $prenomU="admin", $mailUtilisateur="admin@etud.univ-pau.fr", $raison="") {
         $connexion = GestionConnexion::getConnexion();
         $user = UtilisateurDAO::getUtilisateurByMail($mailUtilisateur);
         if ($user){
@@ -91,15 +92,16 @@ class ReservationDAO {
             $utilisateurId = UtilisateurDAO::ajouterUtilisateur($nomU, $prenomU, $mailUtilisateur);
         }
 
-        $ordreSQL = "INSERT INTO ReserverMateriels (idU, idR_materiel, DateTime_debut, DateTime_fin) VALUES (:utilisateurId, :materielId, :dateDebut, :dateFin)";
+        $ordreSQL = "INSERT INTO ReserverMateriels (idU, idR_materiel, DateTime_debut, DateTime_fin, Raison) VALUES (:utilisateurId, :materielId, :dateDebut, :dateFin, :raison)";
         if ($blocage){
-            $ordreSQL = "INSERT INTO ReserverMateriels (idU, idR_materiel, DateTime_debut, DateTime_fin, Blocage) VALUES (:utilisateurId, :materielId, :dateDebut, :dateFin, 1)";
+            $ordreSQL = "INSERT INTO ReserverMateriels (idU, idR_materiel, DateTime_debut, DateTime_fin, Blocage, Raison) VALUES (:utilisateurId, :materielId, :dateDebut, :dateFin, 1, :raison)";
         }
         $stmt = $connexion->prepare($ordreSQL);
         $stmt->bindParam(':utilisateurId', $utilisateurId, PDO::PARAM_INT);
         $stmt->bindParam(':materielId', $materielId, PDO::PARAM_INT);
         $stmt->bindParam(':dateDebut', $dateDebut);
         $stmt->bindParam(':dateFin', $dateFin);
+        $stmt->bindParam(':raison', $raison, type: PDO::PARAM_STR);
         return $stmt->execute();
     }
 

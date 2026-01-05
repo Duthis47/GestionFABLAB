@@ -130,7 +130,10 @@
                                 <label for="mail" class="form-label">Mail UPPA (@etud.univ-pau.fr) </label>
                                 <input type="email" class="form-control" id="mail" name="mail" title="@etud.univ-pau.fr" pattern=".+@etud\.univ-pau\.fr" required>
                             </div>
-
+                            <div class="mb-3">
+                                <label for="raison" class="form-label">Raison</label>
+                                <textarea class="form-control" placeholder="Ajoutez des raisons si vous le souhaitez" id="raison" name="raison"></textarea>
+                            </div>
                             <!-- En cas de salle on demande le nombre d'occupant a enlever si on considère l'ajout de salle pour matériel -->
                             <?php 
                             //if ($isSalleMode){ ?>
@@ -144,6 +147,10 @@
                             if(!$isSalleMode){
                                 ?>
                                 <input type="hidden" value="" id="numSalle" name="numSalle"/>
+                                <div class="input-group mb-3">
+                                    <label for="chkSalle" >Reserver la salle correspondante</label>
+                                    <input class="form-check-input ml-4 mt-0" type="checkbox" id="chkSalle" name ="chkSalle" value="true">
+                                </div>
                             <?php
                             }else {?>
                                 <input type="hidden" value="" id="numSalle" name="numSalle"/>
@@ -158,6 +165,7 @@
                         <button type="reset" class="btn btn-outline-fablab-blue" data-bs-dismiss="modal">Annuler</button>
                         <button type="submit" class="btn btn-fablab-yellow" id="saveEventBtn">Confirmer</button>
                     </div>
+
                 </form>
 
                 </div>

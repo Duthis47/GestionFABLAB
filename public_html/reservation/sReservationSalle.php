@@ -20,6 +20,7 @@ $mailU = $_POST["mail"];
 $dateDebut = $_POST["dateDebut"];
 $dateFin = $_POST["dateFin"];
 $nbOccupants = $_POST["nbOccupants"];
+$raison = $_POST["raison"];
 
 //Prise en compte de la réservation
 $success = ReservationDAO::ajouterReservationSalle($salleID, $dateDebut, $dateFin, false, $nomU, $prenomU, $mailU, $nbOccupants);
