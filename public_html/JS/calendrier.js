@@ -220,7 +220,7 @@ function afficherCalendrierSalle(type, toutesLesResa, placeTotalSalle) {
         if (resa.Blocage === 1){
             colorBack = "#333333";
             colorDisplay = "block";
-            title = "Bloqué";
+            title = "Indisponible";
         }else {
             colorDisplay = "background"
         }
@@ -434,7 +434,7 @@ function afficherCalendrierMateriel(type, toutesLesResa, nbExemplaireTotal = 100
         if (resa.Blocage === 1){
             colorBack = "#333333";
             colorDisplay = "block";
-            title = "Bloqué";
+            title = "Indisponible";
         }
         let startISO = resa.DateTime_debut.replace(" ", "T");
         let endISO = resa.DateTime_fin.replace(" ", "T");
