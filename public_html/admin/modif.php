@@ -86,6 +86,8 @@
                         
                         $i = 1;
                         foreach ($listeMateriel as $materiel) {
+                            $lesFormations = MaterielsDAO::getFormationAssocie($materiel['idR']);
+                            $assocMatForm[$materiel['idR']] = $lesFormations;
                             $tableauElement[$materiel['idR']] = $materiel['Nombre'];
                             $assocMatSalle[$materiel['idR']] = $materiel['idS'];
                             if ($i==1){
@@ -103,11 +105,13 @@
                         }
                         $tableauElement = json_encode($tableauElement) ;
                         $assocMatSalleTxt = json_encode($assocMatSalle);
+                        $assocMatFormTxt = json_encode($assocMatForm);
                         ?>
                     </select>
                 </div>
                 <input type="hidden" name="assocMatSalle[]" id="assocMatSalle" value="<?= htmlspecialchars($assocMatSalleTxt, ENT_QUOTES, 'UTF-8')?>"/>
                 <input type="hidden" name="tableauElement[]" id="tableauElement" value="<?= htmlspecialchars($tableauElement, ENT_QUOTES, 'UTF-8')?>"/>
+                <input type="hidden" name="assocMatForm[]" id="assocMatForm" value="<?= htmlspecialchars($assocMatFormTxt, ENT_QUOTES, 'UTF-8')?>"/>
             </form>
         </div>
         <!-- TODO: Formulaire Salle-->
@@ -142,6 +146,7 @@
                                         Saisissez une description de la salle.
                                     </div>
                                 </div>
+                                <input type="hidden" name="idR" value=""/>
 
                                 <div class="col-12 d-flex justify-content-end gap-2 mt-4">
                                     <input type="reset" name="btnCancel" value="Annuler" class="btn btn-outline-fablab-blue"/>
@@ -153,10 +158,11 @@
             laSalle = document.getElementById('salle')
             var t = document.getElementById('capaSalle').value;
             salle = laSalle.value;
-
+            documet.getElementById("idR").value = salle;
             laSalle.addEventListener('change', function() {
                 lesElements = JSON.parse(document.getElementById('tableauElement').value);
                 salle = this.value;
+                documet.getElementById("idR").value = salle;
                 document.getElementById('numSalle').placeholder = ;
                 document.getElementById('capaSalle').value = lesElements[salle];
                 document.getElementById('placeRestante').value = 3;
@@ -164,7 +170,7 @@
         </script>
         <?php 
          }else {
-        ?>
+            ?>
         <!-- TODO: Formulaire Materiel-->
         <div id="formMateriel">
             <form>
@@ -202,8 +208,8 @@
                                 </div>
 
                                 <div class="col-12">
-                                    <label for="validationFormMateriel" class="form-label fw-semibold">Formation obligatoire</label>
-                                    <select class="form-select" aria-label="Default select example" name="formMat" id="formMat" required>
+                                    <label for="validationFormMateriel" class="form-label fw-semibold">Formation obligatoire (ctrl+clic pour en selectionner plusieurs)</label>
+                                    <select class="form-select" aria-label="Multiple select example" name="formMat[]" id="formMat" multiple required>
                                         <option value='0'>Aucune formation</option>
                                         <?php
                                             include_once './../classesDAO/FormationDAO.php';
@@ -236,32 +242,42 @@
          </form>
         </div>
         <script>            
-            let tableauElement = document.getElementById('tableauElement');
-            let assocData = JSON.parse(document.getElementById('assocMatSalle').value);
+    let assocMatSalleData = JSON.parse(document.getElementById('assocMatSalle').value);
+    let assocMatFormData = JSON.parse(document.getElementById('assocMatForm').value);
+    let leMateriel = document.getElementById('materiel');
 
-            leMateriel = document.getElementById('materiel');
-            materiel = leMateriel.value;
+    // Fonction pour mettre à jour les champs
+    function rafraichirFormulaire() {
+        let materiel = leMateriel.value;
 
-            // Ajouter le selected 
-            let idSalleCible = assocData[document.getElementById('materiel').value];
-            document.getElementById('salleMat').value = idSalleCible;
+        // 1. Mise à jour de la Salle (Simple)
+        let idSalleCible = assocMatSalleData[materiel];
+        document.getElementById('salleMat').value = idSalleCible;
 
+        // 2. Mise à jour des Formations (Multiple)
+        let idsCibles = assocMatFormData[materiel].map(f => f.idF.toString());
+        
+        // Si le matériel n'a aucune formation, on sélectionne l'option "0"
+        if (idsCibles.length === 0) {
+            idsCibles.push("0");
+        }
 
-            leMateriel.addEventListener('change', function() {
-                lesElements = JSON.parse(document.getElementById('tableauElement').value);
-                materiel = this.value;
-                let idSalleCible = assocData[materiel];
-                document.getElementById('salleMat').value = idSalleCible;
-            });
-        </script>
+        Array.from(document.getElementById('formMat').options).forEach(option => {
+            // On sélectionne l'option si sa valeur est dans notre liste d'IDs
+            option.selected = idsCibles.includes(option.value);
+        });
+    }
+
+    // Écouteur de changement
+    leMateriel.addEventListener('change', rafraichirFormulaire);
+
+    // Initialisation au chargement de la page
+    rafraichirFormulaire();
+</script>
         <?php 
          }
         ?>
     </div>
-    <script>
-        
-
-    </script>
     <?php
     include_once './../commun/footer.php';
     ?>
