@@ -222,7 +222,11 @@ function afficherCalendrierSalle(type, toutesLesResa, placeTotalSalle) {
 
     toutesLesResa.forEach(function (resa) {
         var title = "Réservé (" + resa.Nb_occupant + "pers.)";
+
         var colorBack = "#ffa500";
+        if (theme == "dark" && type == "etudiant"){
+            colorBack = "#F8E71C";
+        }
         let startISO = resa.DateTime_debut.replace(" ", "T");
         let endISO = resa.DateTime_fin.replace(" ", "T");
         if (type == 'admin' && resa.AutorisationFinal === 1) {
@@ -444,6 +448,9 @@ function afficherCalendrierMateriel(type, toutesLesResa, nbExemplaireTotal = 100
     }
     toutesLesResa.forEach(function (resa) {
         var colorBack = "#ffa500";
+        if (theme == "dark"){
+            colorBack = "#F8E71C";
+        }
         if (type == 'admin' && resa.AutorisationFinal == 1) {
             colorBack = "#5CE65C";
         }
