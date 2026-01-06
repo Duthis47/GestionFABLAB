@@ -24,7 +24,7 @@ if (!$isSalleMode) {
     $tableauElement = SalleDAO::getAllSalles();
 }
 
-if (isset($_GET["idErreur"])) {
+if (isset($_GET["idErreur"]) && $_GET["idErreur"] != "") {
     $listeErreur = explode(separator: ",", string: $_GET["idErreur"]);
 }
 
@@ -182,7 +182,7 @@ $blocagesActuels = ReservationDAO::getBlocagesFuturs($isSalleMode);
     </div>
 
 
-    <div class="mt-3 text-center">
+    <div class="mt-3 pb-5 text-center">
         <a href="afficherCalendrierAdmin.php<?= !$isSalleMode ? '?estMateriel=true' : '' ?>"
             class="btn btn-secondary">Retour au calendrier global</a>
     </div>
@@ -197,6 +197,8 @@ $blocagesActuels = ReservationDAO::getBlocagesFuturs($isSalleMode);
             let allChecked = Array.from(inputs).every(cb => cb.checked);
             inputs.forEach(cb => cb.checked = !allChecked);
         }
+
+
     </script>
     <?php include_once './../commun/footer.php'; ?>
 </body>

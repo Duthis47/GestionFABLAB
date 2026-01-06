@@ -5,6 +5,7 @@ ob_start();
 error_reporting(1);
 ini_set('display_errors', 1);
 session_start();
+
 if (isset($_SESSION["isAdmin"])){
     require_once './../commun/header.php';
 }
@@ -80,7 +81,7 @@ $connexion = GestionConnexion::getConnexion();
 
                                 <div class="col-md-6">
                                     <label for="validationNombre" class="form-label fw-semibold">Ajouter un nombre d'exemplaires : </label>
-                                    <input type="number" class="form-control" name="nbMat" id="validationNombre" value="" required placeholder="Ex : 2">
+                                    <input type="number" class="form-control" name="nbMat" id="validationNombre" value="" min="1" required placeholder="Ex : 2">
                                     <div class="invalid-feedback">
                                         Saisissez un nombre valide.
                                     </div>
@@ -170,7 +171,7 @@ $connexion = GestionConnexion::getConnexion();
                                         if ($res2){
 
 
-                                            $_SESSION['flash_message'] = "<div class='alert alert-success mt-3'>Matériel ajouté avec succès !</div>";
+                                            //$_SESSION['flash_message'] = "<div class='alert alert-success mt-3'>Matériel ajouté avec succès !</div>";
                                             ob_end_clean();
                                             header("Location: " . $_SERVER['REQUEST_URI']);
                                             exit();
@@ -181,7 +182,7 @@ $connexion = GestionConnexion::getConnexion();
 
 
 
-                                        $_SESSION['flash_message'] = "<div class='alert alert-success mt-3'>Matériel ajouté avec succès !</div>";
+                                        //$_SESSION['flash_message'] = "<div class='alert alert-success mt-3'>Matériel ajouté avec succès !</div>";
                                         ob_end_clean();
                                         header("Location: " . $_SERVER['REQUEST_URI']);
                                         exit();

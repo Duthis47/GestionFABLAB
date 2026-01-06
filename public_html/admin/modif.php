@@ -148,10 +148,15 @@ if (!isset($_SESSION['isAdmin'])) {
 
                             <input type="hidden" name="idR" id="hiddenIdSalle" value=""/>
 
-                            <div class="col-12 d-flex justify-content-end gap-2 mt-4">
-                                <input type="reset" name="btnCancel" value="Annuler" class="btn btn-outline-fablab-blue"/>
-                                <input type="submit" name="btnValider" value="Valider" class="btn btn-fablab-yellow"/>
-                                <input type="submit" name="btnSupprimer" value="Supprimer" class="btn btn-fablab-red" formnovalidate onclick="return confirm('Supprimer cette salle ?');"/> </div>
+                            <div class="col-12 d-flex mt-4">
+    <!-- me-auto pousse tout ce qui suit vers la droite -->
+    <input type="submit" name="btnSupprimer" value="Supprimer" class="btn btn-fablab-red me-auto" formnovalidate onclick="return confirm('Supprimer cette salle ?');"/>
+    
+    <div class="d-flex gap-2">
+        <input type="reset" name="btnCancel" value="Annuler" class="btn btn-outline-fablab-blue"/>
+        <input type="submit" name="btnValider" value="Valider" class="btn btn-fablab-yellow"/>
+    </div>
+</div>
                         </div>
                     </div>
                 </div>
@@ -243,13 +248,15 @@ if (!isset($_SESSION['isAdmin'])) {
                             
                             <input type="hidden" name="idR" id="hiddenIdMateriel" value=""/>
                             
-                            <div class="col-12 d-flex justify-content-end gap-2 mt-4">
-                                <input type="reset" value="Annuler" class="btn btn-outline-fablab-blue"/>
-                                <input type="submit" name="btnValider" value="Valider" class="btn btn-fablab-yellow"/>
-                                <input type="submit" name="btnSupprimer" value="Supprimer" class="btn btn-fablab-red" formnovalidate onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce matériel ?');"/>
-                            </div>
-
-                        </div> </div> </div> </form>
+                            <div class="col-12 d-flex mt-4">
+    <!-- me-auto pousse tout ce qui suit vers la droite -->
+    <input type="submit" name="btnSupprimer" value="Supprimer" class="btn btn-fablab-red me-auto" formnovalidate onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce matériel ?');"/>
+    
+    <div class="d-flex gap-2">
+        <input type="reset" value="Annuler" class="btn btn-outline-fablab-blue"/>
+        <input type="submit" name="btnValider" value="Valider" class="btn btn-fablab-yellow"/>
+    </div>
+</div> </div> </div> </div></form>
                 </div>
         <script>            
             let assocMatSalleData = JSON.parse(document.getElementById('assocMatSalle').value);
