@@ -35,16 +35,20 @@ if ($action == 'bloquer') {
 
     // Conversion de la date de début en timestamp (pour le décalage)
     $timestampDebut = strtotime($dateDebut);
-
+    $idErreur = [];
     foreach ($ids as $index => $idR) {
         $dateDebutDecalee = date('Y-m-d H:i:s', $timestampDebut + $index); // +0s, +1s, +2s...
-
-        if ($isSalleBool) {
-            $res = ReservationDAO::ajouterReservationSalle($idR, $dateDebutDecalee, $dateFin, true);
-        } else {
-            $res = ReservationDAO::ajouterReservationMateriel($idR, $dateDebutDecalee, $dateFin, true);
+        $x = ReservationDAO::chevauchementResa($isSalle, $idR, $dateDebut, $dateFin);
+        if ($x == 0){
+            if ($isSalleBool) {
+                $res = ReservationDAO::ajouterReservationSalle($idR, $dateDebutDecalee, $dateFin, true);
+            } else {
+                $res = ReservationDAO::ajouterReservationMateriel($idR, $dateDebutDecalee, $dateFin, true);
+            }
+            ($res == 1) ? $successCount++ : $failCount++;
+        }else {
+            $idErreur[] = $idR;
         }
-        ($res == 1) ? $successCount++ : $failCount++;
     }
 
 // --Suppression Blocages--
@@ -75,10 +79,10 @@ $redirectUrl = "./../admin/adminGestionDispo.php";
 
 if ($isSalleBool) {
     // true
-    $redirectUrl .= "?success=" . $successCount . "&fail=" . $failCount;
+    $redirectUrl .= "?success=" . $successCount . "&fail=" . $failCount . "&idErreur="  . implode(',', $idErreur);
 } else {
     // false
-    $redirectUrl .= "?estMateriel=true&success=" . $successCount . "&fail=" . $failCount;
+    $redirectUrl .= "?estMateriel=true&success=" . $successCount . "&fail=" . $failCount . "&idErreur="  . implode(',', $idErreur);
 }
 
 header("Location: " . $redirectUrl);

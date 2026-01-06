@@ -154,6 +154,7 @@ function afficherCalendrierSalle(type, toutesLesResa, placeTotalSalle) {
                 document.getElementById('endBloc').value = toSqlDateTime(info.end);
                 document.getElementById("typeM").value = "Bloquer";
                 document.getElementById("saveEventBtn").innerText = "Bloquer";
+                document.getElementById("titlePopUp").innerText = "Bloquer un créneau";
                 var monPopup = new bootstrap.Modal(document.getElementById('popupBlocage'));
                 monPopup.show();
             }
@@ -188,6 +189,7 @@ function afficherCalendrierSalle(type, toutesLesResa, placeTotalSalle) {
                     document.getElementById('endBloc').readOnly = true;
                     document.getElementById("typeM").value = "Debloquer";
                     document.getElementById("saveEventBtn").innerText = "Debloquer";
+                    document.getElementById("titlePopUp").innerText = "Debloquer un créneau";
 
                     var monPopup = new bootstrap.Modal(document.getElementById('popupBlocage'));
                     monPopup.show();

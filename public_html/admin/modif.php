@@ -91,8 +91,8 @@ if (!isset($_SESSION['isAdmin'])) {
                         $listeMateriel = MaterielsDAO::getAllMateriels();
                         ?>
                         <select class="form-select" id="materiel" name="materiel">
-                                                    <?php 
-                        
+                        <?php 
+
                         $i = 1;
                         foreach ($listeMateriel as $materiel) {
                             $lesFormations = MaterielsDAO::getFormationAssocie($materiel['idR']);
@@ -172,9 +172,9 @@ if (!isset($_SESSION['isAdmin'])) {
                 }
 
                 //Update des placeholder
-                var nom = document.getElementById('validationNom').placeholder = lesElements[salleVal].Nom;
-                var capa = document.getElementById('validationCapaAccueil').placeholder = lesElements[salleVal].capaAccueil;
-                var desc = document.getElementById('validationDesc').placeholder = lesElements[salleVal].Description;
+                var nom = document.getElementById('validationNom').value = lesElements[salleVal].Nom;
+                var capa = document.getElementById('validationCapaAccueil').value = lesElements[salleVal].capaAccueil;
+                var desc = document.getElementById('validationDesc').value = lesElements[salleVal].Description;
             }
 
             if(laSalle) {
@@ -266,11 +266,11 @@ if (!isset($_SESSION['isAdmin'])) {
                 hiddenInputMat.value = materiel;
 
                 //Placeholder
-                document.getElementById('validationNomMat').placeholder = lesMateriels[materiel].Nom;
-                document.getElementById('validationNbMat').placeholder = lesMateriels[materiel].Nombre;
-                document.getElementById('validationDescMat').placeholder = lesMateriels[materiel].Description;
-                document.getElementById('validationTuto').placeholder = lesMateriels[materiel].Tuto;
-                document.getElementById('validationSecu').placeholder = lesMateriels[materiel].Regle_securite;
+                document.getElementById('validationNomMat').value = lesMateriels[materiel].Nom;
+                document.getElementById('validationNbMat').value = lesMateriels[materiel].Nombre;
+                document.getElementById('validationDescMat').value = lesMateriels[materiel].Description;
+                document.getElementById('validationTuto').value = lesMateriels[materiel].Tuto;
+                document.getElementById('validationSecu').value = lesMateriels[materiel].Regle_securite;
 
                 if (assocMatSalleData[materiel]) {
                     let idSalleCible = assocMatSalleData[materiel];
