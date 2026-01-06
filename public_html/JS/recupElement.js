@@ -24,7 +24,7 @@ function recupSalle(type, idSalle, capaSalle) {
             }
         });
 }
-function recupMateriels(type, idMateriel, nbExemplaireTotal) {
+function recupMateriels(type, idMateriel, capaSalle, nbExemplaireTotal) {
     fetch('./../api/recupMateriels.php?id=' + idMateriel +'&type='+type)
         .then(response => {
             // Au lieu de response.json(), on prend le texte brut
@@ -37,7 +37,7 @@ function recupMateriels(type, idMateriel, nbExemplaireTotal) {
                 const data = JSON.parse(text);
                 // Si ça marche, on continue
                 let listeResa = data;
-                afficherCalendrierMateriel(type, listeResa, nbExemplaireTotal);
+                afficherCalendrierMateriel(type, listeResa, capaSalle, nbExemplaireTotal);
             } catch (e) {
                 console.error(e.message);
             }

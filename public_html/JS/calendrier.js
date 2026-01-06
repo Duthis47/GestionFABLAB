@@ -304,7 +304,8 @@ function afficherCalendrierSalle(type, toutesLesResa, placeTotalSalle) {
 }
 
 
-function afficherCalendrierMateriel(type, toutesLesResa, nbExemplaireTotal = 100) {
+function afficherCalendrierMateriel(type, toutesLesResa, capaSalle = 100, nbExemplaireTotal) {
+    console.log("B: "+nbExemplaireTotal);
     //type peut etre 'etudiant' ou 'admin'
     //salle est l'id de la salle a afficher
     const theme = getCookie('user_theme');
@@ -345,6 +346,9 @@ function afficherCalendrierMateriel(type, toutesLesResa, nbExemplaireTotal = 100
         },
         selectAllow: function (selectInfo) {
             if (!verifierBlocage(calendar, selectInfo.start, selectInfo.end)){
+                return false;
+            }
+            if (verifierDisponibilite(calendar, selectInfo.start, selectInfo.end) >= nbExemplaireTotal){
                 return false;
             }
             return true;
@@ -460,6 +464,9 @@ function afficherCalendrierMateriel(type, toutesLesResa, nbExemplaireTotal = 100
             colorBack = "#333333";
             colorDisplay = "block";
             title = "Indisponible";
+        }else {
+            colorDisplay = "background";
+            title = "Reservé";
         }
         let startISO = resa.DateTime_debut.replace(" ", "T");
         let endISO = resa.DateTime_fin.replace(" ", "T");
@@ -505,7 +512,7 @@ function afficherCalendrierMateriel(type, toutesLesResa, nbExemplaireTotal = 100
             if (heure < 8 || heure >= 20) continue;
 
             let total = verifierDisponibilite(calendar, dateCreneau, dateFinCreneau);
-            if (total >= nbExemplaireTotal) {
+            if (total >= capaSalle) {
                 calendar.addEvent({
                     title: 'Complet',
                     start: dateCreneau,

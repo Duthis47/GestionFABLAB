@@ -202,16 +202,19 @@
                 leMateriel.addEventListener('change', function() {
                     lesElements = JSON.parse(document.getElementById('tableauElement').value);
                     materiel = this.value;
+                    let x = lesElements[materiel];
                     document.getElementById('numMateriel').value = materiel;
                     document.getElementById('capaSalle').value = lesElements[materiel];
                     var t = document.getElementById('capaSalle').value;
                     document.getElementById('numSalle').value = this.options[this.selectedIndex].getAttribute('data-salle');
-                    recupMateriels("etudiant", materiel, t);
+                    recupMateriels("etudiant", materiel, t, x);
                 });
                 materiel = leMateriel.value;
                 document.getElementById('numMateriel').value = materiel;
                 document.getElementById('numSalle').value = leMateriel.selectedOptions[0].getAttribute('data-salle');
-                recupMateriels("etudiant", materiel, t);
+                lesElements = JSON.parse(document.getElementById('tableauElement').value);
+                let x = lesElements[materiel];
+                recupMateriels("etudiant", materiel, t, x);
             </script>
             <?php
         } ?>
