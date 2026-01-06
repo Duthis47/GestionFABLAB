@@ -21,7 +21,7 @@ function ajouterResaMatos(){
         }else {
             $raisonMail = "Reserver";
             include_once './../scriptMail/envoiMail.php';
-            header("Location: ./../reservation/reservationUser.php");
+            header("Location: ./../reservation/reservationUser.php?estMateriel=true");
         }
     } else {
         echo "Erreur lors de la réservation.";
