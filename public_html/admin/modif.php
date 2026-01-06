@@ -63,6 +63,7 @@ if (!isset($_SESSION['isAdmin'])) {
                     $tableauElement = [];
                     $assocMatSalle = [];
                     $assocMatForm = [];
+                    $Elements = [];
                     if ($isSalleMode) { ?>
                         <select class="form-select" id="salle" name="salle">
                             <?php 
@@ -72,7 +73,7 @@ if (!isset($_SESSION['isAdmin'])) {
                                 $listeSalle = SalleDAO::getAllSalles();
                                 $i = 1;
                                 foreach ($listeSalle as $salle) {
-                                    $tableauElement[$salle["idR"]] = $salle['capaAccueil'];
+                                    $tableauElement[$salle["idR"]] = $salle;
                                     if($i==1){
                                        $capaSalle = $salle['capaAccueil'];
                                    }
@@ -96,7 +97,7 @@ if (!isset($_SESSION['isAdmin'])) {
                         foreach ($listeMateriel as $materiel) {
                             $lesFormations = MaterielsDAO::getFormationAssocie($materiel['idR']);
                             $assocMatForm[$materiel['idR']] = $lesFormations;
-                            $tableauElement[$materiel['idR']] = $materiel['Nombre'];
+                            $tableauElement[$materiel['idR']] = $materiel;
                             $assocMatSalle[$materiel['idR']] = $materiel['idS'];
                             if ($i==1){
                                 $capaSalle = $materiel['Nombre'];
@@ -158,10 +159,8 @@ if (!isset($_SESSION['isAdmin'])) {
         </div>
         <script>
             var laSalle = document.getElementById('salle');
-
             var inputHidden = document.getElementById("hiddenIdSalle"); 
 
-            // Fonction nommée pour éviter les conflits et initialiser au démarrage
             function updateSalle() {
                 var lesElements = JSON.parse(document.getElementById('tableauElement').value);
                 var salleVal = laSalle.value;
@@ -169,13 +168,17 @@ if (!isset($_SESSION['isAdmin'])) {
                 inputHidden.value = salleVal;
 
                 if (document.getElementById('capaSalle') && lesElements[salleVal]) {
-                     document.getElementById('capaSalle').value = lesElements[salleVal];
+                     document.getElementById('capaSalle').value = lesElements[salleVal].capaAccueil;
                 }
+
+                //Update des placeholder
+                var nom = document.getElementById('validationNom').placeholder = lesElements[salleVal].Nom;
+                var capa = document.getElementById('validationCapaAccueil').placeholder = lesElements[salleVal].capaAccueil;
+                var desc = document.getElementById('validationDesc').placeholder = lesElements[salleVal].Description;
             }
 
             if(laSalle) {
                 laSalle.addEventListener('change', updateSalle);
-                // On lance une fois au chargement
                 updateSalle();
             }
         </script>
@@ -251,6 +254,7 @@ if (!isset($_SESSION['isAdmin'])) {
         <script>            
             let assocMatSalleData = JSON.parse(document.getElementById('assocMatSalle').value);
             let assocMatFormData = JSON.parse(document.getElementById('assocMatForm').value);
+            let lesMateriels = JSON.parse(document.getElementById('tableauElement').value);
             let leMateriel = document.getElementById('materiel');
             
             let hiddenInputMat = document.getElementById('hiddenIdMateriel');
@@ -261,13 +265,18 @@ if (!isset($_SESSION['isAdmin'])) {
                 
                 hiddenInputMat.value = materiel;
 
-                // 1. Mise à jour de la Salle
+                //Placeholder
+                document.getElementById('validationNomMat').placeholder = lesMateriels[materiel].Nom;
+                document.getElementById('validationNbMat').placeholder = lesMateriels[materiel].Nombre;
+                document.getElementById('validationDescMat').placeholder = lesMateriels[materiel].Description;
+                document.getElementById('validationTuto').placeholder = lesMateriels[materiel].Tuto;
+                document.getElementById('validationSecu').placeholder = lesMateriels[materiel].Regle_securite;
+
                 if (assocMatSalleData[materiel]) {
                     let idSalleCible = assocMatSalleData[materiel];
                     document.getElementById('salleMat').value = idSalleCible;
                 }
 
-                // 2. Mise à jour des Formations
                 if (assocMatFormData[materiel]) {
                     let idsCibles = assocMatFormData[materiel].map(f => f.idF.toString());
                     
