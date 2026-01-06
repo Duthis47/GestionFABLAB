@@ -85,13 +85,13 @@ body {
     border-radius: 10px;
 }
 [data-bs-theme="dark"] .btn-outline-fablab-blue {
-                color: #FFF;
-            }
+    color: #FFF;
+}
+
 .btn-outline-fablab-blue:hover {
     background-color: #B8E1FF;
     color: #000 !important;
 }
-
 
 .btn-fablab-yellow {
     background-color: #ffc107;
