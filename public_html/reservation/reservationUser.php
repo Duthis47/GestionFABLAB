@@ -170,6 +170,18 @@
 
                 </div>
             </div>
+            </div>
+            <br/>
+            <br/>
+            <?php if (isset($_GET["erreurBDD"])){
+
+            ?>
+            <div class="alert alert-danger" role="alert">
+                Pas le droit a 2 reservation en meme temps ahahah
+            </div>
+            <?php 
+            }
+            ?>
         </div>
                     <!-- Modal de matériel -->
         <script src="./../JS/calendrier.js"></script>

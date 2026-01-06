@@ -63,50 +63,59 @@ class ReservationDAO {
     }
 
     public static function ajouterReservationSalle($salleId, $dateDebut, $dateFin, $blocage=false, $nomU="admin", $prenomU="admin", $mailUtilisateur="admin@etud.univ-pau.fr", $nbOccupants=0, $raison="") {
-        $connexion = GestionConnexion::getConnexion();
-        $user = UtilisateurDAO::getUtilisateurByMail($mailUtilisateur);
-        if ($user){
-            $utilisateurId = $user['idU'];
-        }else {
-            $utilisateurId = UtilisateurDAO::ajouterUtilisateur($nomU, $prenomU, $mailUtilisateur);
+        try {
+            $connexion = GestionConnexion::getConnexion();
+            $user = UtilisateurDAO::getUtilisateurByMail($mailUtilisateur);
+            if ($user){
+                $utilisateurId = $user['idU'];
+            }else {
+                $utilisateurId = UtilisateurDAO::ajouterUtilisateur($nomU, $prenomU, $mailUtilisateur);
+            }
+            
+            $ordreSQL = "INSERT INTO ReserverSalles (idU, idR_salle, DateTime_debut, DateTime_fin, Nb_occupant, AutorisationFinal, Raison) VALUES (:utilisateurId, :salleId, :dateDebut, :dateFin, :nbOccupants, 0, :raison)";
+            
+            if ($blocage){
+                $ordreSQL = "INSERT INTO ReserverSalles (idU, idR_salle, DateTime_debut, DateTime_fin, Nb_occupant, AutorisationFinal, Blocage, Raison) VALUES (:utilisateurId, :salleId, :dateDebut, :dateFin, :nbOccupants, 0, 1, :raison)";
+            }
+            
+            $stmt = $connexion->prepare($ordreSQL);
+            $stmt->bindParam(':utilisateurId', $utilisateurId, PDO::PARAM_INT);
+            $stmt->bindParam(':salleId', $salleId, PDO::PARAM_INT);
+            $stmt->bindParam(':dateDebut', $dateDebut);
+            $stmt->bindParam(':dateFin', $dateFin);
+            $stmt->bindParam(':nbOccupants', $nbOccupants, PDO::PARAM_INT);
+            $stmt->bindParam(':raison', $raison, PDO::PARAM_STR);
+            return $stmt->execute();
+        }catch(PDOException $e){
+            header("Location: ./../reservation/reservationUser.php?erreurBDD=".$e->getMessage());
+            exit();
         }
-        
-        $ordreSQL = "INSERT INTO ReserverSalles (idU, idR_salle, DateTime_debut, DateTime_fin, Nb_occupant, AutorisationFinal, Raison) VALUES (:utilisateurId, :salleId, :dateDebut, :dateFin, :nbOccupants, 0, :raison)";
-        
-        if ($blocage){
-            $ordreSQL = "INSERT INTO ReserverSalles (idU, idR_salle, DateTime_debut, DateTime_fin, Nb_occupant, AutorisationFinal, Blocage, Raison) VALUES (:utilisateurId, :salleId, :dateDebut, :dateFin, :nbOccupants, 0, 1, :raison)";
-        }
-        
-        $stmt = $connexion->prepare($ordreSQL);
-        $stmt->bindParam(':utilisateurId', $utilisateurId, PDO::PARAM_INT);
-        $stmt->bindParam(':salleId', $salleId, PDO::PARAM_INT);
-        $stmt->bindParam(':dateDebut', $dateDebut);
-        $stmt->bindParam(':dateFin', $dateFin);
-        $stmt->bindParam(':nbOccupants', $nbOccupants, PDO::PARAM_INT);
-        $stmt->bindParam(':raison', $raison, PDO::PARAM_STR);
-        return $stmt->execute();
     }
 
     public static function ajouterReservationMateriel($materielId, $dateDebut, $dateFin, $blocage=false, $nomU="admin", $prenomU="admin", $mailUtilisateur="admin@etud.univ-pau.fr", $raison="") {
-        $connexion = GestionConnexion::getConnexion();
-        $user = UtilisateurDAO::getUtilisateurByMail($mailUtilisateur);
-        if ($user){
-            $utilisateurId = $user['idU'];
-        }else {
-            $utilisateurId = UtilisateurDAO::ajouterUtilisateur($nomU, $prenomU, $mailUtilisateur);
-        }
+        try {
+            $connexion = GestionConnexion::getConnexion();
+            $user = UtilisateurDAO::getUtilisateurByMail($mailUtilisateur);
+            if ($user){
+                $utilisateurId = $user['idU'];
+            }else {
+                $utilisateurId = UtilisateurDAO::ajouterUtilisateur($nomU, $prenomU, $mailUtilisateur);
+            }
 
-        $ordreSQL = "INSERT INTO ReserverMateriels (idU, idR_materiel, DateTime_debut, DateTime_fin, Raison) VALUES (:utilisateurId, :materielId, :dateDebut, :dateFin, :raison)";
-        if ($blocage){
-            $ordreSQL = "INSERT INTO ReserverMateriels (idU, idR_materiel, DateTime_debut, DateTime_fin, Blocage, Raison) VALUES (:utilisateurId, :materielId, :dateDebut, :dateFin, 1, :raison)";
+            $ordreSQL = "INSERT INTO ReserverMateriels (idU, idR_materiel, DateTime_debut, DateTime_fin, Raison) VALUES (:utilisateurId, :materielId, :dateDebut, :dateFin, :raison)";
+            if ($blocage){
+                $ordreSQL = "INSERT INTO ReserverMateriels (idU, idR_materiel, DateTime_debut, DateTime_fin, Blocage, Raison) VALUES (:utilisateurId, :materielId, :dateDebut, :dateFin, 1, :raison)";
+            }
+            $stmt = $connexion->prepare($ordreSQL);
+            $stmt->bindParam(':utilisateurId', $utilisateurId, PDO::PARAM_INT);
+            $stmt->bindParam(':materielId', $materielId, PDO::PARAM_INT);
+            $stmt->bindParam(':dateDebut', $dateDebut);
+            $stmt->bindParam(':dateFin', $dateFin);
+            $stmt->bindParam(':raison', $raison, PDO::PARAM_STR);
+            return $stmt->execute();
+        }catch(PDOException $e){
+            header("Location: ./../reservation/reservationUser.php?estMateriel=true&erreurBDD=".$e);
         }
-        $stmt = $connexion->prepare($ordreSQL);
-        $stmt->bindParam(':utilisateurId', $utilisateurId, PDO::PARAM_INT);
-        $stmt->bindParam(':materielId', $materielId, PDO::PARAM_INT);
-        $stmt->bindParam(':dateDebut', $dateDebut);
-        $stmt->bindParam(':dateFin', $dateFin);
-        $stmt->bindParam(':raison', $raison, PDO::PARAM_STR);
-        return $stmt->execute();
     }
 
     public static function accepterReservation($type, $idU, $idR, $dateDebut){
