@@ -16,3 +16,8 @@ error_log
 
 .nb_project/
 .nbproject/
+
+vendor/
+composer.json
+composer.lock
+

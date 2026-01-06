@@ -1,6 +1,7 @@
 <?php 
 
 include_once './../classesDAO/ReservationDAO.php';
+include_once './../classesDAO/UtilisateurDAO.php';
 
 if (!isset($_SESSION)) {
     session_start();
@@ -16,6 +17,10 @@ $idU = $_POST["idU"];
 $idR = $_POST["idR"];
 $dateDebut = $_POST["dateDebut"];
 $type = $_POST["type"];
+$utilisateur = UtilisateurDAO::getUtilisateurById($idU);
+$mailUtilisateur = $utilisateur["mailU"];
+$prenomUtilisateur = $utilisateur["prenomU"];
+$nomUtilisateur = $utilisateur["nomU"];
 
 $append = "";
 if ($type == "false"){
@@ -25,6 +30,8 @@ if ($type == "false"){
 if ($_POST["Action"] == "1"){
     $r = ReservationDAO::accepterReservation($type, $idU, $idR, $dateDebut);
     if ($r == 1){
+        $raisonMail = "Accepter";
+        include_once './../scriptMail/envoiMail.php';
         header("Location: ./../admin/afficherCalendrierAdmin.php".$append);
         exit;
     }else {
@@ -34,6 +41,8 @@ if ($_POST["Action"] == "1"){
 }else if ($_POST["Action"] == "0"){
     $r = ReservationDAO::refuserReservation($type, $idU, $idR, $dateDebut);
     if ($r == 1){
+        $raisonMail = "Refuser";
+        include_once './../scriptMail/envoiMail.php';
         header("Location: ./../admin/afficherCalendrierAdmin.php".$append);
         exit;
     }else {

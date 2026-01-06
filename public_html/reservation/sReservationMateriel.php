@@ -19,6 +19,8 @@ function ajouterResaMatos(){
         if($isSalle == "true"){
             ajouterResaSalle();
         }else {
+            $raisonMail = "Reserver";
+            include_once './../scriptMail/envoiMail.php';
             header("Location: ./../reservation/reservationUser.php");
         }
     } else {
@@ -32,6 +34,5 @@ function ajouterResaSalle(){
     $_SESSION["redirectedResa"] = $_POST;
     header("Location: ./sReservationSalle.php");
 }
-
 
 ajouterResaMatos();

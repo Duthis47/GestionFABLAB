@@ -19,4 +19,13 @@ class UtilisateurDAO{
         $stmt->execute();
         return $connexion->lastInsertId();
     }
+
+    public static function getUtilisateurById($id): array|bool {
+        $connexion = GestionConnexion::getConnexion();
+        $stmt = $connexion->prepare("SELECT * FROM Utilisateur WHERE idU = :id");
+        $stmt->bindParam(':id', $id, PDO::PARAM_STR);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
 }

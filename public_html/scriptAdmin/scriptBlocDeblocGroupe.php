@@ -20,6 +20,7 @@ $isSalle = $_POST["isSalle"];
 
 $successCount = 0;
 $failCount = 0;
+$idErreur = [];
 
 $isSalleBool = ($isSalle === "true" || $isSalle === true);
 
@@ -35,7 +36,6 @@ if ($action == 'bloquer') {
 
     // Conversion de la date de début en timestamp (pour le décalage)
     $timestampDebut = strtotime($dateDebut);
-    $idErreur = [];
     foreach ($ids as $index => $idR) {
         $dateDebutDecalee = date('Y-m-d H:i:s', $timestampDebut + $index); // +0s, +1s, +2s...
         $x = ReservationDAO::chevauchementResa($isSalle, $idR, $dateDebut, $dateFin);
