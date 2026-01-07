@@ -14,16 +14,15 @@ $erreur ="";
 
 function envoyerMail($mail, $destinataire, $sujet, $message){
         try {
-            echo "ouep";
             $mail->isSMTP();
-            $mail->Host = 'smtp.gmail.com';
+            $mail->Host = 'partage.univ-pau.fr';
             $mail->SMTPAuth = true;
-            $mail->Username = 'educaps64@gmail.com';
-            $mail->Password = 'pnwx artl rvsk mlof';
-            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-            $mail->Port = 587;
+            $mail->Username =  getenv('SMTP_USER');
+            $mail->Password =  getenv('SMTP_PASS');
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
+            $mail->Port = 465;
 
-            $mail->setFrom('educaps64@gmail.com', 'AdminFablab');
+            $mail->setFrom('mducrot001@univ-pau.fr', 'AdminFablab');
             $mail->addAddress($destinataire, "étudiant");
 
             $mail->isHTML(true);
@@ -32,7 +31,6 @@ function envoyerMail($mail, $destinataire, $sujet, $message){
             $mail->AltBody = $message;
             
             $mail->send();
-            echo "Le message est bien envoyé cliqué sur le lien ci-dessous pour revenir sur le site";
         } catch (Exception $e) {
             echo "Le message n'a pas pu être envoyé. Erreur : {$mail->ErrorInfo}";
         }
