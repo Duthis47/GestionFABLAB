@@ -60,8 +60,7 @@ if ($raisonMail == "Reserver"){
     envoyerMail($mail, $destinataire, $subject, $message);
 
     //Mail vers admin
-
-    //$destinataire = "mail admin";
+    $destinataire = getenv('SMTP_USER');
     $subject = "Demande de reservation";
     $message = "Vous avez une nouvelle reservation";
     envoyerMail($mail, $destinataire, $subject, $message);
