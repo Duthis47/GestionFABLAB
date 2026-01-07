@@ -23,7 +23,7 @@ function envoyerMail($mail, $destinataire, $sujet, $message){
             $mail->Port = 465;
 
             $mail->setFrom('mducrot001@univ-pau.fr', 'AdminFablab');
-            $mail->addAddress($destinataire, "étudiant");
+            $mail->addAddress($destinataire, "etudiant");
 
             $mail->isHTML(true);
             $mail->Subject = $sujet;
@@ -32,21 +32,21 @@ function envoyerMail($mail, $destinataire, $sujet, $message){
             
             $mail->send();
         } catch (Exception $e) {
-            echo "Le message n'a pas pu être envoyé. Erreur : {$mail->ErrorInfo}";
+            echo "Le message n'a pas pu être envoye. Erreur : {$mail->ErrorInfo}";
         }
 }
 
 $destinataire = $mailUtilisateur;
-//Les valeurs seront a changé en discussion avec manon
+//Les valeurs seront a change en discussion avec manon
 if (isset($_SESSION["isAdmin"])){
     if ($raisonMail == "Accepter"){
-        $subject = "Validation de votre réservation";
-        $message = "Votre réservation a été validé";
+        $subject = "Validation de votre reservation";
+        $message = "Votre reservation a ete valide";
         envoyerMail($mail, $destinataire, $subject, $message);
     }else if ($raisonMail == "Refuser"){
         //cas refuser
-        $subject = "Refus de votre réservation";
-        $message = "Votre réservation a été refusé";
+        $subject = "Refus de votre reservation";
+        $message = "Votre reservation a ete refuse";
         envoyerMail($mail, $destinataire, $subject, $message);
     }else {
         $erreur = "false";
