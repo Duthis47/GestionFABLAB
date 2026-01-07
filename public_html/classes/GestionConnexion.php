@@ -1,15 +1,17 @@
 <?php 
 
+
 class GestionConnexion {
     private static $instance = null;
     private static $connexion;
 
     private function __construct() {
-        $host = 'localhost';
-        $db   = 'sae3';
-        $user = 'adminer';
-        $pass = 'Isanum64!';
-        self::$connexion = new PDO("mysql:host=$host;dbname=$db;charset=utf8", $user, $pass);
+        $config = require './../../config.bdd.php';
+        $host = 'db';
+        $db   = $config["dsn"];
+        $user = $config["username"];
+        $pass = $config["passwd"];
+        self::$connexion = new PDO("$db;charset=utf8", $user, $pass);
     }
 
     public static function getConnexion(): PDO {
