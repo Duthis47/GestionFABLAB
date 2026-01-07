@@ -18,6 +18,5 @@ error_log
 .nbproject/
 
 vendor/
-composer.json
-composer.lock
+
 
