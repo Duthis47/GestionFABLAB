@@ -28,7 +28,6 @@ $idR = $_POST["idR"];
 
 //on distingue les cas
 $admin = UtilisateurDAO::getUtilisateurByMail("admin@etud.univ-pau.fr");
-var_dump($_POST);
 $idAdmin = $admin["idU"];
 
 if ($typeModif == "Bloquer"){

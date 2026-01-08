@@ -12,7 +12,11 @@ function ajouterResaMatos(){
     $nomUtilisateur = $_POST['nom'];
     $prenomUtilisateur = $_POST['prenom'];
     $raison = $_POST["raison"];
-    $isSalle = $_POST["chkSalle"];
+    if(isset($_POST["chkSalle"])){
+        $isSalle = $_POST["chkSalle"];
+    }else {
+        $isSalle = "false";
+    }
 
     $success = ReservationDAO::ajouterReservationMateriel($idMateriel, $dateDebut, $dateFin, false, $nomUtilisateur, $prenomUtilisateur, $mailUtilisateur);
     if ($success) {

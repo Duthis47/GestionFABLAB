@@ -305,11 +305,9 @@ function afficherCalendrierSalle(type, toutesLesResa, placeTotalSalle) {
 
 
 function afficherCalendrierMateriel(type, toutesLesResa, capaSalle = 100, nbExemplaireTotal) {
-    console.log("B: "+nbExemplaireTotal);
     //type peut etre 'etudiant' ou 'admin'
     //salle est l'id de la salle a afficher
     const theme = getCookie('user_theme');
-    console.log(theme);
 
     let allDay;
     if (type == 'etudiant') {
@@ -376,7 +374,7 @@ function afficherCalendrierMateriel(type, toutesLesResa, capaSalle = 100, nbExem
                 document.getElementById('mail').value = ""; // Reset du champ
                 document.getElementById('nbOccupant').value = ""; // Reset du champ
                 document.getElementById('nbOccupant').max = document.getElementById("materiel").selectedOptions[0].getAttribute('data-maxPlaceSalle');
-
+                
                 var monPopup = new bootstrap.Modal(document.getElementById('popupResa'));
                 monPopup.show();
 
