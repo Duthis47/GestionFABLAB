@@ -9,6 +9,9 @@ if (isset($_SESSION["isAdmin"])){
 else {
     header("Location: ./../index.php");
 }
+
+ini_set('session.cookie_httponly', 1);
+
 ?>
 <!DOCTYPE html>
 <!--

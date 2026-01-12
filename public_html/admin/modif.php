@@ -6,6 +6,9 @@ if (!isset($_SESSION['isAdmin'])) {
     header("Location: ./../index.php");
     exit();
 }
+
+ini_set('session.cookie_httponly', 1);
+
 ?>
 
 <!DOCTYPE html>

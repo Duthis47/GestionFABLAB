@@ -7,6 +7,8 @@ if (!isset($_SESSION['isAdmin'])) {
     exit();
 }
 
+ini_set('session.cookie_httponly', 1);
+
 include_once './../classesDAO/SalleDAO.php';
 include_once './../classesDAO/MaterielsDAO.php';
 include_once './../classesDAO/ReservationDAO.php';

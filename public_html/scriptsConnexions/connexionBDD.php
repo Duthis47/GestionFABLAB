@@ -9,6 +9,7 @@ $config = require __DIR__ . './../../config.bdd.php';
 $dsn = $config["dsn"];
 $username= $config["username"];
 $passwd = $config["passwd"];
+ini_set('session.cookie_httponly', 1);
 
 try {
     $laConnexion = new PDO($dsn, $username, $passwd);

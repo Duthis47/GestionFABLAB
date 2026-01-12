@@ -1,7 +1,7 @@
 <?php 
 
 //Script de reservation de salles
-
+ini_set('session.cookie_httponly', 1);
 include_once './../classesDAO/SalleDAO.php';
 include_once './../classesDAO/ReservationDAO.php';
 include_once './../classesDAO/UtilisateurDAO.php';

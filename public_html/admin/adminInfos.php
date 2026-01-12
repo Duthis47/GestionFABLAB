@@ -5,6 +5,8 @@ if (!isset($_SESSION['isAdmin'])) {
     exit();
 }
 
+ini_set('session.cookie_httponly', 1);
+
 include_once './../classesDAO/ReservationDAO.php';
 include_once './../classes/GestionConnexion.php';
 

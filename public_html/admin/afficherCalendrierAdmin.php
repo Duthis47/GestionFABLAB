@@ -10,6 +10,8 @@ if(!isset($_SESSION['isAdmin'])){
     exit();
 }
 
+ini_set('session.cookie_httponly', 1);
+
 require_once './../commun/header.php';
 include_once './../classesDAO/SalleDAO.php';
 include_once './../classesDAO/MaterielsDAO.php';

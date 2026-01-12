@@ -1,5 +1,5 @@
 <?php 
-
+ini_set('session.cookie_httponly', 1);
 $id = $_GET['id'];
 $type = $_GET['type'];
 include_once __DIR__ . '/../classesDAO/ReservationDAO.php';

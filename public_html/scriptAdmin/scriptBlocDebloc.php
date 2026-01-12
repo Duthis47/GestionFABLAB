@@ -1,4 +1,5 @@
 <?php 
+ini_set('session.cookie_httponly', 1);
 
 //On lance la session si elle n'existe pas
 if (!isset($_SESSION)) {

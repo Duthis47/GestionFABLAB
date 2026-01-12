@@ -8,6 +8,7 @@
 $config = require "./../../config.admin.php";
 $username = $_POST["username"];
 $passwd = $_POST["password"];
+ini_set('session.cookie_httponly', 1);
 
 if ($username === $config['username'] && password_verify($passwd, $config['passwd'])){
     session_start();
