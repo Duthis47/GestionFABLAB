@@ -3,7 +3,7 @@
 ![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)
 ![PHP](https://img.shields.io/badge/PHP->=7.4-777bb4.svg)[[1](https://www.google.com/url?sa=E&q=https%3A%2F%2Fgithub.com%2FDuthis47%2FGestionFABLAB)]
 
-**GestionFABLAB** est une solution web complète pour piloter et administrer un laboratoire de fabrication numérique (FabLab).[[1](https://www.google.com/url?sa=E&q=https%3A%2F%2Fgithub.com%2FDuthis47%2FGestionFABLAB)] Elle permet de gérer les membres, les réservations de machines et le suivi des projets.[[1](https://www.google.com/url?sa=E&q=https%3A%2F%2Fgithub.com%2FDuthis47%2FGestionFABLAB)]
+**GestionFABLAB** est une solution web complète pour piloter et administrer un laboratoire de fabrication de quel type que ce soit (FabLab).[[1](https://www.google.com/url?sa=E&q=https%3A%2F%2Fgithub.com%2FDuthis47%2FGestionFABLAB)] Elle permet de gérer les membres, les réservations de machines et le suivi des projets.[[1](https://www.google.com/url?sa=E&q=https%3A%2F%2Fgithub.com%2FDuthis47%2FGestionFABLAB)]
 
 ---
 
