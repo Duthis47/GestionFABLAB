@@ -153,9 +153,10 @@ class ReservationDAO {
             $envoi = $idR; 
         }
         
-        $ordreSQL = "DELETE FROM ".$table." WHERE ".$clause." AND DateTime_debut = :idD";
+        $ordreSQL = "DELETE FROM ".$table." WHERE ".$clause." AND DateTime_debut = :idD AND idU = :idU";
         $req = $connexion->prepare($ordreSQL);
         $req->bindValue("envoi", $envoi, PDO::PARAM_INT);
+        $req->bindValue("idU", $idU, PDO::PARAM_INT);
         $req->bindValue("idD", $dateDebut);
         return $req->execute();
     }

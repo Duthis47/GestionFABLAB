@@ -57,9 +57,9 @@ $blocagesActuels = ReservationDAO::getBlocagesFuturs($isSalleMode);
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h2><?= $titreF ?></h2>
             <div>
-                <a href="adminFonctBloque.php"
+                <a href="adminGestionDispo.php"
                     class="btn <?= $isSalleMode ? 'btn-fablab-blue ' : 'btn-outline-fablab-blue' ?>">Salles</a>
-                <a href="adminFonctBloque.php?estMateriel=true"
+                <a href="adminGestionDispo.php?estMateriel=true"
                     class="btn <?= !$isSalleMode ? 'btn-fablab-blue' : 'btn-outline-fablab-blue' ?>">Matériels</a>
             </div>
         </div>

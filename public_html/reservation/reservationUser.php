@@ -157,8 +157,8 @@
                             <?php
                             }
                             ?>
-                            <p>Début : <input type="datetime-local" id="startInput" name="dateDebut"/></p>
-                            <p>Fin : <input type="datetime-local" id="endInput" name="dateFin"/></p>
+                            <p>Début : <input type="datetime-local" id="startInput" name="dateDebut" readonly/></p>
+                            <p>Fin : <input type="datetime-local" id="endInput" name="dateFin" readonly/></p>
                             <input type="hidden" value="" id="numMateriel" name="numMateriel"/>
                     </div>
                     <div class="modal-footer">

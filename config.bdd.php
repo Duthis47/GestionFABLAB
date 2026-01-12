@@ -5,7 +5,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHP.php to edit this template
  */
 
-return ["dsn" => "mysql:host=localhost;dbname=sae3",
+return ["dsn" => "mysql:host=db;dbname=sae3",
         "username" => "adminer", 
         "passwd" => 'Isanum64!'
         ];
