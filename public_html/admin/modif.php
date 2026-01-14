@@ -1,4 +1,6 @@
 <?php
+ini_set('session.cookie_httponly', 1);
+
 if (!isset($_SESSION)) {
     session_start();
 }
@@ -7,7 +9,6 @@ if (!isset($_SESSION['isAdmin'])) {
     exit();
 }
 
-ini_set('session.cookie_httponly', 1);
 
 ?>
 
