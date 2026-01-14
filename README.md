@@ -59,5 +59,7 @@
 ## ✉️ Contact
 
 Duthis47 - [Profil GitHub](https://github.com/Duthis47)
+HonoreBlaise - [Profil GitHub](https://github.com/HonoreBlaise)
+Charlotte-encn - [Profil GitHub](https://github.com/Charlotte-encn)
 Projet : [GestionFABLAB](https://github.com/Duthis47/GestionFABLAB)
 ```[[1](https://www.google.com/url?sa=E&q=https%3A%2F%2Fgithub.com%2FDuthis47%2FGestionFABLAB)]

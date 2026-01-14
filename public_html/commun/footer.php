@@ -64,7 +64,7 @@ include_once __DIR__ . '/../../config.php';
                 <p class="mb-0">Site réalisé par Charlotte ENCARNACAO, Mathis DUCROT et Honoré BLAISE<br> dans le cadre d’une SAÉ à ISANUM</p>
             </div>
             <div class="col-12 col-md-4 mb-2 mb-md-0">
-                <p class="mb-0"> <a class="footer-a text-decoration-underline" href="#RGPD.php">RGPD</a></p>
+                <p class="mb-0"> <a class="footer-a text-decoration-underline" href="#Politiquedeconfidentialite.php">Politique de confidentialité</a></p>
             </div>
             <div class="col-12 col-md-4 mb-2 mb-md-0">
                 <p class="mb-0"> <a class="footer-a text-decoration-underline" href="#mentionslegales.php">Mentions légales</a></p>
