@@ -1,7 +1,9 @@
-<?php if (!isset($_SESSION)) {
+<?php 
+ini_set('session.cookie_httponly', 1);
+
+if (!isset($_SESSION)) {
     session_start();
 } 
-ini_set('session.cookie_httponly', 1);
 ?>
 
 <!DOCTYPE html>

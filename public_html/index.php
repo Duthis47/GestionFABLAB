@@ -1,4 +1,7 @@
-<?php if (!isset($_SESSION)) { session_start(); } ?>
+<?php 
+    ini_set('session.cookie_httponly', 1);
+if (
+    !isset($_SESSION)) { session_start(); } ?>
 <!DOCTYPE html>
 <html lang="fr" data-bs-theme="auto">
     <head>

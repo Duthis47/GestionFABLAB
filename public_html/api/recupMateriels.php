@@ -15,5 +15,10 @@ $lesMateriels = ReservationDAO::getReservationsByMateriel($id, $type);
 header("Content-Type: application/json");
 echo json_encode($lesMateriels);
 }else {
-    header("Location: ./../index.php");
+    
+    $type = "Salle";
+    $lesSalles = ReservationDAO::getReservationsBySalle($id, $type);
+    //Retour sous format JSON pour le JS
+    header("Content-Type: application/json");
+    echo json_encode($lesSalles);
 }

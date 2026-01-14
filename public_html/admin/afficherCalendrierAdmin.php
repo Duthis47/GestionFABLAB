@@ -1,4 +1,6 @@
 <?php
+ini_set('session.cookie_httponly', 1);
+
 //On lance la session si elle n'existe pas
 if (!isset($_SESSION)) {
     session_start();
@@ -10,7 +12,6 @@ if(!isset($_SESSION['isAdmin'])){
     exit();
 }
 
-ini_set('session.cookie_httponly', 1);
 
 require_once './../commun/header.php';
 include_once './../classesDAO/SalleDAO.php';

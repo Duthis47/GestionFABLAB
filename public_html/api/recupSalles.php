@@ -1,4 +1,4 @@
-<?php 
+<?php
 ini_set('session.cookie_httponly', 1);
 $id = $_GET['id'];
 $type = $_GET['type'];
@@ -17,5 +17,10 @@ header("Content-Type: application/json");
 echo json_encode($lesSalles);
 
 }else {
-    header("Location: ./../index.php");
+    
+    $type = "Salle";
+    $lesSalles = ReservationDAO::getReservationsBySalle($id, $type);
+    //Retour sous format JSON pour le JS
+    header("Content-Type: application/json");
+    echo json_encode($lesSalles);
 }

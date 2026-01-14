@@ -1,4 +1,6 @@
 <?php
+ini_set('session.cookie_httponly', 1);
+
 if (!isset($_SESSION)) {
     session_start();
 }
@@ -6,8 +8,6 @@ if (!isset($_SESSION['isAdmin'])) {
     header("Location: ./../index.php");
     exit();
 }
-
-ini_set('session.cookie_httponly', 1);
 
 include_once './../classesDAO/SalleDAO.php';
 include_once './../classesDAO/MaterielsDAO.php';

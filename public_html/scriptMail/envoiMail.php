@@ -1,9 +1,9 @@
 <?php 
+ini_set('session.cookie_httponly', 1);
 
 if(!isset($_SESSION)){
     session_start();
 }
-ini_set('session.cookie_httponly', 1);
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
